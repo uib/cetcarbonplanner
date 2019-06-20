@@ -2,10 +2,15 @@ import React, { Component } from "react";
 
 class Survey extends Component {
   state = {
-    questions: []
+    questions: [],
+    data: []
   };
   render() {
-    return <React.Fragment>this is a survey</React.Fragment>;
+    return (
+      <React.Fragment>
+        this is a survey, basically a list of questions that collect data
+      </React.Fragment>
+    );
   }
 }
 
