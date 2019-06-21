@@ -1,21 +1,29 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import Survey from "./components/survey";
 import Plot from "./components/plot";
 import NavBar from "./components/navbar";
-import Question from "./components/question";
 
 class App extends Component {
   state = {};
   render() {
-    const surveydata = [{ id: 1, text: "Hello, how are you doing?" }];
+    //this needs to go in its own class
+    const alternative1 = { key: "plane", value: "Airplane" };
+    const alternative2 = { key: "train", value: "Train" };
+    const alternatives = [alternative1, alternative2];
+    const question = {
+      title: "Which mode of travel?",
+      hours: true,
+      alternatives: alternatives
+    };
+    const questions = [question];
+    //this needs to go in its own class
     return (
       <React.Fragment>
         <NavBar />
         <div className="container-fluid">
           <div className="row">
             <div className="border border-primary col-6">
-              <Survey surveydata={surveydata} />
+              <Survey questions={questions} />
             </div>
             <div className="border border-primary col">
               <Plot />

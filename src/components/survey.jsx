@@ -8,7 +8,7 @@ class Survey extends Component {
       <React.Fragment>
         <h4>Question:</h4>
         <br />
-        <Question q={this.props.surveydata[0]} />
+        <Question q={this.props.questions[0]} />
         <button className={buttonclass + "secondary"}>Previous</button>
         <button className={buttonclass + "primary w-25 ml-1"}>Next</button>
       </React.Fragment>
