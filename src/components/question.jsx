@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 
 const Question = ({ q }) => {
-  /*this function should build a React component based on input parameters
-  The input parameter should contain the question text, which type of input 
-  is required and how many input fields.
-  */
   const alternatives = q.alternatives.map(a => (
     <div key={a.key}>
       <label className="form-check-label">
@@ -20,7 +16,7 @@ const Question = ({ q }) => {
   ));
   return (
     <React.Fragment>
-      <h4>{q.title}</h4>
+      <p>{q.title}</p>
       <form>
         <div className="form-check">{alternatives}</div>
       </form>
