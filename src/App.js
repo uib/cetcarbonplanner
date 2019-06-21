@@ -14,10 +14,10 @@ class App extends Component {
         <NavBar />
         <div className="container-fluid">
           <div className="row">
-            <div className="col-6">
+            <div className="border border-primary col-6">
               <Survey surveydata={surveydata} />
             </div>
-            <div className="col">
+            <div className="border border-primary col">
               <Plot />
             </div>
           </div>
