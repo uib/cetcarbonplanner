@@ -3,22 +3,26 @@ import { Container, Row, Col } from "react-bootstrap";
 import Survey from "./components/survey";
 import Plot from "./components/plot";
 import NavBar from "./components/navbar";
+import Question from "./components/question";
 
 class App extends Component {
   state = {};
   render() {
+    const surveydata = [{ id: 1, text: "Hello, how are you doing?" }];
     return (
-      <Container>
+      <React.Fragment>
         <NavBar />
-        <Row>
-          <Col xs={7}>
-            <Survey />
-          </Col>
-          <Col>
-            <Plot />
-          </Col>
-        </Row>
-      </Container>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-6">
+              <Survey surveydata={surveydata} />
+            </div>
+            <div className="col">
+              <Plot />
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }
