@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Survey from "./components/survey";
 import Plot from "./components/plot";
 import NavBar from "./components/navbar";
+import LayoutTester from "./components/layouttester";
 
 class App extends Component {
   state = {};
@@ -31,6 +32,7 @@ class App extends Component {
           <div className="row">
             <div className="border border-primary col-6">
               <Survey questions={questions} />
+              {/*<LayoutTester />*/}
             </div>
             <div className="border border-primary col">
               <Plot />

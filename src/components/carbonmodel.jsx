@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 /*This is a static representation of carbon emission modes and their associated values*/
 const carbonmodel = () => {
   return {

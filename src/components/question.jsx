@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import AnswerTable from "./answertable";
 
 class Question extends Component {
   state = { inputHours: 1, selected: null, answers: [] };
@@ -26,12 +28,23 @@ class Question extends Component {
     ));
     return (
       <React.Fragment>
-        <p>{q.title}</p>
-        <form>
-          <div className="form-check">{alternatives}</div>
-        </form>
-        {q.hours && this.hourButtons()}
-        {this.saveButtons()}
+        <Container>
+          <Row>
+            <Col xs={7}>
+              <p>{q.title}</p>
+              <form>
+                <div className="form-check">{alternatives}</div>
+              </form>
+              {q.hours && this.hourButtons()}
+              {this.saveButtons()}
+            </Col>
+            <Col>
+              {this.state.answers.length > 0 && (
+                <AnswerTable answers={this.state.answers} />
+              )}
+            </Col>
+          </Row>
+        </Container>
       </React.Fragment>
     );
   }
@@ -50,7 +63,7 @@ class Question extends Component {
   }
 
   saveButtons() {
-    const style = "btn btn-outline-secondary " + "w-25";
+    const style = "btn btn-outline-secondary ";
     return (
       <div>
         <button
