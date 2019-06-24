@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 
 class Question extends Component {
-  state = { inputHours: 1 };
+  state = { inputHours: 1, selected: null, answers: [] };
   constructor() {
     super();
     this.changeHours = this.changeHours.bind(this);
+    this.saveDataPoint = this.saveDataPoint.bind(this);
+    this.radioSelect = this.radioSelect.bind(this);
   }
   render() {
     const { q } = this.props;
@@ -13,9 +15,10 @@ class Question extends Component {
         <label className="form-check-label">
           <input
             className="form-check-input"
-            name="radiolist"
             type="radio"
             value={a.key}
+            checked={this.state.selected === a.key}
+            onChange={this.radioSelect}
           />
           {a.value}
         </label>
@@ -27,11 +30,41 @@ class Question extends Component {
         <form>
           <div className="form-check">{alternatives}</div>
         </form>
-        {q.hours && this.HourButtons(this.state.inputHours)}
+        {q.hours && this.hourButtons()}
+        {this.saveButtons()}
       </React.Fragment>
     );
   }
-  HourButtons() {
+
+  radioSelect(event) {
+    event.persist();
+    this.setState({ selected: event.target.value });
+  }
+
+  saveDataPoint() {
+    const hour = this.state.inputHours;
+    const mode = this.state.selected;
+    var answerlist = [...this.state.answers];
+    answerlist.push({ mode, hour });
+    this.setState({ answers: answerlist });
+  }
+
+  saveButtons() {
+    const style = "btn btn-outline-secondary " + "w-25";
+    return (
+      <div>
+        <button
+          className={style}
+          onClick={this.saveDataPoint}
+          disabled={!this.state.selected}
+        >
+          Save and Add New
+        </button>
+      </div>
+    );
+  }
+
+  hourButtons() {
     const style = "btn btn-outline-secondary ";
     const hrs = this.state.inputHours;
     return (
