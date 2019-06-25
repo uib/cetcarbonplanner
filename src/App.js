@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Survey from "./components/survey";
 import Plot from "./components/plot";
+import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
 import LayoutTester from "./components/layouttester";
 
@@ -25,20 +26,21 @@ class App extends Component {
     };
     const questions = [question];
     //this needs to go in its own class
+
+    const cellstyle = "border vw-50";
     return (
       <React.Fragment>
         <NavBar />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="border border-primary col-6">
+        <Container className="border border-primary">
+          <Row>
+            <Col sm={12} md={7} className="border border-secondary">
               <Survey questions={questions} />
-              {/*<LayoutTester />*/}
-            </div>
-            <div className="border border-primary col">
+            </Col>
+            <Col className="border border-secondary">
               <Plot />
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </React.Fragment>
     );
   }

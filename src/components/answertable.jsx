@@ -3,35 +3,34 @@ import { Table, Tab } from "react-bootstrap";
 
 const AnswerTable = ({ answers }) => {
   const keys = Object.keys(answers[0]);
+  const data = Object.values(answers);
   return (
-    <Table striped="true" bordered="true" hover="true" size="sm">
-      <thead>
-        <tr>
-          <th>Mode</th>
-          <th>Hours</th>
-        </tr>
-        <tr>
-          <td>{2 + 2}</td>
-          <td>{4 * 7}</td>
-        </tr>
-        <tr>
-          <td>{2 + 2}</td>
-          <td>{4 * 7}</td>
-        </tr>
-      </thead>
+    <Table striped={true} bordered={true} hover={true} size="sm">
+      {buildTable(keys, data)}
     </Table>
   );
 };
 
-const buildtable = (keys, answers) => {
+const buildTable = (keys, data) => {
   return (
     <thead>
-      {buildRow(keys, "th")}
-      {/*{buildDataRows(keys, answers)}*/}
+      <tr>
+        {keys.map(key => (
+          <th>{key}</th>
+        ))}
+      </tr>
+      {data.map(row => buildRow(keys, row))}
     </thead>
   );
 };
-const buildRow = (array, tag) => {
-  return;
+
+const buildRow = (keys, obj) => {
+  return (
+    <tr>
+      {keys.map(key => (
+        <td>{obj[key]}</td>
+      ))}
+    </tr>
+  );
 };
 export default AnswerTable;
