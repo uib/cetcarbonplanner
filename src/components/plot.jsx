@@ -4,7 +4,7 @@ const data = [
   { quarter: 1, earnings: 13000 },
   { quarter: 2, earnings: 16500 },
   { quarter: 3, earnings: 14250 },
-  { quarter: 4, earnings: 19000 }
+  { quarter: 4, earnings: 9000 }
 ];
 class Plot extends Component {
   render() {
@@ -12,7 +12,7 @@ class Plot extends Component {
       <VictoryChart
         // domainPadding will add space to each side of VictoryBar to
         // prevent it from overlapping the axis
-        domainPadding={20}
+        domainPadding={22}
         //set theme:
         theme={VictoryTheme.material}
       >
@@ -27,7 +27,7 @@ class Plot extends Component {
           // tickFormat specifies how ticks should be displayed
           tickFormat={x => `$${x / 1000}k`}
         />
-        <VictoryBar data={data} x="quarter" y="earnings" />
+        <VictoryBar data={data} x="quarter" y="earnings" alignment="end" />
       </VictoryChart>
     );
   }
