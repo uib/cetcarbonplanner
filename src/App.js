@@ -3,7 +3,6 @@ import Survey from "./components/survey";
 import Plot from "./components/plot";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
-import LayoutTester from "./components/layouttester";
 
 class App extends Component {
   state = {};
