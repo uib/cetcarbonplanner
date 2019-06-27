@@ -5,7 +5,7 @@ const AnswerTable = ({ answers }) => {
   const keys = Object.keys(answers[0]);
   const data = Object.values(answers);
   return (
-    <Table striped={true} bordered={true} hover={true} size="sm">
+    <Table striped bordered hover size="sm">
       {buildTable(keys, data)}
     </Table>
   );
@@ -14,21 +14,21 @@ const AnswerTable = ({ answers }) => {
 const buildTable = (keys, data) => {
   return (
     <thead>
-      <tr>
-        {keys.map(key => (
-          <th>{key}</th>
+      <tr key="headers">
+        {keys.map((key, index) => (
+          <th key={"h-" + key}>{key}</th>
         ))}
       </tr>
-      {data.map(row => buildRow(keys, row))}
+      {data.map((row, index) => buildRow(keys, row, index))}
     </thead>
   );
 };
 
-const buildRow = (keys, obj) => {
+const buildRow = (keys, obj, rowindex) => {
   return (
-    <tr>
-      {keys.map(key => (
-        <td>{obj[key]}</td>
+    <tr key={"row" + rowindex}>
+      {keys.map((key, index) => (
+        <td key={index + "-" + key}>{obj[key]}</td>
       ))}
     </tr>
   );
