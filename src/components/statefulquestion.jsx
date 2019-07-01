@@ -6,7 +6,6 @@ class StatefulQuestion extends Component {
   state = { inputHours: 1, selected: null, answers: [] };
   constructor() {
     super();
-    console.log("ran constructor again");
     this.changeHours = this.changeHours.bind(this);
     this.saveDataPoint = this.saveDataPoint.bind(this);
     this.radioSelect = this.radioSelect.bind(this);
@@ -40,7 +39,7 @@ class StatefulQuestion extends Component {
               {this.saveButtons()}
             </Col>
             <Col>
-              {this.state.answers.length > 0 && (
+              {q.hours && this.state.answers.length > 0 && (
                 <AnswerTable answers={this.state.answers} />
               )}
             </Col>

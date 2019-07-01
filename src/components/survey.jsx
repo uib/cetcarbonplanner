@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import StatefulQuestion from "./statefulquestion";
+import FunctionalQuestion from "./functionalquestion";
 
 class Survey extends Component {
   state = { dataset: [], nextQ: 0 };
@@ -26,13 +27,15 @@ class Survey extends Component {
   }
 
   getQuestion() {
-    /*
-    <StatefulQuestion
+    /*  
+    return <FunctionalQuestion q={this.props.surveydata[this.state.nextQ]} />;
+    */
+    return (
+      <StatefulQuestion
         q={this.props.surveydata[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
       />
-      */
-    return <h4>question goes here</h4>;
+    );
   }
 
   reportDataSet() {
