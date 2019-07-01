@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
 
-class Question extends Component {
+class StatefulQuestion extends Component {
   state = { inputHours: 1, selected: null, answers: [] };
   constructor() {
     super();
+    console.log("ran constructor again");
     this.changeHours = this.changeHours.bind(this);
     this.saveDataPoint = this.saveDataPoint.bind(this);
     this.radioSelect = this.radioSelect.bind(this);
@@ -57,7 +58,7 @@ class Question extends Component {
   saveDataPoint() {
     const hour = this.state.inputHours;
     const mode = this.state.selected;
-    var answerlist = [...this.state.answers];
+    const answerlist = [...this.state.answers];
     answerlist.push({ mode, hour });
     this.setState({ answers: answerlist });
   }
@@ -122,4 +123,4 @@ class Question extends Component {
   }
 }
 
-export default Question;
+export default StatefulQuestion;

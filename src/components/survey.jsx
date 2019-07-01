@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Question from "./question";
+import StatefulQuestion from "./statefulquestion";
 
 class Survey extends Component {
   state = { dataset: [], nextQ: 0 };
@@ -26,12 +26,13 @@ class Survey extends Component {
   }
 
   getQuestion() {
-    return (
-      <Question
+    /*
+    <StatefulQuestion
         q={this.props.surveydata[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
       />
-    );
+      */
+    return <h4>question goes here</h4>;
   }
 
   reportDataSet() {

@@ -4,13 +4,20 @@ const getSurveyData = function() {
   const alternative3 = { key: "car", value: "Car" };
   const alternative4 = { key: "ecar", value: "Electric Car" };
   const alternatives = [alternative1, alternative2, alternative3, alternative4];
-  const question = {
+  const question1 = {
     title: "Which mode of travel?",
     hours: true,
     alternatives: alternatives
   };
+  const alt1 = { key: "yes", value: "Yes" };
+  const alt2 = { key: "no", value: "No" };
+  const question2 = {
+    title: "What is your answer?",
+    hours: false,
+    alternatives: [alt1, alt2]
+  };
 
-  return [question];
+  return [question1, question2];
 };
 
 export default getSurveyData;
