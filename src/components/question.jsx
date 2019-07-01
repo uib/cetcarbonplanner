@@ -73,6 +73,13 @@ class Question extends Component {
         >
           Save and Add New
         </button>
+        <button
+          className={style}
+          onClick={() => this.props.reportAnswerToSurvey(this.state.answers)}
+          disabled={!this.state.answers.length > 0}
+        >
+          Done
+        </button>
       </div>
     );
   }
