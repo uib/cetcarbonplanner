@@ -49,6 +49,10 @@ class StatefulQuestion extends Component {
     );
   }
 
+  componentWillUnmount() {
+    console.log("goodbye from question");
+  }
+
   radioSelect(event) {
     event.persist();
     this.setState({ selected: event.target.value });

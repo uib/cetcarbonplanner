@@ -6,26 +6,43 @@ import NavBar from "./components/navbar";
 import getSurveyData from "./surveyData";
 
 class App extends Component {
-  state = { datasets: [] };
+  state = { datasets: [], survey: undefined };
+  constructor() {
+    super();
+    this.returnToMainScreen = this.returnToMainScreen.bind(this);
+  }
   render() {
     return (
       <React.Fragment>
         <NavBar />
         <Container className="border border-primary">
-          <Row>
-            <Col sm={12} md={7} className="border border-secondary">
-              <Survey
-                surveydata={getSurveyData()}
-                reportAnswers={this.reportAnswers}
-              />
-            </Col>
-            <Col className="border border-secondary">
-              <Plot />
-            </Col>
-          </Row>
+          {this.state.survey ? (
+            <Survey
+              surveydata={this.state.survey}
+              reportAnswers={this.reportAnswers}
+              returnFunction={this.returnToMainScreen}
+            />
+          ) : (
+            this.mainScreen()
+          )}
         </Container>
       </React.Fragment>
     );
+  }
+
+  mainScreen() {
+    return (
+      <React.Fragment>
+        <h4>this is the main screen</h4>
+        <button onClick={() => this.setState({ survey: getSurveyData() })}>
+          Start new survey.
+        </button>
+      </React.Fragment>
+    );
+  }
+
+  returnToMainScreen() {
+    this.setState({ survey: undefined });
   }
 
   reportAnswers(dataset) {
