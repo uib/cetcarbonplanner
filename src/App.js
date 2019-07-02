@@ -31,7 +31,7 @@ class App extends Component {
               )}
             </Col>
             <Col className="border border-secondary">
-              <Plot plot={this.state.plot} />
+              <Plot plot={"test"} />
             </Col>
           </Row>
         </Container>
