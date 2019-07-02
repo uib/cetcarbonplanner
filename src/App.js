@@ -6,28 +6,41 @@ import NavBar from "./components/navbar";
 import getSurveyData from "./surveyData";
 
 class App extends Component {
-  state = { datasets: [], survey: undefined };
+  state = { datasets: [], survey: undefined, plot: "welcome" };
   constructor() {
     super();
     this.returnToMainScreen = this.returnToMainScreen.bind(this);
+    this.plot = this.plot.bind(this);
   }
   render() {
     return (
       <React.Fragment>
         <NavBar />
         <Container className="border border-primary">
-          {this.state.survey ? (
-            <Survey
-              surveydata={this.state.survey}
-              reportAnswers={this.reportAnswers}
-              returnFunction={this.returnToMainScreen}
-            />
-          ) : (
-            this.mainScreen()
-          )}
+          <Row>
+            <Col sm={12} md={7} className="border border-secondary">
+              {this.state.survey ? (
+                <Survey
+                  surveydata={this.state.survey}
+                  reportAnswers={this.reportAnswers}
+                  returnFunction={this.returnToMainScreen}
+                  plotFunction={this.plot}
+                />
+              ) : (
+                this.mainScreen()
+              )}
+            </Col>
+            <Col className="border border-secondary">
+              <Plot plot={this.state.plot} />
+            </Col>
+          </Row>
         </Container>
       </React.Fragment>
     );
+  }
+
+  plot(plotReference) {
+    this.setState({ plot: plotReference });
   }
 
   mainScreen() {

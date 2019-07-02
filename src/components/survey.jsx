@@ -11,20 +11,11 @@ class Survey extends Component {
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
   }
   render() {
-    return (
-      <Row>
-        <Col sm={12} md={7} className="border border-secondary">
-          {this.state.finished
-            ? this.returnToMainScreen()
-            : this.state.nextQ >= this.props.surveydata.length
-            ? this.reportComplete()
-            : this.getQuestion()}
-        </Col>
-        <Col className="border border-secondary">
-          <Plot />
-        </Col>
-      </Row>
-    );
+    return this.state.finished
+      ? this.returnToMainScreen()
+      : this.state.nextQ >= this.props.surveydata.length
+      ? this.reportComplete()
+      : this.getQuestion();
   }
 
   returnToMainScreen() {
@@ -33,7 +24,7 @@ class Survey extends Component {
 
   reportComplete() {
     return (
-      <button onClick={this.props.returnFunction()}>
+      <button onClick={this.props.returnFunction}>
         Survey complete, return.
       </button>
     );
