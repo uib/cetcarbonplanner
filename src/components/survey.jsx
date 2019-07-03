@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import StatefulQuestion from "./statefulquestion";
+import Question from "./statefulquestion";
 import FunctionalQuestion from "./functionalquestion";
 import { Container, Row, Col } from "react-bootstrap";
 import Plot from "./plot";
@@ -35,7 +35,7 @@ class Survey extends Component {
     return <FunctionalQuestion q={this.props.surveydata[this.state.nextQ]} />;
     */
     return (
-      <StatefulQuestion
+      <Question
         q={this.props.surveydata[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
       />

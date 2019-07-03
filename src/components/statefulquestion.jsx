@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
 
-class StatefulQuestion extends Component {
+class Question extends Component {
   state = { inputHours: 1, selected: null, answers: [] };
   constructor() {
     super();
@@ -47,10 +47,6 @@ class StatefulQuestion extends Component {
         </Container>
       </React.Fragment>
     );
-  }
-
-  componentWillUnmount() {
-    console.log("goodbye from question");
   }
 
   radioSelect(event) {
@@ -126,4 +122,4 @@ class StatefulQuestion extends Component {
   }
 }
 
-export default StatefulQuestion;
+export default Question;

@@ -5,7 +5,7 @@ import {
   HorizontalGridLines,
   XAxis,
   YAxis,
-  LineSeries
+  VerticalBarSeries
 } from "react-vis";
 
 class Plot extends Component {
@@ -41,7 +41,7 @@ class Plot extends Component {
         <HorizontalGridLines />
         <XAxis />
         <YAxis />
-        <LineSeries data={data} />
+        <VerticalBarSeries data={data} />
       </XYPlot>
     );
   }
