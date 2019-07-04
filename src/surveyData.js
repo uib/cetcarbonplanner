@@ -17,7 +17,10 @@ const getSurveyData = function() {
     alternatives: [alt1, alt2]
   };
 
-  return [question1, question2];
+  return [
+    { title: "Register trip", questions: [question1, question2] },
+    { title: "Empty survey", questions: [] }
+  ];
 };
 
 export default getSurveyData;

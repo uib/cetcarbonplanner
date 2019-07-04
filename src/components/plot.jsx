@@ -32,7 +32,7 @@ class Plot extends Component {
     return (
       <FlexibleWidthXYPlot
         height={300}
-        width={300}
+        width={400}
         xType="ordinal"
         margin={{ bottom: 50 }}
       >

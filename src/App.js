@@ -6,7 +6,7 @@ import NavBar from "./components/navbar";
 import getSurveyData from "./surveyData";
 
 class App extends Component {
-  state = { datasets: [], survey: undefined, plot: "welcome" };
+  state = { datasets: [], selectedSurveyQuestions: undefined, plot: "welcome" };
   constructor() {
     super();
     this.returnToMainScreen = this.returnToMainScreen.bind(this);
@@ -19,9 +19,9 @@ class App extends Component {
         <Container className="border border-primary">
           <Row>
             <Col sm={12} md={7} className="border border-secondary">
-              {this.state.survey ? (
+              {this.state.selectedSurveyQuestions ? (
                 <Survey
-                  surveydata={this.state.survey}
+                  surveydata={this.state.selectedSurveyQuestions}
                   reportAnswers={this.reportAnswers}
                   returnFunction={this.returnToMainScreen}
                   plotFunction={this.plot}
@@ -44,18 +44,31 @@ class App extends Component {
   }
 
   mainScreen() {
+    const surveys = getSurveyData();
     return (
       <React.Fragment>
         <h4>this is the main screen</h4>
-        <button onClick={() => this.setState({ survey: getSurveyData() })}>
-          Start new survey.
-        </button>
+        {surveys.map(survey => this.createSelectSurveyButton(survey))}
       </React.Fragment>
     );
   }
 
+  createSelectSurveyButton(survey) {
+    return (
+      <div>
+        <button
+          onClick={() =>
+            this.setState({ selectedSurveyQuestions: survey.questions })
+          }
+        >
+          {survey.title}
+        </button>
+      </div>
+    );
+  }
+
   returnToMainScreen() {
-    this.setState({ survey: undefined });
+    this.setState({ selectedSurveyQuestions: undefined });
   }
 
   reportAnswers(dataset) {

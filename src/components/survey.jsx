@@ -11,15 +11,10 @@ class Survey extends Component {
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
   }
   render() {
-    return this.state.finished
-      ? this.returnToMainScreen()
-      : this.state.nextQ >= this.props.surveydata.length
+    return this.state.finished ||
+      this.state.nextQ >= this.props.surveydata.length
       ? this.reportComplete()
       : this.getQuestion();
-  }
-
-  returnToMainScreen() {
-    return <h4>this is the main screen</h4>;
   }
 
   reportComplete() {
