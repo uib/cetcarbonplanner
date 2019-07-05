@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import Question from "./question";
 
 class Survey extends Component {
-  state = { dataset: [], nextQ: 0, finished: false };
+  state = { answers: [], nextQ: 0 };
   constructor() {
     super();
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
   }
   render() {
-    return this.state.finished ||
-      this.state.nextQ >= this.props.surveydata.questions.length
+    return this.state.nextQ >= this.props.surveydata.questions.length
       ? this.reportComplete()
       : this.getQuestion();
   }
@@ -17,6 +16,7 @@ class Survey extends Component {
   getQuestion() {
     return (
       <Question
+        //during edited survey, previous answers should be passed here
         q={this.props.surveydata.questions[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
       />
@@ -24,10 +24,14 @@ class Survey extends Component {
   }
 
   receiveAnswerFromQuestion(answer) {
-    const updatedData = [...this.state.dataset];
-    updatedData.push(answer);
-    this.setState({ dataset: updatedData, nextQ: this.state.nextQ + 1 });
-    this.props.reportAnswers(this.state.dataset);
+    const updatedAnswers = [...this.state.answers];
+    updatedAnswers.push(answer);
+    this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
+    this.props.reportAnswers(
+      this.state,
+      this.props.dataset,
+      this.state.nextQ >= this.props.surveydata.questions.length //boolean value that says if the survey is finished
+    );
   }
 
   reportComplete() {

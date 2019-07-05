@@ -1,14 +1,16 @@
 import { getUUID } from "./uuid";
 
 export class Dataset {
-  constructor(survey) {
-    this.id = getUUID();
-    this.finished = false;
-    this.surveyID = survey.ID;
-    this.answers = [];
+  constructor(surveyID, UUID, answers, isFinished) {
+    this.surveyID = surveyID;
+    if (UUID) {
+      this.UUID = UUID;
+      this.answers = answers;
+      this.finished = isFinished;
+    } else {
+      this.UUID = getUUID();
+      this.answers = [];
+      this.finished = false;
+    }
   }
 }
-
-//things it should do:
-//initialize a finished set from JSON string, i.e. some stored data
-//initialize an empty set from a question list

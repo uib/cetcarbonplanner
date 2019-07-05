@@ -21,6 +21,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.datasets);
     return (
       <React.Fragment>
         <NavBar />
@@ -69,7 +70,9 @@ class App extends Component {
     return (
       <div>
         <button
-          onClick={() => this.setState({ activeDataSet: new Dataset(survey) })}
+          onClick={() =>
+            this.setState({ activeDataSet: new Dataset(survey.ID) })
+          }
         >
           {survey.title}
         </button>
@@ -81,10 +84,21 @@ class App extends Component {
     this.setState({ activeDataSet: undefined });
   }
 
-  receiveAnswersFromSurvey(dataset) {
-    const updatedData = [...this.state.datasets];
-    updatedData.push(dataset);
-    this.setState({ datasets: updatedData });
+  receiveAnswersFromSurvey(answers, dataset, isSurveyFinished) {
+    const updatedData = this.state.datasets.filter(
+      d => d.UUID !== dataset.UUID
+    );
+    const newDataSet = new Dataset(
+      dataset.surveyID,
+      dataset.UUID,
+      answers,
+      isSurveyFinished
+    );
+    updatedData.push(newDataSet);
+    this.setState({
+      datasets: updatedData,
+      activeDataSet: isSurveyFinished ? undefined : newDataSet
+    });
   }
 }
 
