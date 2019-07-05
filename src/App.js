@@ -4,14 +4,19 @@ import Plot from "./components/plot";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
 import getSurveyData from "./surveyData";
-import { getUUID } from "./uuid";
+import { Dataset } from "./Dataset";
 
 class App extends Component {
-  state = { datasets: [], selectedSurveyQuestions: undefined, plot: "welcome" };
+  state = {
+    datasets: [],
+    activeDataSet: undefined,
+    surveydata: getSurveyData(),
+    plot: "welcome"
+  };
   constructor() {
     super();
     this.plot = this.plot.bind(this);
-    this.reportAnswers = this.receiveAnswersFromSurvey.bind(this);
+    this.receiveAnswersFromSurvey = this.receiveAnswersFromSurvey.bind(this);
     this.returnToMainScreen = this.returnToMainScreen.bind(this);
   }
 
@@ -22,9 +27,12 @@ class App extends Component {
         <Container className="border border-primary">
           <Row>
             <Col sm={12} md={7} className="border border-secondary">
-              {this.state.selectedSurveyQuestions ? (
+              {this.state.activeDataSet ? (
                 <Survey
-                  surveydata={this.state.selectedSurveyQuestions}
+                  surveydata={this.state.surveydata.find(
+                    survey => survey.ID === this.state.activeDataSet.surveyID
+                  )}
+                  dataset={this.state.activeDataSet}
                   reportAnswers={this.receiveAnswersFromSurvey}
                   returnToMainScreen={this.returnToMainScreen}
                   plotFunction={this.plot}
@@ -47,11 +55,12 @@ class App extends Component {
   }
 
   mainScreen() {
-    const surveys = getSurveyData();
     return (
       <React.Fragment>
         <h4>this is the main screen</h4>
-        {surveys.map(survey => this.createSelectSurveyButton(survey))}
+        {this.state.surveydata.map(survey =>
+          this.createSelectSurveyButton(survey)
+        )}
       </React.Fragment>
     );
   }
@@ -60,9 +69,7 @@ class App extends Component {
     return (
       <div>
         <button
-          onClick={() =>
-            this.setState({ selectedSurveyQuestions: survey.questions })
-          }
+          onClick={() => this.setState({ activeDataSet: new Dataset(survey) })}
         >
           {survey.title}
         </button>
@@ -71,7 +78,7 @@ class App extends Component {
   }
 
   returnToMainScreen() {
-    this.setState({ selectedSurveyQuestions: undefined });
+    this.setState({ activeDataSet: undefined });
   }
 
   receiveAnswersFromSurvey(dataset) {

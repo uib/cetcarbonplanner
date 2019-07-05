@@ -18,9 +18,9 @@ const getSurveyData = function() {
   };
 
   return [
-    { title: "Register trip", questions: [question1, question2] },
-    { title: "Empty survey", questions: [] }
+    { ID: "trip", title: "Register trip", questions: [question1, question2] },
+    { ID: "empty", title: "Empty survey", questions: [] }
   ];
 };
-
+//TODO error on matching IDs
 export default getSurveyData;

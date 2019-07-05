@@ -9,26 +9,15 @@ class Survey extends Component {
   }
   render() {
     return this.state.finished ||
-      this.state.nextQ >= this.props.surveydata.length
+      this.state.nextQ >= this.props.surveydata.questions.length
       ? this.reportComplete()
       : this.getQuestion();
   }
 
-  reportComplete() {
-    return (
-      <button onClick={this.props.returnToMainScreen}>
-        Survey complete, return.
-      </button>
-    );
-  }
-
   getQuestion() {
-    /*  
-    return <FunctionalQuestion q={this.props.surveydata[this.state.nextQ]} />;
-    */
     return (
       <Question
-        q={this.props.surveydata[this.state.nextQ]}
+        q={this.props.surveydata.questions[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
       />
     );
@@ -39,9 +28,14 @@ class Survey extends Component {
     updatedData.push(answer);
     this.setState({ dataset: updatedData, nextQ: this.state.nextQ + 1 });
     this.props.reportAnswers(this.state.dataset);
-    //reportDataSet?
-    //saveTemporaryDataSet?
+  }
+
+  reportComplete() {
+    return (
+      <button onClick={this.props.returnToMainScreen}>
+        Survey complete, return.
+      </button>
+    );
   }
 }
-
 export default Survey;
