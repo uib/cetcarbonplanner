@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Question from "./statefulquestion";
+import Question from "./question";
 
 class Survey extends Component {
   state = { dataset: [], nextQ: 0, finished: false };
