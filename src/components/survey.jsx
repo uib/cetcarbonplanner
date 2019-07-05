@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import Question from "./statefulquestion";
-import FunctionalQuestion from "./functionalquestion";
-import { Container, Row, Col } from "react-bootstrap";
-import Plot from "./plot";
 
 class Survey extends Component {
   state = { dataset: [], nextQ: 0, finished: false };
@@ -19,7 +16,7 @@ class Survey extends Component {
 
   reportComplete() {
     return (
-      <button onClick={this.props.returnFunction}>
+      <button onClick={this.props.returnToMainScreen}>
         Survey complete, return.
       </button>
     );

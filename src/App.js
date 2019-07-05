@@ -10,9 +10,9 @@ class App extends Component {
   state = { datasets: [], selectedSurveyQuestions: undefined, plot: "welcome" };
   constructor() {
     super();
-    this.returnToMainScreen = this.returnToMainScreen.bind(this);
     this.plot = this.plot.bind(this);
-    this.reportAnswers = this.reportAnswers.bind(this);
+    this.reportAnswers = this.receiveAnswersFromSurvey.bind(this);
+    this.returnToMainScreen = this.returnToMainScreen.bind(this);
   }
 
   render() {
@@ -25,8 +25,8 @@ class App extends Component {
               {this.state.selectedSurveyQuestions ? (
                 <Survey
                   surveydata={this.state.selectedSurveyQuestions}
-                  reportAnswers={this.reportAnswers}
-                  returnFunction={this.returnToMainScreen}
+                  reportAnswers={this.receiveAnswersFromSurvey}
+                  returnToMainScreen={this.returnToMainScreen}
                   plotFunction={this.plot}
                 />
               ) : (
@@ -41,8 +41,6 @@ class App extends Component {
       </React.Fragment>
     );
   }
-
-  receiveDatasetFromSurvey() {}
 
   plot(plotReference) {
     this.setState({ plot: plotReference });
@@ -76,7 +74,7 @@ class App extends Component {
     this.setState({ selectedSurveyQuestions: undefined });
   }
 
-  reportAnswers(dataset) {
+  receiveAnswersFromSurvey(dataset) {
     const updatedData = [...this.state.datasets];
     updatedData.push(dataset);
     this.setState({ datasets: updatedData });
