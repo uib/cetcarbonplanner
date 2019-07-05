@@ -37,14 +37,11 @@ class Survey extends Component {
     );
   }
 
-  reportDataSet() {
-    this.props.reportAnswers();
-  }
-
   receiveAnswerFromQuestion(answer) {
     const updatedData = [...this.state.dataset];
     updatedData.push(answer);
     this.setState({ dataset: updatedData, nextQ: this.state.nextQ + 1 });
+    this.props.reportAnswers(this.state.dataset);
     //reportDataSet?
     //saveTemporaryDataSet?
   }

@@ -4,6 +4,7 @@ import Plot from "./components/plot";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
 import getSurveyData from "./surveyData";
+import { getUUID } from "./uuid";
 
 class App extends Component {
   state = { datasets: [], selectedSurveyQuestions: undefined, plot: "welcome" };
@@ -11,7 +12,9 @@ class App extends Component {
     super();
     this.returnToMainScreen = this.returnToMainScreen.bind(this);
     this.plot = this.plot.bind(this);
+    this.reportAnswers = this.reportAnswers.bind(this);
   }
+
   render() {
     return (
       <React.Fragment>
@@ -38,6 +41,8 @@ class App extends Component {
       </React.Fragment>
     );
   }
+
+  receiveDatasetFromSurvey() {}
 
   plot(plotReference) {
     this.setState({ plot: plotReference });
@@ -72,7 +77,8 @@ class App extends Component {
   }
 
   reportAnswers(dataset) {
-    const updatedData = [...this.state.datasets].push(dataset);
+    const updatedData = [...this.state.datasets];
+    updatedData.push(dataset);
     this.setState({ datasets: updatedData });
   }
 }
