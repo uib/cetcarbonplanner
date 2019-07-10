@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
+import { finished } from "stream";
 
 class Question extends Component {
   state = { inputHours: 1, selected: null, answers: [] };
   constructor() {
     super();
     this.changeHours = this.changeHours.bind(this);
-    this.saveDataPoint = this.saveDataPoint.bind(this);
+    this.saveDataPoint = this.saveListDataPoint.bind(this);
     this.radioSelect = this.radioSelect.bind(this);
   }
   render() {
@@ -35,11 +36,11 @@ class Question extends Component {
               <form>
                 <div className="form-check">{alternatives}</div>
               </form>
-              {q.hours && this.hourButtons()}
-              {this.saveButtons()}
+              {q.list && this.hourButtons()}
+              {this.buttonRow()}
             </Col>
             <Col>
-              {q.hours && this.state.answers.length > 0 && (
+              {q.list && this.state.answers.length > 0 && (
                 <AnswerTable answers={this.state.answers} />
               )}
             </Col>
@@ -54,31 +55,52 @@ class Question extends Component {
     this.setState({ selected: event.target.value });
   }
 
-  saveDataPoint() {
-    const hour = this.state.inputHours;
-    const mode = this.state.selected;
+  saveListDataPoint() {
     const answerlist = [...this.state.answers];
-    answerlist.push({ mode, hour });
+    answerlist.push(this.getAnswerObject());
     this.setState({ answers: answerlist });
   }
 
-  saveButtons() {
+  getAnswerObject() {
+    //used for tuple objects such as transport mode + transport hours
+    if (this.props.q.list) {
+      let mode = this.state.selected;
+      let hour = this.state.inputHours;
+      return { mode, hour };
+    } else {
+      return this.state.selected;
+    }
+  }
+
+  buttonRow() {
     const style = "btn btn-outline-secondary ";
     return (
       <div>
+        {/*Previous Button*/}
         <button
           className={style}
-          onClick={this.saveDataPoint}
-          disabled={!this.state.selected}
+          //onClick={ask App to re-render 1 question earlier}
+          disabled={this.state.isFirstQ}
         >
-          Save and Add New
+          Previous
         </button>
+        {/*Add Button*/}
+        {this.props.list && (
+          <button
+            className={style}
+            onClick={this.saveListDataPoint}
+            disabled={!this.state.selected}
+          >
+            Add
+          </button>
+        )}
+        {/*Next/Finish Button*/}
         <button
           className={style}
           onClick={() => this.props.reportAnswerToSurvey(this.state.answers)}
           disabled={!this.state.answers.length > 0}
         >
-          Done
+          {this.props.isLastQ ? "Next" : "Finish"}
         </button>
       </div>
     );

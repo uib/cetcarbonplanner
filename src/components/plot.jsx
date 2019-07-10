@@ -10,7 +10,12 @@ import {
 
 class Plot extends Component {
   render() {
-    return this.getPlot(this.props.plot);
+    return (
+      <React.Fragment>
+        <h4>{this.props.plot}</h4>
+        {this.getPlot(this.props.plot)}
+      </React.Fragment>
+    );
   }
 
   getPlot(plot) {

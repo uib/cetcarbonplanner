@@ -6,14 +6,14 @@ const getSurveyData = function() {
   const alternatives = [alternative1, alternative2, alternative3, alternative4];
   const question1 = {
     title: "Which mode of travel?",
-    hours: true,
+    list: true,
     alternatives: alternatives
   };
   const alt1 = { key: "yes", value: "Yes" };
   const alt2 = { key: "no", value: "No" };
   const question2 = {
     title: "What is your answer?",
-    hours: false,
+    list: false,
     alternatives: [alt1, alt2]
   };
 

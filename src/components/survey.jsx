@@ -32,6 +32,7 @@ class Survey extends Component {
       this.props.dataset,
       this.state.nextQ >= this.props.surveydata.questions.length //boolean value that says if the survey is finished
     );
+    this.props.plotFunction("test " + this.state.nextQ);
   }
 
   reportComplete() {

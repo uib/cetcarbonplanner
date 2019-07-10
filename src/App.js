@@ -21,7 +21,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.datasets);
     return (
       <React.Fragment>
         <NavBar />
@@ -43,7 +42,7 @@ class App extends Component {
               )}
             </Col>
             <Col className="border border-secondary">
-              <Plot plot={"test"} />
+              <Plot plot={this.state.plot} />
             </Col>
           </Row>
         </Container>
