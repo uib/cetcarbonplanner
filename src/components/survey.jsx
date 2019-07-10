@@ -19,6 +19,10 @@ class Survey extends Component {
         //during edited survey, previous answers should be passed here
         q={this.props.surveydata.questions[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
+        isLastQ={
+          this.state.nextQ === this.props.surveydata.questions.length - 1
+        }
+        isFirstQ={this.state.nextQ === 0}
       />
     );
   }

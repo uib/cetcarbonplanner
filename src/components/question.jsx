@@ -8,10 +8,11 @@ class Question extends Component {
   constructor() {
     super();
     this.changeHours = this.changeHours.bind(this);
-    this.saveDataPoint = this.saveListDataPoint.bind(this);
+    this.saveListDataPoint = this.saveListDataPoint.bind(this);
     this.radioSelect = this.radioSelect.bind(this);
   }
   render() {
+    console.log(this.state.selected);
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (
       <div key={a.key}>
@@ -85,7 +86,7 @@ class Question extends Component {
           Previous
         </button>
         {/*Add Button*/}
-        {this.props.list && (
+        {this.props.q.list && (
           <button
             className={style}
             onClick={this.saveListDataPoint}
@@ -94,16 +95,22 @@ class Question extends Component {
             Add
           </button>
         )}
-        {/*Next/Finish Button*/}
+        {/*Submit Button*/}
         <button
           className={style}
-          onClick={() => this.props.reportAnswerToSurvey(this.state.answers)}
-          disabled={!this.state.answers.length > 0}
+          onClick={this.submitAnswer}
+          disabled={!this.state.selected}
         >
-          {this.props.isLastQ ? "Next" : "Finish"}
+          Submit
         </button>
       </div>
     );
+  }
+
+  submitAnswer() {
+    const answer = this.props.q.list ? this.state.answers : this.state.selected;
+    this.setState({ selected: null, answers: [] });
+    this.props.reportAnswerToSurvey(answer);
   }
 
   hourButtons() {
