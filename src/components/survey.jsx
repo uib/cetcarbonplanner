@@ -27,6 +27,10 @@ class Survey extends Component {
     );
   }
 
+  componentWillUnmount() {
+    console.log("survey will unmount");
+  }
+
   receiveAnswerFromQuestion(answer) {
     const updatedAnswers = [...this.state.answers];
     updatedAnswers.push(answer);

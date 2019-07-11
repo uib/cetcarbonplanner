@@ -72,7 +72,13 @@ class Question extends Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log("question will unmount");
+  }
+
   buttonRow() {
+    console.log("selected:", this.state.selected);
+    console.log("is is a list?", this.props.q.list);
     const style = "btn btn-outline-secondary ";
     return (
       <div>
@@ -80,7 +86,7 @@ class Question extends Component {
         <button
           className={style}
           //onClick={ask App to re-render 1 question earlier}
-          disabled={this.state.isFirstQ}
+          disabled={this.props.isFirstQ}
         >
           Previous
         </button>
@@ -98,7 +104,14 @@ class Question extends Component {
         <button
           className={style}
           onClick={this.submitAnswer}
-          disabled={!this.state.selected}
+          disabled={
+            /*Submit button should be disabled on a list question if no
+            answers have been added yet. On a regular question it should be disabled if
+            nothing is selected.
+            */
+            (this.props.q.list && this.state.answers.length === 0) ||
+            (!this.props.q.list && !this.state.selected)
+          }
         >
           Submit
         </button>
