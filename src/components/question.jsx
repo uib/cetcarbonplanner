@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
-import { finished } from "stream";
 
 class Question extends Component {
   state = { inputHours: 1, selected: null, answers: [] };
@@ -10,9 +9,9 @@ class Question extends Component {
     this.changeHours = this.changeHours.bind(this);
     this.saveListDataPoint = this.saveListDataPoint.bind(this);
     this.radioSelect = this.radioSelect.bind(this);
+    this.submitAnswer = this.submitAnswer.bind(this);
   }
   render() {
-    console.log(this.state.selected);
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (
       <div key={a.key}>
@@ -63,7 +62,7 @@ class Question extends Component {
   }
 
   getAnswerObject() {
-    //used for tuple objects such as transport mode + transport hours
+    //used for tuple objects such as (transport mode,transport hours)
     if (this.props.q.list) {
       let mode = this.state.selected;
       let hour = this.state.inputHours;
