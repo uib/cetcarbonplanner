@@ -84,6 +84,7 @@ class App extends Component {
   }
 
   receiveAnswersFromSurvey(answers, dataset, isSurveyFinished) {
+    //does dataset need to be passed here?
     const updatedData = this.state.datasets.filter(
       d => d.UUID !== dataset.UUID
     );

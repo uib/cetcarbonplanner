@@ -6,11 +6,16 @@ class Survey extends Component {
   constructor() {
     super();
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
+    this.previousQuestion = this.previousQuestion.bind(this);
   }
   render() {
     return this.state.nextQ >= this.props.surveydata.questions.length
       ? this.reportComplete()
       : this.getQuestion();
+  }
+
+  previousQuestion() {
+    this.setState({ nextQ: this.state.nextQ - 1 });
   }
 
   getQuestion() {
@@ -19,6 +24,8 @@ class Survey extends Component {
         //during edited survey, previous answers should be passed here
         q={this.props.surveydata.questions[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
+        previousQuestion={this.previousQuestion}
+        previousAnswer={this.state.answers[this.state.nextQ]}
         isLastQ={
           this.state.nextQ === this.props.surveydata.questions.length - 1
         }
@@ -27,13 +34,10 @@ class Survey extends Component {
     );
   }
 
-  componentWillUnmount() {
-    console.log("survey will unmount");
-  }
-
   receiveAnswerFromQuestion(answer) {
     const updatedAnswers = [...this.state.answers];
-    updatedAnswers.push(answer);
+    updatedAnswers[this.state.nextQ] = answer;
+    console.log("pushing:", updatedAnswers);
     this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
     this.props.reportAnswers(
       this.state,

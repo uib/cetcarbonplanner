@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
 
 class Question extends Component {
-  state = { inputHours: 1, selected: null, answers: [] };
+  state = { inputHours: 1, selected: null, answers: [], isEditing: false };
   constructor() {
     super();
     this.changeHours = this.changeHours.bind(this);
@@ -11,6 +11,25 @@ class Question extends Component {
     this.radioSelect = this.radioSelect.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.previousAnswer === undefined || prevState.isEditing) {
+      return null;
+    } else {
+      if (nextProps.q.list) {
+        return {
+          answers: nextProps.previousAnswer,
+          isEditing: true
+        };
+      } else {
+        return {
+          selected: nextProps.previousAnswer,
+          isEditing: true
+        };
+      }
+    }
+  }
+
   render() {
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (
@@ -58,7 +77,7 @@ class Question extends Component {
   saveListDataPoint() {
     const answerlist = [...this.state.answers];
     answerlist.push(this.getAnswerObject());
-    this.setState({ answers: answerlist });
+    this.setState({ answers: answerlist, isEditing: true });
   }
 
   getAnswerObject() {
@@ -72,20 +91,14 @@ class Question extends Component {
     }
   }
 
-  componentWillUnmount() {
-    console.log("question will unmount");
-  }
-
   buttonRow() {
-    console.log("selected:", this.state.selected);
-    console.log("is is a list?", this.props.q.list);
     const style = "btn btn-outline-secondary ";
     return (
       <div>
         {/*Previous Button*/}
         <button
           className={style}
-          //onClick={ask App to re-render 1 question earlier}
+          onClick={this.props.previousQuestion}
           disabled={this.props.isFirstQ}
         >
           Previous
@@ -121,7 +134,7 @@ class Question extends Component {
 
   submitAnswer() {
     const answer = this.props.q.list ? this.state.answers : this.state.selected;
-    this.setState({ selected: null, answers: [] });
+    this.setState({ selected: null, answers: [], isEditing: false });
     this.props.reportAnswerToSurvey(answer);
   }
 
