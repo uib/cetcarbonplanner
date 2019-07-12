@@ -12,7 +12,9 @@ class Question extends Component {
     this.submitAnswer = this.submitAnswer.bind(this);
   }
 
+  //denne må ta i mot isEditing en gang, og så oppdatere answers + flippe isEditing.
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log("getDerivedState:", nextProps, prevState);
     if (nextProps.previousAnswer === undefined || prevState.isEditing) {
       return null;
     } else {
@@ -31,6 +33,7 @@ class Question extends Component {
   }
 
   render() {
+    console.log("answers:", this.state.answers);
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (
       <div key={a.key}>
@@ -77,7 +80,7 @@ class Question extends Component {
   saveListDataPoint() {
     const answerlist = [...this.state.answers];
     answerlist.push(this.getAnswerObject());
-    this.setState({ answers: answerlist, isEditing: true });
+    this.setState({ answers: answerlist });
   }
 
   getAnswerObject() {

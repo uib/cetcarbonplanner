@@ -19,6 +19,10 @@ class Survey extends Component {
   }
 
   getQuestion() {
+    console.log(
+      "setting up with answer:",
+      this.state.answers[this.state.nextQ]
+    );
     return (
       <Question
         //during edited survey, previous answers should be passed here
@@ -37,7 +41,6 @@ class Survey extends Component {
   receiveAnswerFromQuestion(answer) {
     const updatedAnswers = [...this.state.answers];
     updatedAnswers[this.state.nextQ] = answer;
-    console.log("pushing:", updatedAnswers);
     this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
     this.props.reportAnswers(
       this.state,

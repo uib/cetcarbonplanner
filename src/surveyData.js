@@ -16,9 +16,21 @@ const getSurveyData = function() {
     list: false,
     alternatives: [alt1, alt2]
   };
-
+  const question3 = {
+    title: "Which color?",
+    list: false,
+    alternatives: [
+      { key: "red", value: "Red" },
+      { key: "blue", value: "Blue" },
+      { key: "green", value: "Green" }
+    ]
+  };
   return [
-    { ID: "trip", title: "Register trip", questions: [question1, question2] },
+    {
+      ID: "trip",
+      title: "Register trip",
+      questions: [question1, question2, question3]
+    },
     { ID: "empty", title: "Empty survey", questions: [] }
   ];
 };
