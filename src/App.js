@@ -5,6 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
 import getSurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
+//import { storeDataset, getDataset } from "./Dataset";
 
 class App extends Component {
   state = {
