@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
+import carbonmodel from "./carbonmodel";
 
 class Question extends Component {
   state = { inputHours: 1, selected: null, answerlist: [] };
@@ -22,7 +23,30 @@ class Question extends Component {
     }
   }
 
+  summarizeAnswerList(answerlist) {
+    const sumObject = {};
+    const c = carbonmodel();
+    const dataObjects = [];
+    for (const item in answerlist) {
+      if (sumObject[answerlist[item].mode]) {
+        sumObject[answerlist[item].mode] += answerlist[item].hour;
+      } else {
+        sumObject[answerlist[item].mode] = answerlist[item].hour;
+      }
+    }
+    const keys = Object.keys(sumObject);
+    for (const key in keys) {
+      const modeID = keys[key];
+      const dataobj = {};
+      dataobj.x = c[modeID].text;
+      dataobj.y = sumObject[modeID] * c[modeID].co2;
+      dataObjects.push(dataobj);
+    }
+    return dataObjects;
+  }
+
   render() {
+    console.log(this.summarizeAnswerList(this.state.answerlist));
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (
       <div key={a.key}>

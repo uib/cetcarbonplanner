@@ -12,7 +12,7 @@ class App extends Component {
     datasets: [],
     activeDataSet: undefined,
     surveydata: getSurveyData(),
-    plot: "welcome"
+    plot: "test"
   };
   constructor() {
     super();
