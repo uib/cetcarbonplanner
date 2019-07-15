@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Table, Tab } from "react-bootstrap";
 
-const AnswerTable = ({ answers }) => {
-  const keys = Object.keys(answers[0]);
-  const data = Object.values(answers);
+const AnswerTable = ({ answerlist }) => {
+  const keys = Object.keys(answerlist[0]);
+  const data = Object.values(answerlist);
   return (
     <Table striped bordered hover size="sm">
       {buildTable(keys, data)}

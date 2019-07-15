@@ -19,13 +19,10 @@ class Survey extends Component {
   }
 
   getQuestion() {
-    console.log(
-      "setting up with answer:",
-      this.state.answers[this.state.nextQ]
-    );
     return (
       <Question
         //during edited survey, previous answers should be passed here
+        key={"Q" + this.state.nextQ + ":" + this.props.dataset.UUID}
         q={this.props.surveydata.questions[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
         previousQuestion={this.previousQuestion}

@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
 
 class Question extends Component {
-  state = { inputHours: 1, selected: null, answers: [], isEditing: false };
+  state = { inputHours: 1, selected: null, answerlist: [] };
   constructor() {
     super();
     this.changeHours = this.changeHours.bind(this);
@@ -12,28 +12,17 @@ class Question extends Component {
     this.submitAnswer = this.submitAnswer.bind(this);
   }
 
-  //denne må ta i mot isEditing en gang, og så oppdatere answers + flippe isEditing.
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("getDerivedState:", nextProps, prevState);
-    if (nextProps.previousAnswer === undefined || prevState.isEditing) {
-      return null;
-    } else {
-      if (nextProps.q.list) {
-        return {
-          answers: nextProps.previousAnswer,
-          isEditing: true
-        };
+  componentDidMount() {
+    if (this.props.previousAnswer !== undefined) {
+      if (this.props.q.list) {
+        this.setState({ answerlist: this.props.previousAnswer });
       } else {
-        return {
-          selected: nextProps.previousAnswer,
-          isEditing: true
-        };
+        this.setState({ selected: this.props.previousAnswer });
       }
     }
   }
 
   render() {
-    console.log("answers:", this.state.answers);
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (
       <div key={a.key}>
@@ -62,8 +51,8 @@ class Question extends Component {
               {this.buttonRow()}
             </Col>
             <Col>
-              {q.list && this.state.answers.length > 0 && (
-                <AnswerTable answers={this.state.answers} />
+              {q.list && this.state.answerlist.length > 0 && (
+                <AnswerTable answerlist={this.state.answerlist} />
               )}
             </Col>
           </Row>
@@ -78,9 +67,9 @@ class Question extends Component {
   }
 
   saveListDataPoint() {
-    const answerlist = [...this.state.answers];
+    const answerlist = [...this.state.answerlist];
     answerlist.push(this.getAnswerObject());
-    this.setState({ answers: answerlist });
+    this.setState({ answerlist: answerlist });
   }
 
   getAnswerObject() {
@@ -122,10 +111,10 @@ class Question extends Component {
           onClick={this.submitAnswer}
           disabled={
             /*Submit button should be disabled on a list question if no
-            answers have been added yet. On a regular question it should be disabled if
+            answerlist have been added yet. On a regular question it should be disabled if
             nothing is selected.
             */
-            (this.props.q.list && this.state.answers.length === 0) ||
+            (this.props.q.list && this.state.answerlist.length === 0) ||
             (!this.props.q.list && !this.state.selected)
           }
         >
@@ -136,8 +125,10 @@ class Question extends Component {
   }
 
   submitAnswer() {
-    const answer = this.props.q.list ? this.state.answers : this.state.selected;
-    this.setState({ selected: null, answers: [], isEditing: false });
+    const answer = this.props.q.list
+      ? this.state.answerlist
+      : this.state.selected;
+    this.setState({ selected: null, answerlist: [], isEditing: false });
     this.props.reportAnswerToSurvey(answer);
   }
 
