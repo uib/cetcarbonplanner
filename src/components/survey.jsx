@@ -31,6 +31,7 @@ class Survey extends Component {
           this.state.nextQ === this.props.surveydata.questions.length - 1
         }
         isFirstQ={this.state.nextQ === 0}
+        plotFunction={this.props.plotFunction}
       />
     );
   }

@@ -20,19 +20,17 @@ class Plot extends Component {
 
   getPlot(plot) {
     switch (plot) {
-      case "test":
-        return this.getTest();
       default:
-        return <h4>{plot}</h4>;
+        return this.getTest();
     }
   }
 
   getTest() {
     const data = [
-      { x: "Aircraft", y: 8 },
-      { x: "A long data label", y: 15 },
-      { x: "Electric Car", y: 4 },
-      { x: "train", y: 9 }
+      { x: "Aircraft", y: Math.random() },
+      { x: "A long data label", y: Math.random() },
+      { x: "Electric Car", y: Math.random() },
+      { x: "train", y: Math.random() }
     ];
     return (
       <FlexibleWidthXYPlot
@@ -45,7 +43,7 @@ class Plot extends Component {
         <HorizontalGridLines />
         <XAxis />
         <YAxis />
-        <VerticalBarSeries data={data} />
+        <VerticalBarSeries data={data} animation />
       </FlexibleWidthXYPlot>
     );
   }

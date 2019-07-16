@@ -93,6 +93,7 @@ class Question extends Component {
   saveListDataPoint() {
     const answerlist = [...this.state.answerlist];
     answerlist.push(this.getAnswerObject());
+    this.props.plotFunction("random");
     this.setState({ answerlist: answerlist });
   }
 
