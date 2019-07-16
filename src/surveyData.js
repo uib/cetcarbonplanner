@@ -29,9 +29,7 @@ function surveyQuestion(questionText, alternatives, quantifier) {
   Alternatives: If null, "yes/no" will be generated. Otherwise, contains the list of alternatives
                 used in the radio select menu by both types of questions.
   Quantifier: If null, the question is not a list-type data entry. If not null, it is. 
-              The type of quantity used by list questions, such as kilometers or hours. An array of one or two strings,
-              where index 0 is the singular form and 1 is the plural. Example: ["hour","hours"]. This simplifies multi-language
-              support down the line.
+              A string with the type of quantity used by list questions, such as kilometers or hours. 
   */
   const obj = {};
   obj.text = questionText;

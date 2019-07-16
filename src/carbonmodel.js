@@ -1,7 +1,7 @@
 class CarbonModel {
   constructor() {
     this.carbonvalues = carbonvalues();
-    this.quantifier = ["hour", "hours"];
+    this.quantifier = "hours";
     this.alternatives = Object.entries(this.carbonvalues).map(
       a => a[1]["text"]
     );

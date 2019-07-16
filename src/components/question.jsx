@@ -4,10 +4,10 @@ import AnswerTable from "./answertable";
 import carbonmodel from "./carbonmodel";
 
 class Question extends Component {
-  state = { inputHours: 1, selected: null, answerlist: [] };
+  state = { quantity: 1, selected: null, answerlist: [] };
   constructor() {
     super();
-    this.changeHours = this.changeHours.bind(this);
+    this.changeHours = this.changeAmount.bind(this);
     this.saveListDataPoint = this.saveListDataPoint.bind(this);
     this.radioSelect = this.radioSelect.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
@@ -48,7 +48,7 @@ class Question extends Component {
               <form>
                 <div className="form-check">{alternatives}</div>
               </form>
-              {q.list && this.hourButtons()}
+              {q.list && this.quantityButtons()}
               {this.buttonRow()}
             </Col>
             <Col>
@@ -70,7 +70,6 @@ class Question extends Component {
   saveListDataPoint() {
     const answerlist = [...this.state.answerlist];
     answerlist.push(this.getAnswerObject());
-    this.props.plotFunction("random");
     this.setState({ answerlist: answerlist });
   }
 
@@ -78,8 +77,8 @@ class Question extends Component {
     //used for tuple objects such as (transport mode,transport hours)
     if (this.props.q.list) {
       let mode = this.state.selected;
-      let hour = this.state.inputHours;
-      return { mode, hour };
+      let amount = this.state.quantity;
+      return { mode, amount };
     } else {
       return this.state.selected;
     }
@@ -134,39 +133,37 @@ class Question extends Component {
     this.props.reportAnswerToSurvey(answer);
   }
 
-  hourButtons() {
+  quantityButtons() {
     const style = "btn btn-outline-secondary ";
-    const hrs = this.state.inputHours;
+    const quantity = this.state.quantity;
     return (
       <div>
-        Travel time:
+        Travel time ({this.props.q.quantifier}):
         <br />
-        <button className={style} onClick={this.decHours}>
+        <button className={style} onClick={this.decrease}>
           -
         </button>
-        <button className={style + "w-25"}>
-          {hrs + " hour" + (hrs > 1 ? "s" : "")}
-        </button>
-        <button className={style} onClick={this.incHours}>
+        <button className={style + "w-25"}>{quantity}</button>
+        <button className={style} onClick={this.increase}>
           +
         </button>
       </div>
     );
   }
 
-  incHours = () => {
-    this.changeHours(1);
+  increase = () => {
+    this.changeAmount(1);
   };
 
-  decHours = () => {
-    this.changeHours(-1);
+  decrease = () => {
+    this.changeAmount(-1);
   };
 
-  changeHours(change) {
-    const hrs = this.state.inputHours + change;
-    if (hrs > 0) {
+  changeAmount(change) {
+    const q = this.state.quantity + change;
+    if (q > 0) {
       this.setState({
-        inputHours: hrs
+        quantity: q
       });
     }
   }
