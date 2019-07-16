@@ -23,42 +23,19 @@ class Question extends Component {
     }
   }
 
-  summarizeAnswerList(answerlist) {
-    const sumObject = {};
-    const c = carbonmodel();
-    const dataObjects = [];
-    for (const item in answerlist) {
-      if (sumObject[answerlist[item].mode]) {
-        sumObject[answerlist[item].mode] += answerlist[item].hour;
-      } else {
-        sumObject[answerlist[item].mode] = answerlist[item].hour;
-      }
-    }
-    const keys = Object.keys(sumObject);
-    for (const key in keys) {
-      const modeID = keys[key];
-      const dataobj = {};
-      dataobj.x = c[modeID].text;
-      dataobj.y = sumObject[modeID] * c[modeID].co2;
-      dataObjects.push(dataobj);
-    }
-    return dataObjects;
-  }
-
   render() {
-    console.log(this.summarizeAnswerList(this.state.answerlist));
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (
-      <div key={a.key}>
+      <div key={a}>
         <label className="form-check-label">
           <input
             className="form-check-input"
             type="radio"
-            value={a.key}
-            checked={this.state.selected === a.key}
+            value={a}
+            checked={this.state.selected === a}
             onChange={this.radioSelect}
           />
-          {a.value}
+          {a}
         </label>
       </div>
     ));
@@ -67,7 +44,7 @@ class Question extends Component {
         <Container>
           <Row>
             <Col xs={7}>
-              <p>{q.title}</p>
+              <p>{q.text}</p>
               <form>
                 <div className="form-check">{alternatives}</div>
               </form>

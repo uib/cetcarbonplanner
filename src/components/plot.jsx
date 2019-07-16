@@ -10,11 +10,26 @@ import {
 
 class Plot extends Component {
   render() {
+    return <React.Fragment>{this.plot(this.props.data)}</React.Fragment>;
+  }
+
+  plot(data) {
+    if (!data) {
+      return "No data";
+    }
     return (
-      <React.Fragment>
-        <h4>{this.props.plot}</h4>
-        {this.getPlot(this.props.plot)}
-      </React.Fragment>
+      <FlexibleWidthXYPlot
+        height={300}
+        width={400}
+        xType="ordinal"
+        margin={{ bottom: 50 }}
+      >
+        <VerticalGridLines />
+        <HorizontalGridLines />
+        <XAxis />
+        <YAxis />
+        <VerticalBarSeries data={data} animation />
+      </FlexibleWidthXYPlot>
     );
   }
 

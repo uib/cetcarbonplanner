@@ -3,7 +3,7 @@ import Survey from "./components/survey";
 import Plot from "./components/plot";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
-import getSurveyData from "./surveyData";
+import SurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
 //import { storeDataset, getDataset } from "./Dataset";
 
@@ -11,7 +11,7 @@ class App extends Component {
   state = {
     datasets: [],
     activeDataSet: undefined,
-    surveydata: getSurveyData(),
+    surveydata: new SurveyData(),
     plot: "test"
   };
   constructor() {
@@ -30,9 +30,7 @@ class App extends Component {
             <Col sm={12} md={7} className="border border-secondary">
               {this.state.activeDataSet ? (
                 <Survey
-                  surveydata={this.state.surveydata.find(
-                    survey => survey.ID === this.state.activeDataSet.surveyID
-                  )}
+                  surveydata={this.state.surveydata}
                   dataset={this.state.activeDataSet}
                   reportAnswers={this.receiveAnswersFromSurvey}
                   returnToMainScreen={this.returnToMainScreen}
@@ -59,9 +57,11 @@ class App extends Component {
     return (
       <React.Fragment>
         <h4>this is the main screen</h4>
-        {this.state.surveydata.map(survey =>
-          this.createSelectSurveyButton(survey)
-        )}
+        <button
+          onClick={() => this.setState({ activeDataSet: new Dataset(1) })}
+        >
+          "Register trip"
+        </button>
       </React.Fragment>
     );
   }
