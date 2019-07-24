@@ -12,21 +12,27 @@ class App extends Component {
     datasets: [],
     activeDataSet: undefined,
     surveydata: new SurveyData(),
-    plot: "test"
+    plot: "test",
+    page: "home"
   };
   constructor() {
     super();
     this.plot = this.plot.bind(this);
     this.receiveAnswersFromSurvey = this.receiveAnswersFromSurvey.bind(this);
     this.returnToMainScreen = this.returnToMainScreen.bind(this);
+    this.setPage = this.setPage.bind(this);
   }
 
   render() {
     return (
       <React.Fragment>
-        <NavBar />
+        <NavBar
+          navigate={this.setPage}
+          viewEnabled={this.state.datasets.length > 0}
+        />
         <Container className="border border-primary">
           <Row>
+            {/*
             <Col sm={12} md={7} className="border border-secondary">
               {this.state.activeDataSet ? (
                 <Survey
@@ -39,6 +45,9 @@ class App extends Component {
               ) : (
                 this.mainScreen()
               )}
+            </Col>{this.getPage()}*/}
+            <Col sm={12} md={7} className="border border-secondary">
+              {this.getPage()}
             </Col>
             <Col className="border border-secondary">
               <Plot plot={this.state.plot} />
@@ -49,19 +58,38 @@ class App extends Component {
     );
   }
 
+  setPage(navigateToPage) {
+    this.setState({ page: navigateToPage });
+  }
+
+  getPage() {
+    switch (this.state.page) {
+      case "home":
+        return this.getHomePage();
+      case "register":
+        return this.getRegisterPage();
+      case "viewregister":
+        return this.getViewPage();
+      default:
+        return this.getHomePage();
+    }
+  }
+
   plot(plotReference) {
     this.setState({ plot: plotReference });
   }
 
-  mainScreen() {
+  getHomePage() {
     return (
       <React.Fragment>
         <h4>this is the main screen</h4>
+        Register a new trip, or view the stored data.
+        {/*
         <button
           onClick={() => this.setState({ activeDataSet: new Dataset(1) })}
         >
           "Register trip"
-        </button>
+        </button>*/}
       </React.Fragment>
     );
   }
