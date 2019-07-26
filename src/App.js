@@ -10,7 +10,6 @@ import { Dataset } from "./Dataset";
 class App extends Component {
   state = {
     datasets: [],
-    activeDataSet: undefined,
     surveydata: new SurveyData(),
     plot: "test",
     page: "home"
@@ -100,22 +99,8 @@ class App extends Component {
     );
   }
 
-  createSelectSurveyButton(survey) {
-    return (
-      <div>
-        <button
-          onClick={() =>
-            this.setState({ activeDataSet: new Dataset(survey.ID) })
-          }
-        >
-          {survey.title}
-        </button>
-      </div>
-    );
-  }
-
   returnToMainScreen() {
-    this.setState({ activeDataSet: undefined, page: "home" });
+    this.setState({ page: "home" });
   }
 
   receiveAnswersFromSurvey(answers, dataset) {
