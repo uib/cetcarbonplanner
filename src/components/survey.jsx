@@ -38,9 +38,7 @@ class Survey extends Component {
   }
 
   receiveAnswerFromQuestion(answer) {
-    //receive answer from Question and pass it on to App
     const updatedAnswers = [...this.state.answers];
-    this.props.plotFunction("test " + this.state.nextQ);
     updatedAnswers[this.state.nextQ] = answer;
     this.props.plotFunction("test " + this.state.nextQ);
     this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });

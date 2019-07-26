@@ -10,9 +10,14 @@ import {
 
 class Plot extends Component {
   render() {
-    return <React.Fragment>{this.plot(this.props.data)}</React.Fragment>;
+    return <React.Fragment>{this.props.plot}</React.Fragment>;
   }
 
+  /*
+  render() {
+    return <React.Fragment>{this.plot(this.props.data)}</React.Fragment>;
+  }
+*/
   plot(data) {
     if (!data) {
       return "No data";

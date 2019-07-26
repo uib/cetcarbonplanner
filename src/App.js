@@ -5,7 +5,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
 import SurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
-//import { storeDataset, getDataset } from "./Dataset";
 
 class App extends Component {
   state = {
@@ -18,7 +17,6 @@ class App extends Component {
     super();
     this.plot = this.plot.bind(this);
     this.receiveAnswersFromSurvey = this.receiveAnswersFromSurvey.bind(this);
-    this.returnToMainScreen = this.returnToMainScreen.bind(this);
     this.setPage = this.setPage.bind(this);
   }
 
@@ -97,10 +95,6 @@ class App extends Component {
         Register a new trip, or view the stored data.
       </React.Fragment>
     );
-  }
-
-  returnToMainScreen() {
-    this.setState({ page: "home" });
   }
 
   receiveAnswersFromSurvey(answers, dataset) {
