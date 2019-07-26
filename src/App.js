@@ -67,6 +67,16 @@ class App extends Component {
     this.setState({ plot: plotReference });
   }
 
+  getDataPage() {
+    //data analyis, advanced plots and import/export
+  }
+
+  getViewPage() {
+    return "hello";
+    //return the current datasets in list form
+    //table should include plot and edit buttons
+  }
+
   getRegisterPage(editDataSet) {
     const dataset = editDataSet ? editDataSet : new Dataset();
     //The passed parameter is a dataset to be edited. If you're adding a new dataset, no parameter is passed.
@@ -86,12 +96,6 @@ class App extends Component {
       <React.Fragment>
         <h4>this is the main screen</h4>
         Register a new trip, or view the stored data.
-        {/*
-        <button
-          onClick={() => this.setState({ activeDataSet: new Dataset(1) })}
-        >
-          "Register trip"
-        </button>*/}
       </React.Fragment>
     );
   }
@@ -114,22 +118,14 @@ class App extends Component {
     this.setState({ activeDataSet: undefined, page: "home" });
   }
 
-  receiveAnswersFromSurvey(answers, dataset, isSurveyFinished) {
-    //does dataset need to be passed here?
+  receiveAnswersFromSurvey(answers, dataset) {
+    //If the dataset has been edited and updated, the old one will be removed from datasets here:
     const updatedData = this.state.datasets.filter(
       d => d.UUID !== dataset.UUID
     );
-    const newDataSet = new Dataset(
-      dataset.surveyID,
-      dataset.UUID,
-      answers,
-      isSurveyFinished
-    );
+    const newDataSet = new Dataset(dataset.surveyID, dataset.UUID, answers);
     updatedData.push(newDataSet);
-    this.setState({
-      datasets: updatedData,
-      activeDataSet: isSurveyFinished ? undefined : newDataSet
-    });
+    this.setState({ datasets: updatedData, page: "main" });
   }
 }
 

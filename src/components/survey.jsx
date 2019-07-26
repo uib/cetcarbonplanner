@@ -7,6 +7,7 @@ class Survey extends Component {
     super();
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
     this.previousQuestion = this.previousQuestion.bind(this);
+    this.returnToMain = this.returnToMain.bind(this);
   }
   render() {
     return this.state.nextQ >= this.props.surveydata.questions.length
@@ -37,22 +38,21 @@ class Survey extends Component {
   }
 
   receiveAnswerFromQuestion(answer) {
+    //receive answer from Question and pass it on to App
     const updatedAnswers = [...this.state.answers];
-    updatedAnswers[this.state.nextQ] = answer;
-    this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
-    this.props.reportAnswers(
-      this.state,
-      this.props.dataset,
-      this.state.nextQ >= this.props.surveydata.questions.length //boolean value that says if the survey is finished
-    );
     this.props.plotFunction("test " + this.state.nextQ);
+    updatedAnswers[this.state.nextQ] = answer;
+    this.props.plotFunction("test " + this.state.nextQ);
+    this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
+  }
+
+  returnToMain() {
+    this.props.reportAnswers(this.state.answers, this.props.dataset);
   }
 
   reportComplete() {
     return (
-      <button onClick={this.props.navigate("home")}>
-        Survey complete, return.
-      </button>
+      <button onClick={this.returnToMain}>Survey complete, return.</button>
     );
   }
 }
