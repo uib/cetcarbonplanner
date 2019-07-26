@@ -50,7 +50,7 @@ class Survey extends Component {
 
   reportComplete() {
     return (
-      <button onClick={this.props.returnToMainScreen}>
+      <button onClick={this.props.navigate("home")}>
         Survey complete, return.
       </button>
     );

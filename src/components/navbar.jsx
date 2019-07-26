@@ -1,5 +1,6 @@
 import React from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
+import { prototype } from "events";
 
 const NavBar = props => {
   const bgcolor = { backgroundColor: "#4EBBDF" };
@@ -7,22 +8,30 @@ const NavBar = props => {
     <Nav
       variant="pills"
       activeKey="null"
-      onSelect={k => console.log(k)}
+      onSelect={
+        page => props.navigate(page)
+        /* the parameter page is a string defined as eventKey in each Nav.Item*/
+      }
       className="mb-3"
     >
-      {/*<Nav.Item>
-        <Nav.Link eventKey="1" href="#/home">
-          NavLink 1 content
-        </Nav.Link>
-      </Nav.Item>*/}
       <Nav.Item>
-        <Nav.Link eventKey="2" title="Item">
-          Register trip
+        <Nav.Link eventKey="home" href="#/home">
+          Home
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="3" disabled={!props.viewEnabled}>
-          View my trips
+        <Nav.Link eventKey="register" title="Item">
+          Add trip
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link eventKey="view" disabled={!props.viewEnabled}>
+          View trips
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link eventKey="data" disabled={!props.viewEnabled}>
+          Data
         </Nav.Link>
       </Nav.Item>
       {/*<NavDropdown title="Dropdown" id="nav-dropdown">

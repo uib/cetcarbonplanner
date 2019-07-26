@@ -26,26 +26,12 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <NavBar
-          navigate={this.setPage}
-          viewEnabled={this.state.datasets.length > 0}
-        />
         <Container className="border border-primary">
+          <NavBar
+            navigate={this.setPage}
+            viewEnabled={this.state.datasets.length /*used as boolean*/}
+          />
           <Row>
-            {/*
-            <Col sm={12} md={7} className="border border-secondary">
-              {this.state.activeDataSet ? (
-                <Survey
-                  surveydata={this.state.surveydata}
-                  dataset={this.state.activeDataSet}
-                  reportAnswers={this.receiveAnswersFromSurvey}
-                  returnToMainScreen={this.returnToMainScreen}
-                  plotFunction={this.plot}
-                />
-              ) : (
-                this.mainScreen()
-              )}
-            </Col>{this.getPage()}*/}
             <Col sm={12} md={7} className="border border-secondary">
               {this.getPage()}
             </Col>
@@ -68,8 +54,10 @@ class App extends Component {
         return this.getHomePage();
       case "register":
         return this.getRegisterPage();
-      case "viewregister":
+      case "view":
         return this.getViewPage();
+      case "data":
+        return this.getDataPage();
       default:
         return this.getHomePage();
     }
@@ -77,6 +65,20 @@ class App extends Component {
 
   plot(plotReference) {
     this.setState({ plot: plotReference });
+  }
+
+  getRegisterPage(editDataSet) {
+    const dataset = editDataSet ? editDataSet : new Dataset();
+    //The passed parameter is a dataset to be edited. If you're adding a new dataset, no parameter is passed.
+    return (
+      <Survey
+        surveydata={this.state.surveydata}
+        dataset={dataset}
+        reportAnswers={this.receiveAnswersFromSurvey}
+        navigate={this.setPage}
+        plotFunction={this.plot}
+      />
+    );
   }
 
   getHomePage() {
@@ -109,7 +111,7 @@ class App extends Component {
   }
 
   returnToMainScreen() {
-    this.setState({ activeDataSet: undefined });
+    this.setState({ activeDataSet: undefined, page: "home" });
   }
 
   receiveAnswersFromSurvey(answers, dataset, isSurveyFinished) {
