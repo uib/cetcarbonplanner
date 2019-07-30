@@ -23,6 +23,19 @@ class Question extends Component {
     }
   }
 
+  getTitleQuestion() {
+    return (
+      <React.Fragment>
+        <div>Please enter a name for this trip:</div>
+        <input
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+      </React.Fragment>
+    );
+  }
+
   render() {
     const { q } = this.props;
     const alternatives = q.alternatives.map(a => (

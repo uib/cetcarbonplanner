@@ -10,7 +10,7 @@ const NavBar = props => {
       activeKey="null"
       onSelect={
         page => props.navigate(page)
-        /* the parameter page is a string defined as eventKey in each Nav.Item*/
+        /* the parameter "page" is a string defined as eventKey in each Nav.Item*/
       }
       className="mb-3"
     >
@@ -25,12 +25,12 @@ const NavBar = props => {
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="view" disabled={!props.viewEnabled}>
-          View trips
+        <Nav.Link eventKey="view" disabled={!props.datasetLength}>
+          View trips ({props.datasetLength})
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="data" disabled={!props.viewEnabled}>
+        <Nav.Link eventKey="data" disabled={!props.datasetLength}>
           Data
         </Nav.Link>
       </Nav.Item>

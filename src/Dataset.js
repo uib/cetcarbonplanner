@@ -1,7 +1,7 @@
 import { getUUID } from "./uuid";
 
 export class Dataset {
-  constructor(surveyID, UUID, answers) {
+  constructor(surveyID, UUID, name, answers) {
     this.surveyID = surveyID;
     /*
       If the UUID is provided, it is assumed that answers are provided as well.
@@ -10,9 +10,11 @@ export class Dataset {
     */
     if (UUID) {
       this.UUID = UUID;
+      this.name = name;
       this.answers = answers;
     } else {
       this.UUID = getUUID();
+      this.name = name ? name : "";
       this.answers = [];
     }
   }

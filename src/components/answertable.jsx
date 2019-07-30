@@ -3,10 +3,9 @@ import { Table, Tab } from "react-bootstrap";
 
 const AnswerTable = ({ answerlist }) => {
   const keys = Object.keys(answerlist[0]);
-  const data = Object.values(answerlist);
   return (
     <Table striped bordered hover size="sm">
-      {buildTable(keys, data)}
+      {buildTable(keys, answerlist)}
     </Table>
   );
 };

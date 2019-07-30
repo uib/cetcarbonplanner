@@ -5,6 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
 import SurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
+import View from "./components/View";
 
 class App extends Component {
   state = {
@@ -26,7 +27,7 @@ class App extends Component {
         <Container className="border border-primary">
           <NavBar
             navigate={this.setPage}
-            viewEnabled={this.state.datasets.length /*used as boolean*/}
+            datasetLength={this.state.datasets.length}
           />
           <Row>
             <Col sm={12} md={7} className="border border-secondary">
@@ -69,7 +70,9 @@ class App extends Component {
   }
 
   getViewPage() {
-    return "hello";
+    return (
+      <View datasets={this.state.datasets} surveydata={this.state.surveydata} />
+    );
     //return the current datasets in list form
     //table should include plot and edit buttons
   }
@@ -80,6 +83,7 @@ class App extends Component {
     return (
       <Survey
         surveydata={this.state.surveydata}
+        datasetNumber={this.state.datasets.length + 1}
         dataset={dataset}
         reportAnswers={this.receiveAnswersFromSurvey}
         navigate={this.setPage}
@@ -91,18 +95,23 @@ class App extends Component {
   getHomePage() {
     return (
       <React.Fragment>
-        <h4>this is the main screen</h4>
+        <h4>this is the home screen</h4>
         Register a new trip, or view the stored data.
       </React.Fragment>
     );
   }
 
-  receiveAnswersFromSurvey(answers, dataset) {
+  receiveAnswersFromSurvey(dataset, name, answers) {
     //If the dataset has been edited and updated, the old one will be removed from datasets here:
     const updatedData = this.state.datasets.filter(
       d => d.UUID !== dataset.UUID
     );
-    const newDataSet = new Dataset(dataset.surveyID, dataset.UUID, answers);
+    const newDataSet = new Dataset(
+      dataset.surveyID,
+      dataset.UUID,
+      name,
+      answers
+    );
     updatedData.push(newDataSet);
     this.setState({ datasets: updatedData, page: "main" });
   }
