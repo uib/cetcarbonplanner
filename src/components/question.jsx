@@ -11,6 +11,7 @@ class Question extends Component {
     this.saveListDataPoint = this.saveListDataPoint.bind(this);
     this.radioSelect = this.radioSelect.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
+    this.deleteFromAnswerList = this.deleteFromAnswerList.bind(this);
   }
 
   componentDidMount() {
@@ -21,6 +22,12 @@ class Question extends Component {
         this.setState({ selected: this.props.previousAnswer });
       }
     }
+  }
+
+  deleteFromAnswerList(id) {
+    const newAnswerList = [...this.state.answerlist];
+    newAnswerList.splice(id, 1);
+    this.setState({ answerlist: newAnswerList });
   }
 
   getTitleQuestion() {
@@ -66,7 +73,10 @@ class Question extends Component {
             </Col>
             <Col>
               {q.list && this.state.answerlist.length > 0 && (
-                <AnswerTable answerlist={this.state.answerlist} />
+                <AnswerTable
+                  answerlist={this.state.answerlist}
+                  deleteFunction={this.deleteFromAnswerList}
+                />
               )}
             </Col>
           </Row>

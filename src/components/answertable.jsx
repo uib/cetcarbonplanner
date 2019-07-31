@@ -1,35 +1,51 @@
 import React, { Component } from "react";
-import { Table, Tab } from "react-bootstrap";
+import { Table, Badge } from "react-bootstrap";
 
-const AnswerTable = ({ answerlist }) => {
-  const keys = Object.keys(answerlist[0]);
-  return (
-    <Table striped bordered hover size="sm">
-      {buildTable(keys, answerlist)}
-    </Table>
-  );
-};
+class AnswerTable extends Component {
+  constructor() {
+    super();
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+  render() {
+    const keys = Object.keys(this.props.answerlist[0]);
+    return this.buildTable(keys, this.props.answerlist);
+  }
+  buildTable(keys, data) {
+    return (
+      <Table striped bordered hover size="sm">
+        {/*<thead>
+          <tr key="headers">
+            {keys.map((key, index) => (
+              <th key={"h-" + key}>{key}</th>
+            ))}
+          </tr>
+        </thead>*/}
+        <tbody>
+          {data.map((row, index) => this.buildRow(keys, row, index))}
+        </tbody>
+      </Table>
+    );
+  }
 
-const buildTable = (keys, data) => {
-  return (
-    <thead>
-      <tr key="headers">
+  buildRow(keys, obj, rowindex) {
+    return (
+      <tr key={"row" + rowindex}>
         {keys.map((key, index) => (
-          <th key={"h-" + key}>{key}</th>
+          <td key={index + "-" + key}>{obj[key]}</td>
         ))}
+        <td key={"del" + rowindex}>
+          <label onClick={this.handleDelete}>
+            <Badge pill variant="dark" id={rowindex}>
+              X
+            </Badge>
+          </label>
+        </td>
       </tr>
-      {data.map((row, index) => buildRow(keys, row, index))}
-    </thead>
-  );
-};
+    );
+  }
+  handleDelete(event) {
+    this.props.deleteFunction(event.target.id);
+  }
+}
 
-const buildRow = (keys, obj, rowindex) => {
-  return (
-    <tr key={"row" + rowindex}>
-      {keys.map((key, index) => (
-        <td key={index + "-" + key}>{obj[key]}</td>
-      ))}
-    </tr>
-  );
-};
 export default AnswerTable;

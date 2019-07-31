@@ -53,13 +53,12 @@ class Survey extends Component {
   returnToMain() {
     this.props.reportAnswers(
       this.props.dataset,
-      this.state.name == "" ? this.defaultName() : this.state.name,
+      this.state.name === "" ? this.defaultName() : this.state.name,
       this.state.answers
     );
   }
 
   handleNameInput(event) {
-    console.log(event.target.value);
     this.setState({ name: event.target.value });
   }
 
