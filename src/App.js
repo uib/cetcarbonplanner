@@ -102,18 +102,23 @@ class App extends Component {
   }
 
   receiveAnswersFromSurvey(dataset, name, answers) {
-    //If the dataset has been edited and updated, the old one will be removed from datasets here:
-    const updatedData = this.state.datasets.filter(
-      d => d.UUID !== dataset.UUID
-    );
-    const newDataSet = new Dataset(
-      dataset.surveyID,
-      dataset.UUID,
-      name,
-      answers
-    );
-    updatedData.push(newDataSet);
-    this.setState({ datasets: updatedData, page: "main" });
+    if (!dataset) {
+      //used by the cancel button to return to main menu with no changes
+      this.setState({ page: "main" });
+    } else {
+      //If the dataset has been edited and updated, the old one will be removed from datasets here:
+      const updatedData = this.state.datasets.filter(
+        d => d.UUID !== dataset.UUID
+      );
+      const newDataSet = new Dataset(
+        dataset.surveyID,
+        dataset.UUID,
+        name,
+        answers
+      );
+      updatedData.push(newDataSet);
+      this.setState({ datasets: updatedData, page: "main" });
+    }
   }
 }
 

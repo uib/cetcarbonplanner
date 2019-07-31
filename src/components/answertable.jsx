@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Table, Badge } from "react-bootstrap";
+import EditButton from "./EditButton";
 
 class AnswerTable extends Component {
   constructor() {
@@ -34,11 +35,11 @@ class AnswerTable extends Component {
           <td key={index + "-" + key}>{obj[key]}</td>
         ))}
         <td key={"del" + rowindex}>
-          <label onClick={this.handleDelete}>
-            <Badge pill variant="dark" id={rowindex}>
-              X
-            </Badge>
-          </label>
+          <EditButton
+            type="delete"
+            id={rowindex}
+            callback={this.handleDelete}
+          />
         </td>
       </tr>
     );

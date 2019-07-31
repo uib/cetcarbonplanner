@@ -144,6 +144,9 @@ class Question extends Component {
         >
           Submit
         </button>
+        <button className={style} onClick={this.props.cancel}>
+          Cancel
+        </button>
       </div>
     );
   }

@@ -9,6 +9,7 @@ class Survey extends Component {
     this.previousQuestion = this.previousQuestion.bind(this);
     this.returnToMain = this.returnToMain.bind(this);
     this.handleNameInput = this.handleNameInput.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
   render() {
     return this.state.nextQ >= this.props.surveydata.questions.length
@@ -24,6 +25,7 @@ class Survey extends Component {
     return (
       <Question
         //during edited survey, previous answers should be passed here
+        cancel={this.cancel}
         key={"Q" + this.state.nextQ + ":" + this.props.dataset.UUID}
         q={this.props.surveydata.questions[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
@@ -58,6 +60,10 @@ class Survey extends Component {
     );
   }
 
+  cancel() {
+    this.props.reportAnswers(); //called with no parameters will cause nothing to be saved
+  }
+
   handleNameInput(event) {
     this.setState({ name: event.target.value });
   }
@@ -72,6 +78,9 @@ class Survey extends Component {
         </form>
         <button className={style} onClick={this.returnToMain}>
           Save trip
+        </button>
+        <button className={style} onClick={this.cancel}>
+          Cancel
         </button>
       </React.Fragment>
     );
