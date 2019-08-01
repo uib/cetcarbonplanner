@@ -3,6 +3,7 @@ import CarbonModel from "./carbonmodel";
 class SurveyData {
   constructor() {
     this.model = new CarbonModel();
+    this.id = "travelcarbon";
     this.questions = this.buildQuestions(this.model);
   }
   buildQuestions(model) {

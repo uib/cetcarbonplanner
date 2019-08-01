@@ -9,6 +9,7 @@ import View from "./components/View";
 
 class App extends Component {
   state = {
+    activeDataSet: undefined,
     datasets: [],
     surveydata: new SurveyData(),
     plot: "test",
@@ -19,6 +20,22 @@ class App extends Component {
     this.plot = this.plot.bind(this);
     this.receiveAnswersFromSurvey = this.receiveAnswersFromSurvey.bind(this);
     this.setPage = this.setPage.bind(this);
+    this.editDataset = this.editDataset.bind(this);
+    this.deleteDataset = this.deleteDataset.bind(this);
+  }
+
+  editDataset(index) {
+    this.setPage("edit", index);
+  }
+
+  deleteDataset(index) {
+    const newDataSet = [...this.state.datasets];
+    newDataSet.splice(index, 1);
+    const update = { datasets: newDataSet };
+    if (newDataSet.length === 0) {
+      update.page = "home";
+    }
+    this.setState(update);
   }
 
   render() {
@@ -42,8 +59,16 @@ class App extends Component {
     );
   }
 
-  setPage(navigateToPage) {
-    this.setState({ page: navigateToPage });
+  setPage(navigateToPage, datasetID) {
+    const paramObj = { page: navigateToPage };
+    if (navigateToPage === "register") {
+      paramObj.activeDataSet = new Dataset(this.state.surveydata.id);
+    } else if (navigateToPage === "edit") {
+      paramObj.activeDataSet = this.state.datasets[datasetID];
+    } else {
+      paramObj.activeDataSet = undefined;
+    }
+    this.setState(paramObj);
   }
 
   getPage() {
@@ -51,6 +76,8 @@ class App extends Component {
       case "home":
         return this.getHomePage();
       case "register":
+        return this.getRegisterPage();
+      case "edit":
         return this.getRegisterPage();
       case "view":
         return this.getViewPage();
@@ -71,20 +98,27 @@ class App extends Component {
 
   getViewPage() {
     return (
-      <View datasets={this.state.datasets} surveydata={this.state.surveydata} />
+      <View
+        datasets={this.state.datasets}
+        surveydata={this.state.surveydata}
+        editDataset={this.editDataset}
+        deleteDataset={this.deleteDataset}
+      />
     );
     //return the current datasets in list form
     //table should include plot and edit buttons
   }
 
-  getRegisterPage(editDataSet) {
-    const dataset = editDataSet ? editDataSet : new Dataset();
-    //The passed parameter is a dataset to be edited. If you're adding a new dataset, no parameter is passed.
+  getRegisterPage() {
     return (
       <Survey
         surveydata={this.state.surveydata}
-        datasetNumber={this.state.datasets.length + 1}
-        dataset={dataset}
+        defaultName={
+          this.state.page === "edit"
+            ? this.state.activeDataSet.name
+            : "Trip " + (this.state.datasets.length + 1)
+        }
+        dataset={this.state.activeDataSet}
         reportAnswers={this.receiveAnswersFromSurvey}
         navigate={this.setPage}
         plotFunction={this.plot}

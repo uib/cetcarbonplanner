@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
-import carbonmodel from "./carbonmodel";
 
 class Question extends Component {
   state = { quantity: 1, selected: null, answerlist: [] };

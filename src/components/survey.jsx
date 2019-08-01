@@ -30,12 +30,14 @@ class Survey extends Component {
         q={this.props.surveydata.questions[this.state.nextQ]}
         reportAnswerToSurvey={this.receiveAnswerFromQuestion}
         previousQuestion={this.previousQuestion}
-        previousAnswer={this.state.answers[this.state.nextQ]}
+        previousAnswer={
+          this.state.answers[this.state.nextQ] ||
+          this.props.dataset.answers[this.state.nextQ]
+        }
         isLastQ={
           this.state.nextQ === this.props.surveydata.questions.length - 1
         }
         isFirstQ={this.state.nextQ === 0}
-        datasetNumber={this.props.datasetNumber}
         plotFunction={this.props.plotFunction}
       />
     );
@@ -48,14 +50,10 @@ class Survey extends Component {
     this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
   }
 
-  defaultName() {
-    return "Trip " + this.props.datasetNumber;
-  }
-
   returnToMain() {
     this.props.reportAnswers(
       this.props.dataset,
-      this.state.name === "" ? this.defaultName() : this.state.name,
+      this.state.name === "" ? this.props.defaultName : this.state.name,
       this.state.answers
     );
   }
@@ -74,7 +72,7 @@ class Survey extends Component {
       <React.Fragment>
         Enter a name for this trip (optional):
         <form onSubmit={this.returnToMain} onChange={this.handleNameInput}>
-          <input type="text" name="name" placeholder={this.defaultName()} />
+          <input type="text" name="name" placeholder={this.props.defaultName} />
         </form>
         <button className={style} onClick={this.returnToMain}>
           Save trip

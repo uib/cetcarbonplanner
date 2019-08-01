@@ -5,7 +5,8 @@ import EditButton from "./EditButton";
 class View extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.editClick = this.editClick.bind(this);
+    this.deleteClick = this.deleteClick.bind(this);
   }
 
   render() {
@@ -32,27 +33,26 @@ class View extends Component {
     );
   }
 
+  editClick(event) {
+    this.props.editDataset(event.target.id);
+  }
+
+  deleteClick(event) {
+    const id = event.target.id;
+    if (window.confirm("Delete " + this.props.datasets[id].name + "?")) {
+      this.props.deleteDataset(id);
+    }
+  }
+
   buildRow(keys, obj, rowindex) {
     return (
       <tr key={"row" + rowindex}>
         <td key={rowindex + "-" + keys[0]}>{obj["name"]}</td>
         <td key={rowindex + "-" + keys[1]}>
-          <EditButton
-            type="edit"
-            id={rowindex}
-            callback={() => {
-              console.log("test success");
-            }}
-          />
+          <EditButton type="edit" id={rowindex} onclick={this.editClick} />
         </td>
         <td key={rowindex + "-" + keys[2]}>
-          <EditButton
-            type="delete"
-            id={rowindex}
-            callback={() => {
-              console.log("test success");
-            }}
-          />
+          <EditButton type="delete" id={rowindex} onclick={this.deleteClick} />
         </td>
       </tr>
     );

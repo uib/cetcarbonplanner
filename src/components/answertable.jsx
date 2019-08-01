@@ -35,11 +35,7 @@ class AnswerTable extends Component {
           <td key={index + "-" + key}>{obj[key]}</td>
         ))}
         <td key={"del" + rowindex}>
-          <EditButton
-            type="delete"
-            id={rowindex}
-            callback={this.handleDelete}
-          />
+          <EditButton type="delete" id={rowindex} onclick={this.handleDelete} />
         </td>
       </tr>
     );
