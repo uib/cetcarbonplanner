@@ -6,22 +6,31 @@ import NavBar from "./components/navbar";
 import SurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
 import View from "./components/View";
+import { getStorage, updateStorage } from "./Storage";
 
 class App extends Component {
-  state = {
-    activeDataSet: undefined,
-    datasets: [],
-    surveydata: new SurveyData(),
-    plot: "test",
-    page: "home"
-  };
   constructor() {
     super();
+    this.state = {
+      activeDataSet: undefined,
+      datasets: getStorage(),
+      surveydata: new SurveyData(),
+      plot: "test",
+      page: "home"
+    };
     this.plot = this.plot.bind(this);
     this.receiveAnswersFromSurvey = this.receiveAnswersFromSurvey.bind(this);
     this.setPage = this.setPage.bind(this);
     this.editDataset = this.editDataset.bind(this);
     this.deleteDataset = this.deleteDataset.bind(this);
+  }
+
+  /*To make sure datasets are saved to local storage, use this function
+  to update datasets, instead of calling this.setState directly. Include any other
+  required updates in the updateObject */
+  updateDataSets(updateObject) {
+    updateStorage(updateObject.datasets);
+    this.setState(updateObject);
   }
 
   editDataset(index) {
@@ -35,7 +44,7 @@ class App extends Component {
     if (newDataSet.length === 0) {
       update.page = "home";
     }
-    this.setState(update);
+    this.updateDataSets(update);
   }
 
   render() {
@@ -151,7 +160,7 @@ class App extends Component {
         answers
       );
       updatedData.push(newDataSet);
-      this.setState({ datasets: updatedData, page: "main" });
+      this.updateDataSets({ datasets: updatedData, page: "main" });
     }
   }
 }
