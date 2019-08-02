@@ -10,7 +10,20 @@ import {
 
 class Plot extends Component {
   render() {
-    return <React.Fragment>{this.props.plot}</React.Fragment>;
+    if (Array.isArray(this.props.data)) {
+      return this.plot(this.createPlottableArray(this.props.data));
+    } else {
+      return "test";
+    }
+  }
+
+  createPlottableArray(obj) {
+    const keys = Object.keys(obj);
+    const plotArray = [];
+    for (const mode in keys) {
+      plotArray.push({ x: mode, y: obj[mode] });
+    }
+    return plotArray;
   }
 
   /*

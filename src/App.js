@@ -60,7 +60,9 @@ class App extends Component {
               {this.getPage()}
             </Col>
             <Col className="border border-secondary">
-              <Plot plot={this.state.plot} />
+              <Plot
+                data={this.state.datasets[this.state.plot].answers.slice(-1)}
+              />
             </Col>
           </Row>
         </Container>
@@ -97,8 +99,8 @@ class App extends Component {
     }
   }
 
-  plot(plotReference) {
-    this.setState({ plot: plotReference });
+  plotDataset(ID) {
+    this.setState({ plot: ID });
   }
 
   getDataPage() {
@@ -112,6 +114,7 @@ class App extends Component {
         surveydata={this.state.surveydata}
         editDataset={this.editDataset}
         deleteDataset={this.deleteDataset}
+        plotDataset={this.plotDataset}
       />
     );
     //return the current datasets in list form

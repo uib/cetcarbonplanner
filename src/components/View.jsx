@@ -14,7 +14,12 @@ class View extends Component {
       <React.Fragment>
         This is the View page, the dataset is {this.props.datasets.length} long.
         <Table striped bordered hover>
-          {this.buildTable(this.props.datasets, ["Name", "Edit", "Delete"])}
+          {this.buildTable(this.props.datasets, [
+            "Name",
+            "Edit",
+            "Delete",
+            "Plot"
+          ])}
         </Table>
       </React.Fragment>
     );
@@ -44,6 +49,10 @@ class View extends Component {
     }
   }
 
+  plotClick(event) {
+    this.props.plotDataset(event.target.id);
+  }
+
   buildRow(keys, obj, rowindex) {
     return (
       <tr key={"row" + rowindex}>
@@ -53,6 +62,9 @@ class View extends Component {
         </td>
         <td key={rowindex + "-" + keys[2]}>
           <EditButton type="delete" id={rowindex} onclick={this.deleteClick} />
+        </td>
+        <td key={rowindex + "-" + keys[3]}>
+          <EditButton type="plot" id={rowindex} onclick={this.plotClick} />
         </td>
       </tr>
     );

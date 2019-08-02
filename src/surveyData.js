@@ -6,6 +6,7 @@ class SurveyData {
     this.id = "travelcarbon";
     this.questions = this.buildQuestions(this.model);
   }
+
   buildQuestions(model) {
     const list = [];
     list.push(surveyQuestion("Was it important?"));
