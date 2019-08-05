@@ -46,7 +46,6 @@ class Survey extends Component {
   receiveAnswerFromQuestion(answer) {
     const updatedAnswers = [...this.state.answers];
     updatedAnswers[this.state.nextQ] = answer;
-    this.props.plotFunction("test " + this.state.nextQ);
     this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
   }
 

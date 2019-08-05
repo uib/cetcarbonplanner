@@ -18,7 +18,7 @@ class App extends Component {
       plot: "test",
       page: "home"
     };
-    this.plot = this.plot.bind(this);
+    this.plotDataset = this.plotDataset.bind(this);
     this.receiveAnswersFromSurvey = this.receiveAnswersFromSurvey.bind(this);
     this.setPage = this.setPage.bind(this);
     this.editDataset = this.editDataset.bind(this);
@@ -48,6 +48,17 @@ class App extends Component {
   }
 
   render() {
+    const plotthis =
+      this.state.plot < this.state.datasets.length
+        ? this.state.surveydata.model.sumPerMode(
+            this.state.datasets[this.state.plot].answers.slice(-1).pop()
+          )
+        : "test";
+    console.log(
+      this.state.plot < this.state.datasets.length
+        ? this.state.datasets[this.state.plot].answers.slice(-1).pop()
+        : "test"
+    );
     return (
       <React.Fragment>
         <Container className="border border-primary">
@@ -60,9 +71,7 @@ class App extends Component {
               {this.getPage()}
             </Col>
             <Col className="border border-secondary">
-              <Plot
-                data={this.state.datasets[this.state.plot].answers.slice(-1)}
-              />
+              <Plot data={plotthis} />
             </Col>
           </Row>
         </Container>

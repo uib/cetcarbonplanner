@@ -10,17 +10,17 @@ import {
 
 class Plot extends Component {
   render() {
-    if (Array.isArray(this.props.data)) {
-      return this.plot(this.createPlottableArray(this.props.data));
-    } else {
+    if (this.props.data === "test") {
       return "test";
+    } else {
+      return this.plot(this.createPlottableArray(this.props.data));
     }
   }
 
   createPlottableArray(obj) {
     const keys = Object.keys(obj);
     const plotArray = [];
-    for (const mode in keys) {
+    for (const mode of keys) {
       plotArray.push({ x: mode, y: obj[mode] });
     }
     return plotArray;

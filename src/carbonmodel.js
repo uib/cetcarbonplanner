@@ -10,11 +10,13 @@ class CarbonModel {
   sumPerMode(obj) {
     const returnObj = {};
     const dataList = Array.isArray(obj) ? obj : [obj];
-    for (obj of dataList) {
-      if (returnObj.hasOwnProperty(obj.mode)) {
-        returnObj[obj.mode] += obj.amount * this.model[obj.mode];
+    for (const datapoint of dataList) {
+      if (returnObj.hasOwnProperty(datapoint.mode)) {
+        returnObj[datapoint.mode] +=
+          datapoint.amount * this.model[datapoint.mode];
       } else {
-        returnObj[obj.mode] = obj.amount * this.model[obj.mode];
+        returnObj[datapoint.mode] =
+          datapoint.amount * this.model[datapoint.mode];
       }
     }
     return returnObj;

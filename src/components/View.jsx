@@ -7,12 +7,12 @@ class View extends Component {
     super(props);
     this.editClick = this.editClick.bind(this);
     this.deleteClick = this.deleteClick.bind(this);
+    this.plotClick = this.plotClick.bind(this);
   }
 
   render() {
     return (
       <React.Fragment>
-        This is the View page, the dataset is {this.props.datasets.length} long.
         <Table striped bordered hover>
           {this.buildTable(this.props.datasets, [
             "Name",
