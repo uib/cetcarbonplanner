@@ -7,13 +7,11 @@ class SurveyData {
     this.questions = this.buildQuestions(this.model);
   }
 
-  questionConfig(type) {}
-
   buildQuestions(model) {
     const list = [];
     list.push(nameQuestion("Enter name of trip"));
     list.push(
-      selectorQuestion("Type of meeting", [
+      selectQuestion("Type of meeting", [
         "Field work / Data collection",
         "Project meeting",
         "Meeting with funders",
@@ -22,10 +20,10 @@ class SurveyData {
         "Other"
       ])
     );
-    list.push(selectorQuestion("Multipurpose trip?"));
-    list.push(inputQuestion("Duration of meeting", "Hours"));
+    list.push(selectQuestion("Multipurpose trip?"));
+    list.push(quantityQuestion("Duration of meeting", "Hours"));
     list.push(
-      selectorQuestion("Importance", [
+      selectQuestion("Importance", [
         "Essential",
         "Very important",
         "Somewhat important",
@@ -33,7 +31,7 @@ class SurveyData {
       ])
     );
     list.push(
-      selectorQuestion(
+      quantitySelectQuestion(
         "Please enter type and duration of each part of the trip.",
         model.alternatives,
         model.quantifier
@@ -43,38 +41,36 @@ class SurveyData {
   }
 }
 
-function nameQuestion(questionText) {
-  return { input: true, name: true, text: questionText };
-}
-
-function inputQuestion(questionText, isNameQuestion, quantifier) {
-  /**Generates a question meant for the user to type input. If quantifier is not present, a freetext input is assumed. */
-  return {
-    input: true,
-    text: questionText,
-    quantifier: quantifier ? quantifier : false
-  };
-}
-
-function selectorQuestion(questionText, alternatives, quantifier) {
-  /*
-  Question Text: A string with the question asked by the survey.
-  Alternatives: If null, "yes/no" will be generated. Otherwise, contains the list of alternatives
-                used in the radio select menu by both types of questions.
-  Quantifier: If null, the question is not a list-type data entry. If not null, it is. 
-              A string with the type of quantity used by list questions, such as kilometers or hours. 
-  */
-  const obj = { input: false };
-  obj.text = questionText;
-  obj.alternatives = alternatives ? alternatives : ["Yes", "No"];
+function questionObject(type, text, alternatives, quantifier) {
+  const obj = { type: type, text: text };
+  if (alternatives) {
+    obj.alternatives = alternatives;
+  }
   if (quantifier) {
     obj.quantifier = quantifier;
-    obj.list = true;
-  } else {
-    obj.list = false;
   }
   return obj;
 }
 
-//TODO error on matching IDs
+function nameQuestion(questionText) {
+  return questionObject("name", questionText, false, false);
+}
+
+function quantitySelectQuestion(questionText, alternatives, quantifier) {
+  return questionObject(
+    "quantityselect",
+    questionText,
+    alternatives,
+    quantifier
+  );
+}
+
+function quantityQuestion(questionText, quantifier) {
+  return questionObject("quantity", questionText, false, quantifier);
+}
+
+function selectQuestion(questionText, alternatives) {
+  return questionObject("select", questionText, alternatives, false);
+}
+
 export default SurveyData;

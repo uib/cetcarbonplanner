@@ -46,33 +46,37 @@ class Question extends Component {
     );
   }
 
-  getAlternativesList() {
-    return (
-      <form>
-        <div className="form-check">
-          {this.props.q.alternatives.map(a => (
-            <div key={a}>
-              <label className="form-check-label">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  value={a}
-                  checked={this.state.answer === a}
-                  onChange={this.radioSelect}
-                />
-                {a}
-              </label>
-            </div>
-          ))}
-        </div>
-      </form>
-    );
+  getRadioSelectList() {
+    if (this.props.q.quantifier) {
+      return "";
+    } else {
+      return (
+        <form>
+          <div className="form-check">
+            {this.props.q.alternatives.map(a => (
+              <div key={a}>
+                <label className="form-check-label">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    value={a}
+                    checked={this.state.answer === a}
+                    onChange={this.radioSelect}
+                  />
+                  {a}
+                </label>
+              </div>
+            ))}
+          </div>
+        </form>
+      );
+    }
   }
 
   render() {
     const { q } = this.props;
     const answerInput = q.alternatives
-      ? this.getAlternativesList()
+      ? this.getRadioSelectList()
       : this.getInputForm();
     return (
       <React.Fragment>
@@ -99,7 +103,6 @@ class Question extends Component {
   }
 
   handleTextInput(event) {
-    console.log("ran this");
     this.setState({ answer: event.target.value });
   }
 
