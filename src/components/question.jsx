@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./answertable";
 
 class Question extends Component {
-  state = { quantity: 1, selected: null, answerlist: [] };
+  state = { quantity: 1, answer: "", answerlist: [] };
   constructor() {
     super();
     this.changeHours = this.changeAmount.bind(this);
@@ -11,14 +11,18 @@ class Question extends Component {
     this.radioSelect = this.radioSelect.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
     this.deleteFromAnswerList = this.deleteFromAnswerList.bind(this);
+    this.handleTextInput = this.handleTextInput.bind(this);
   }
 
   componentDidMount() {
+    console.log(this.state.answer);
     if (this.props.previousAnswer !== undefined) {
       if (this.props.q.list) {
         this.setState({ answerlist: this.props.previousAnswer });
+      } else if (this.props.q.quantifier) {
+        this.setState({ quantity: this.props.previousAnswer });
       } else {
-        this.setState({ selected: this.props.previousAnswer });
+        this.setState({ answer: this.props.previousAnswer });
       }
     }
   }
@@ -29,45 +33,55 @@ class Question extends Component {
     this.setState({ answerlist: newAnswerList });
   }
 
-  getTitleQuestion() {
+  getInputForm() {
     return (
       <React.Fragment>
-        <div>Please enter a name for this trip:</div>
         <input
           type="text"
           value={this.state.value}
-          onChange={this.handleChange}
+          onChange={this.handleTextInput}
+          //placeholder={this.props.q.name && this.props.defaultName}
         />
       </React.Fragment>
     );
   }
 
+  getAlternativesList() {
+    return (
+      <form>
+        <div className="form-check">
+          {this.props.q.alternatives.map(a => (
+            <div key={a}>
+              <label className="form-check-label">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  value={a}
+                  checked={this.state.answer === a}
+                  onChange={this.radioSelect}
+                />
+                {a}
+              </label>
+            </div>
+          ))}
+        </div>
+      </form>
+    );
+  }
+
   render() {
     const { q } = this.props;
-    const alternatives = q.alternatives.map(a => (
-      <div key={a}>
-        <label className="form-check-label">
-          <input
-            className="form-check-input"
-            type="radio"
-            value={a}
-            checked={this.state.selected === a}
-            onChange={this.radioSelect}
-          />
-          {a}
-        </label>
-      </div>
-    ));
+    const answerInput = q.alternatives
+      ? this.getAlternativesList()
+      : this.getInputForm();
     return (
       <React.Fragment>
         <Container>
           <Row>
             <Col xs={7}>
               <p>{q.text}</p>
-              <form>
-                <div className="form-check">{alternatives}</div>
-              </form>
-              {q.list && this.quantityButtons()}
+              {answerInput}
+              {q.quantifier && this.quantityButtons()}
               {this.buttonRow()}
             </Col>
             <Col>
@@ -84,9 +98,14 @@ class Question extends Component {
     );
   }
 
+  handleTextInput(event) {
+    console.log("ran this");
+    this.setState({ answer: event.target.value });
+  }
+
   radioSelect(event) {
     event.persist();
-    this.setState({ selected: event.target.value });
+    this.setState({ answer: event.target.value });
   }
 
   saveListDataPoint() {
@@ -98,11 +117,13 @@ class Question extends Component {
   getAnswerObject() {
     //used for tuple objects such as (transport mode,transport hours)
     if (this.props.q.list) {
-      let mode = this.state.selected;
+      let mode = this.state.answer;
       let amount = this.state.quantity;
       return { mode, amount };
+    } else if (this.props.q.quantifier) {
+      return this.state.quantity;
     } else {
-      return this.state.selected;
+      return this.state.answer;
     }
   }
 
@@ -123,7 +144,7 @@ class Question extends Component {
           <button
             className={style}
             onClick={this.saveListDataPoint}
-            disabled={!this.state.selected}
+            disabled={!this.state.answer}
           >
             Add
           </button>
@@ -135,10 +156,14 @@ class Question extends Component {
           disabled={
             /*Submit button should be disabled on a list question if no
             answerlist have been added yet. On a regular question it should be disabled if
-            nothing is selected.
+            nothing is selected, but on a simple quantity question it is enabled all the time, as the default answer is valid.
             */
-            (this.props.q.list && this.state.answerlist.length === 0) ||
-            (!this.props.q.list && !this.state.selected)
+            !//negate sign used here to make parameters more sensible, since the value true leads to a disabled button.
+            (
+              (this.props.q.quantifier && !this.props.q.list) ||
+              (this.props.q.list && this.state.answerlist.length > 0) ||
+              (!this.props.q.list && this.state.answer.length > 0)
+            )
           }
         >
           Submit
@@ -153,9 +178,9 @@ class Question extends Component {
   submitAnswer() {
     const answer = this.props.q.list
       ? this.state.answerlist
-      : this.state.selected;
-    this.setState({ selected: null, answerlist: [], isEditing: false });
-    this.props.reportAnswerToSurvey(answer);
+      : this.state.answer;
+    this.setState({ answer: null, answerlist: [] });
+    this.props.reportAnswerToSurvey(answer, this.props.q.name);
   }
 
   quantityButtons() {
@@ -163,7 +188,7 @@ class Question extends Component {
     const quantity = this.state.quantity;
     return (
       <div>
-        Travel time ({this.props.q.quantifier}):
+        {this.props.q.quantifier}:
         <br />
         <button className={style} onClick={this.decrease}>
           -

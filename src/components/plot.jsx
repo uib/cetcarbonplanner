@@ -26,11 +26,6 @@ class Plot extends Component {
     return plotArray;
   }
 
-  /*
-  render() {
-    return <React.Fragment>{this.plot(this.props.data)}</React.Fragment>;
-  }
-*/
   plot(data) {
     if (!data) {
       return "No data";

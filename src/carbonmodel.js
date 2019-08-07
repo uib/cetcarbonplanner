@@ -1,7 +1,7 @@
 class CarbonModel {
   constructor() {
     this.model = carbonvalues();
-    this.quantifier = "hours";
+    this.quantifier = "Hours";
     //TODO: create single-source-of-truth for key/value naming in data objects.
     this.alternatives = Object.keys(this.model);
   }

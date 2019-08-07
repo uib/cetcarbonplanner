@@ -48,17 +48,6 @@ class App extends Component {
   }
 
   render() {
-    const plotthis =
-      this.state.plot < this.state.datasets.length
-        ? this.state.surveydata.model.sumPerMode(
-            this.state.datasets[this.state.plot].answers.slice(-1).pop()
-          )
-        : "test";
-    console.log(
-      this.state.plot < this.state.datasets.length
-        ? this.state.datasets[this.state.plot].answers.slice(-1).pop()
-        : "test"
-    );
     return (
       <React.Fragment>
         <Container className="border border-primary">
@@ -71,7 +60,17 @@ class App extends Component {
               {this.getPage()}
             </Col>
             <Col className="border border-secondary">
-              <Plot data={plotthis} />
+              <Plot
+                data={
+                  this.state.plot < this.state.datasets.length
+                    ? this.state.surveydata.model.sumPerMode(
+                        this.state.datasets[this.state.plot].answers
+                          .slice(-1)
+                          .pop()
+                      )
+                    : "test"
+                }
+              />
             </Col>
           </Row>
         </Container>
@@ -162,6 +161,7 @@ class App extends Component {
       this.setState({ page: "main" });
     } else {
       //If the dataset has been edited and updated, the old one will be removed from datasets here:
+      console.log(this.state.datasets);
       const updatedData = this.state.datasets.filter(
         d => d.UUID !== dataset.UUID
       );

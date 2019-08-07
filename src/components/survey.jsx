@@ -8,12 +8,11 @@ class Survey extends Component {
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
     this.previousQuestion = this.previousQuestion.bind(this);
     this.returnToMain = this.returnToMain.bind(this);
-    this.handleNameInput = this.handleNameInput.bind(this);
     this.cancel = this.cancel.bind(this);
   }
   render() {
     return this.state.nextQ >= this.props.surveydata.questions.length
-      ? this.reportComplete()
+      ? this.surveyComplete()
       : this.getQuestion();
   }
 
@@ -39,14 +38,19 @@ class Survey extends Component {
         }
         isFirstQ={this.state.nextQ === 0}
         plotFunction={this.props.plotFunction}
+        defaultName={this.props.defaultName}
       />
     );
   }
 
-  receiveAnswerFromQuestion(answer) {
+  receiveAnswerFromQuestion(answer, isNameQuestion) {
     const updatedAnswers = [...this.state.answers];
     updatedAnswers[this.state.nextQ] = answer;
-    this.setState({ answers: updatedAnswers, nextQ: this.state.nextQ + 1 });
+    const answerObj = { answers: updatedAnswers, nextQ: this.state.nextQ + 1 };
+    if (isNameQuestion) {
+      answerObj.name = answer;
+    }
+    this.setState(answerObj);
   }
 
   returnToMain() {
@@ -61,18 +65,11 @@ class Survey extends Component {
     this.props.reportAnswers(); //called with no parameters will cause nothing to be saved
   }
 
-  handleNameInput(event) {
-    this.setState({ name: event.target.value });
-  }
-
-  reportComplete() {
+  surveyComplete() {
     const style = "btn btn-outline-primary ";
     return (
       <React.Fragment>
-        Enter a name for this trip (optional):
-        <form onSubmit={this.returnToMain} onChange={this.handleNameInput}>
-          <input type="text" name="name" placeholder={this.props.defaultName} />
-        </form>
+        Trip summary: CO2 such and such.
         <button className={style} onClick={this.returnToMain}>
           Save trip
         </button>
