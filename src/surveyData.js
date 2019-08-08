@@ -1,13 +1,20 @@
 import CarbonModel from "./carbonmodel";
 
 class SurveyData {
-  constructor() {
+  constructor(parameter) {
     this.model = new CarbonModel();
-    this.id = "travelcarbon";
-    this.questions = this.buildQuestions(this.model);
+    this.id = parameter;
+    this.questions =
+      parameter === "travelcarbon"
+        ? this.buildTripQuestions(this.model)
+        : this.buildMeetingQuestions;
   }
 
-  buildQuestions(model) {
+  buildMeetingQuestions(model) {
+    return "";
+  }
+
+  buildTripQuestions(model) {
     const list = [];
     list.push(nameQuestion("Enter name of trip"));
     list.push(
@@ -69,7 +76,7 @@ function quantityQuestion(questionText, quantifier) {
   return questionObject("quantity", questionText, false, quantifier);
 }
 
-function selectQuestion(questionText, alternatives) {
+function selectQuestion(questionText, alternatives = ["Yes", "No"]) {
   return questionObject("select", questionText, alternatives, false);
 }
 

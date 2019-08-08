@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       activeDataSet: undefined,
       datasets: getStorage(),
-      surveydata: new SurveyData(),
+      surveydata: new SurveyData("travelcarbon"),
       plot: "test",
       page: "home"
     };
@@ -161,7 +161,6 @@ class App extends Component {
       this.setState({ page: "main" });
     } else {
       //If the dataset has been edited and updated, the old one will be removed from datasets here:
-      console.log(this.state.datasets);
       const updatedData = this.state.datasets.filter(
         d => d.UUID !== dataset.UUID
       );

@@ -43,11 +43,11 @@ class Survey extends Component {
     );
   }
 
-  receiveAnswerFromQuestion(answer, isNameQuestion) {
+  receiveAnswerFromQuestion(answer, type) {
     const updatedAnswers = [...this.state.answers];
     updatedAnswers[this.state.nextQ] = answer;
     const answerObj = { answers: updatedAnswers, nextQ: this.state.nextQ + 1 };
-    if (isNameQuestion) {
+    if (type === "name") {
       answerObj.name = answer;
     }
     this.setState(answerObj);
@@ -56,7 +56,7 @@ class Survey extends Component {
   returnToMain() {
     this.props.reportAnswers(
       this.props.dataset,
-      this.state.name === "" ? this.props.defaultName : this.state.name,
+      this.state.name,
       this.state.answers
     );
   }
