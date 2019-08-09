@@ -167,7 +167,7 @@ class Question extends Component {
             )
           }
         >
-          Submit
+          Next
         </button>
         <button className={style} onClick={this.props.cancel}>
           Cancel

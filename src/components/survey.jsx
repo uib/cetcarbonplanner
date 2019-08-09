@@ -10,6 +10,7 @@ class Survey extends Component {
     this.returnToMain = this.returnToMain.bind(this);
     this.cancel = this.cancel.bind(this);
   }
+
   render() {
     return this.state.nextQ >= this.props.surveydata.questions.length
       ? this.surveyComplete()
@@ -48,7 +49,7 @@ class Survey extends Component {
     updatedAnswers[this.state.nextQ] = answer;
     const answerObj = { answers: updatedAnswers, nextQ: this.state.nextQ + 1 };
     if (type === "name") {
-      answerObj.name = answer;
+      answerObj.name = answer === "" ? this.props.defaultName : answer;
     }
     this.setState(answerObj);
   }
@@ -66,6 +67,7 @@ class Survey extends Component {
   }
 
   surveyComplete() {
+    console.log(this.props.dataset.type, this.state.answers.slice(-1));
     const style = "btn btn-outline-primary ";
     return (
       <React.Fragment>

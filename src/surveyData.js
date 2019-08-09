@@ -4,21 +4,49 @@ class SurveyData {
   constructor(parameter) {
     this.model = new CarbonModel();
     this.id = parameter;
-    this.questions =
-      parameter === "travelcarbon"
-        ? this.buildTripQuestions(this.model)
-        : this.buildMeetingQuestions;
+    this.questions = this.buildTripQuestions(this.model);
   }
 
   buildMeetingQuestions(model) {
-    return "";
+    const list = [];
+    list.push(nameQuestion("Name of meeting"));
+    list.push(selectQuestion("Type of meeting"), [
+      "Project meeting / workshop",
+      "Conference / symposium (national)",
+      "Conference / symposium (international)",
+      "Other"
+    ]);
+    list.push(quantityQuestion("Number of participants", "Participants"));
+    list.push(quantityQuestion("Duration of meeting", "Hours"));
+    list.push(selectQuestion("Video offered?"));
+    list.push(
+      selectQuestion("Importance", [
+        "Essential",
+        "Very important",
+        "Somewhat important",
+        "Less important"
+      ])
+    );
+    list.push(
+      quantitySelectQuestion(
+        "Please enter number and travel distance for flying participants.",
+        [
+          "Short distance <45 min x2",
+          "Scandinavia 45 min - 2 hrs x2",
+          "Europe 2-4 hrs x2",
+          "Rest of world 4-12 hrs x2"
+        ],
+        "Participants"
+      )
+    );
+    return list;
   }
 
   buildTripQuestions(model) {
     const list = [];
     list.push(nameQuestion("Enter name of trip"));
-    list.push(
-      selectQuestion("Type of meeting", [
+    /*list.push(
+      selectQuestion("Purpose of trip", [
         "Field work / Data collection",
         "Project meeting",
         "Meeting with funders",
@@ -26,9 +54,23 @@ class SurveyData {
         "Conference/meeting/course - not presenting",
         "Other"
       ])
+    );*/
+    list.push(
+      quantitySelectQuestion(
+        "Purpose(s) of trip",
+        [
+          "Field work / Data collection",
+          "Project meeting",
+          "Meeting with funders",
+          "Conference/meeting/course - presenting",
+          "Conference/meeting/course - not presenting",
+          "Other"
+        ],
+        "Duration of activity (hours)"
+      )
     );
-    list.push(selectQuestion("Multipurpose trip?"));
-    list.push(quantityQuestion("Duration of meeting", "Hours"));
+    list.push(selectQuestion("Video offered?"));
+    /*list.push(quantityQuestion("Duration of meeting", "Hours"));*/
     list.push(
       selectQuestion("Importance", [
         "Essential",
@@ -57,6 +99,10 @@ function questionObject(type, text, alternatives, quantifier) {
     obj.quantifier = quantifier;
   }
   return obj;
+}
+
+function entryQuestion(questionText) {
+  return questionObject("input", questionText, false, false);
 }
 
 function nameQuestion(questionText) {

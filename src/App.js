@@ -14,9 +14,11 @@ class App extends Component {
     this.state = {
       activeDataSet: undefined,
       datasets: getStorage(),
-      surveydata: new SurveyData("travelcarbon"),
-      plot: "test",
-      page: "home"
+      surveydata: new SurveyData("trip"),
+      plot: { type: "text", data: "Hello" },
+      page: "home",
+      height: window.innerHeight * 0.6,
+      CETcolor: "4EBBDF"
     };
     this.plotDataset = this.plotDataset.bind(this);
     this.receiveAnswersFromSurvey = this.receiveAnswersFromSurvey.bind(this);
@@ -55,22 +57,12 @@ class App extends Component {
             navigate={this.setPage}
             datasetLength={this.state.datasets.length}
           />
-          <Row>
+          <Row style={{ minHeight: this.state.height }}>
             <Col sm={12} md={7} className="border border-secondary">
               {this.getPage()}
             </Col>
             <Col className="border border-secondary">
-              <Plot
-                data={
-                  this.state.plot < this.state.datasets.length
-                    ? this.state.surveydata.model.sumPerMode(
-                        this.state.datasets[this.state.plot].answers
-                          .slice(-1)
-                          .pop()
-                      )
-                    : "test"
-                }
-              />
+              <Plot plot={this.state.plot} />
             </Col>
           </Row>
         </Container>
@@ -79,11 +71,20 @@ class App extends Component {
   }
 
   setPage(navigateToPage, datasetID) {
-    const paramObj = { page: navigateToPage };
-    if (navigateToPage === "register") {
-      paramObj.activeDataSet = new Dataset(this.state.surveydata.id);
+    const paramObj = {
+      page:
+        navigateToPage === "trip" || navigateToPage === "meeting"
+          ? "register"
+          : navigateToPage
+    };
+    if (navigateToPage === "trip") {
+      const survey = new SurveyData("trip");
+      paramObj.surveydata = survey;
+      paramObj.activeDataSet = new Dataset("trip");
     } else if (navigateToPage === "edit") {
-      paramObj.activeDataSet = this.state.datasets[datasetID];
+      const dataset = this.state.datasets[datasetID];
+      paramObj.activeDataSet = dataset;
+      paramObj.surveydata = new SurveyData(dataset.surveyID);
     } else {
       paramObj.activeDataSet = undefined;
     }
@@ -141,7 +142,7 @@ class App extends Component {
         dataset={this.state.activeDataSet}
         reportAnswers={this.receiveAnswersFromSurvey}
         navigate={this.setPage}
-        plotFunction={this.plot}
+        plotFunction={this.plotDataset}
       />
     );
   }
