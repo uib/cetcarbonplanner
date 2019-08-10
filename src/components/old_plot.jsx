@@ -8,13 +8,59 @@ import {
   VerticalBarSeries
 } from "react-vis";
 
-class Plot extends Component {
+class Old_Plot extends Component {
   constructor() {
     super();
     this.modelcolors = this.illustrationPlot();
   }
   render() {
-    return this.illustrationPlot();
+    return this.getTest();
+  }
+
+  getDataSeries() {
+    const inputdata = {
+      "Car - electric": 5,
+      Train: 3,
+      Bus: 7,
+      "Car - other": 0,
+      "Plane - med./long": 0,
+      "Plane - short dist.": 8,
+      "Express boat": 0
+    };
+    const model = {
+      "Car - electric": 1.5,
+      Train: 3.1,
+      Bus: 3.9,
+      "Car - other": 5.6,
+      "Plane - med./long": 110.5,
+      "Plane - short dist.": 195.3,
+      "Express boat": 32.1
+    };
+    const keys = Object.keys(inputdata);
+    var returnString = "";
+    for (const key of keys) {
+      returnString += this.getDataLine(key, inputdata);
+    }
+    return <React.Component> {returnString}</React.Component>;
+  }
+
+  getColor(key) {
+    const colors = ["green", "blue", "red", "green", "blue", "brown", "black"];
+    return colors[key];
+  }
+  getDataLine(key, value) {
+    const outputdata = [
+      { x: "Car - electric", y: 0 },
+      { x: "Train", y: 0 },
+      { x: "Bus", y: 0 },
+      { x: "Car - other", y: 0 },
+      { x: "Plane - med./long", y: 0 },
+      { x: "Plane - short dist.", y: 0 },
+      { x: "Express boat", y: 0 }
+    ];
+    const obj = outputdata[key];
+    outputdata[key] = { x: obj.x, y: value };
+    return outputdata;
   }
 
   illustrationPlot() {
@@ -50,7 +96,44 @@ class Plot extends Component {
           <XAxis style={{ text: { fontSize: 9 } }} />
           <YAxis />
           <VerticalBarSeries
-            data={data}
+            key={1}
+            data={this.getDataLine(0, Math.random())}
+            labelsStyle={{ fontSize: 10 }}
+            animation
+          />
+          <VerticalBarSeries
+            key={2}
+            data={this.getDataLine(1, Math.random())}
+            labelsStyle={{ fontSize: 10 }}
+            animation
+          />
+          <VerticalBarSeries
+            key={3}
+            data={this.getDataLine(2, Math.random())}
+            labelsStyle={{ fontSize: 10 }}
+            animation
+          />
+          <VerticalBarSeries
+            key={4}
+            data={this.getDataLine(3, Math.random())}
+            labelsStyle={{ fontSize: 10 }}
+            animation
+          />
+          <VerticalBarSeries
+            key={5}
+            data={this.getDataLine(4, Math.random())}
+            labelsStyle={{ fontSize: 10 }}
+            animation
+          />
+          <VerticalBarSeries
+            key={6}
+            data={this.getDataLine(5, Math.random())}
+            labelsStyle={{ fontSize: 10 }}
+            animation
+          />
+          <VerticalBarSeries
+            key={7}
+            data={this.getDataLine(6, Math.random())}
             labelsStyle={{ fontSize: 10 }}
             animation
           />
@@ -119,4 +202,4 @@ class Plot extends Component {
   }
 }
 
-export default Plot;
+export default Old_Plot;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Survey from "./components/survey";
-import Plot from "./components/plot";
+import Plot from "./components/Chart";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/navbar";
 import SurveyData from "./surveyData";
