@@ -60,7 +60,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Container className="border border-primary">
+        <Container className="border border-primary rounded mb-0">
           <NavBar
             navigate={this.setPage}
             datasetLength={this.state.datasets.length}

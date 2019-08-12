@@ -94,10 +94,10 @@ class Plot extends Component {
       <React.Fragment>
         Emissions per mode of transport (kg CO2e / passenger / km)
         <FlexibleWidthXYPlot
-          height={500}
-          width={400}
+          height={600}
+          width={600}
           xType="ordinal"
-          margin={{ bottom: 50 }}
+          margin={{ left: 100, bottom: 50 }}
         >
           <VerticalGridLines />
           <HorizontalGridLines />
@@ -156,10 +156,10 @@ class Plot extends Component {
         labelsStyle={{
           fontSize: 9
         }}
-        height={300}
+        height={400}
         width={400}
         xType="ordinal"
-        margin={{ left: 20, bottom: 20 }}
+        margin={{ left: 50, bottom: 50 }}
       >
         <VerticalGridLines />
         <HorizontalGridLines />

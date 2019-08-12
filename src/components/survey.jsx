@@ -70,9 +70,9 @@ class Survey extends Component {
     const style = "btn btn-outline-primary ";
     return (
       <React.Fragment>
-        Trip summary: CO2 such and such.
+        <p>Click to save data. View CO2 charts on Summary page.</p>
         <button className={style} onClick={this.returnToMain}>
-          Save trip
+          Save data
         </button>
         <button className={style} onClick={this.cancel}>
           Cancel
