@@ -72,7 +72,14 @@ class App extends Component {
   }
 
   getPlot() {
-    return <Plot />;
+    if (this.state.page === "home") {
+      return <img src={emissiontargets} alt="" />;
+    } else if (this.state.page === "register") {
+      return <img src={chartpic} alt="" />;
+    } else {
+      return <Plot />;
+    }
+
     /*return (
       <div style={{ width: 400, height: 300 }}>
         <Chart />
@@ -87,7 +94,6 @@ class App extends Component {
   //<div style={{ width: 400, height: 300 }}><Chart /></div>
 
   setPage(navigateToPage, datasetID) {
-    console.log(navigateToPage);
     const paramObj = {
       page:
         navigateToPage === "trip" || navigateToPage === "meeting"
@@ -109,7 +115,6 @@ class App extends Component {
     } else {
       paramObj.activeDataSet = undefined;
     }
-    console.log(paramObj.activeDataSet);
     this.setState(paramObj);
   }
 
