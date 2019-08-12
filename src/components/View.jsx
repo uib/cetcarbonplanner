@@ -42,7 +42,7 @@ class View extends Component {
         </Button>
 
         <br />
-        <Table striped bordered hover>
+        <Table striped bordered hover size="sm">
           {this.buildTable(this.props.datasets, [
             "Name",
             "Edit",
@@ -68,11 +68,14 @@ class View extends Component {
   }
 
   buildRow(keys, obj, rowindex) {
+    const style = "text-center align-middle";
     if (obj.surveyID === this.state.type) {
       return (
         <tr key={"row" + rowindex}>
-          <td key={rowindex + "-" + keys[0]}>{obj["name"]}</td>
-          <td key={rowindex + "-" + keys[1]}>
+          <td key={rowindex + "-" + keys[0]} className={style}>
+            {obj["name"]}
+          </td>
+          <td key={rowindex + "-" + keys[1]} className={style}>
             <EditButton
               type="edit"
               id={rowindex}
@@ -80,7 +83,7 @@ class View extends Component {
               checked={true}
             />
           </td>
-          <td key={rowindex + "-" + keys[2]}>
+          <td key={rowindex + "-" + keys[2]} className={style}>
             <EditButton
               type="delete"
               id={rowindex}
@@ -88,7 +91,7 @@ class View extends Component {
               checked={true}
             />
           </td>
-          <td key={rowindex + "-" + keys[3]}>
+          <td key={rowindex + "-" + keys[3]} className={style}>
             <EditButton
               type="include"
               id={rowindex}
