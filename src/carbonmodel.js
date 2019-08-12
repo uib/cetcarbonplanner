@@ -2,7 +2,6 @@ class CarbonModel {
   constructor() {
     this.model = carbonvalues();
     this.quantifier = "Hours";
-    //TODO: create single-source-of-truth for key/value naming in data objects.
     this.alternatives = Object.keys(this.model);
   }
 
@@ -31,7 +30,7 @@ const carbonvalues = () => {
     Bus: 3.9,
     Car: 5.6,
     "Plane, regional": 110.5,
-    Plane: 195.3,
+    "Plane, international": 195.3,
     "Express boat": 32.1
   };
 };

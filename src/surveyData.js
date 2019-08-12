@@ -36,10 +36,10 @@ class SurveyData {
       quantitySelectQuestion(
         "Please enter number and travel distance for flying participants.",
         [
-          "Short distance <45 min x2",
-          "Scandinavia 45 min - 2 hrs x2",
-          "Europe 2-4 hrs x2",
-          "Rest of world 4-12 hrs x2"
+          "Short distance <45 min",
+          "Scandinavia 45 min - 2 hrs",
+          "Europe 2-4 hrs",
+          "Rest of world 4-12 hrs"
         ],
         "Participants"
       )

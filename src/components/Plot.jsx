@@ -9,11 +9,6 @@ import {
 } from "react-vis";
 
 class Plot extends Component {
-  constructor() {
-    super();
-    this.modelcolors = this.illustrationPlot();
-  }
-
   mapPlotLabels() {
     return {
       "Electric car": "EV",
@@ -21,7 +16,7 @@ class Plot extends Component {
       Bus: "Bus",
       Car: "Car",
       "Plane, regional": "Plane",
-      Plane: "Plane",
+      "Plane, international": "Plane",
       "Express boat": "Boat"
     };
   }
@@ -37,7 +32,27 @@ class Plot extends Component {
     ];
   }
 
-  calculateTotals(datalist) {
+  convertMeetingDatalist(datalist) {
+    const { model } = this.props.model;
+    const travelFactors = {
+      "Short distance <45 min": { factor: 1, mode: "Plane, regional" },
+      "Scandinavia 45 min - 2 hrs": { factor: 2, mode: "Plane, international" },
+      "Europe 2-4 hrs": { factor: 6, mode: "Plane, international" },
+      "Rest of world 4-12 hrs": { factor: 16, mode: "Plane, international" }
+    };
+    const newList = datalist.map(obj => ({
+      mode: travelFactors[obj.mode].mode,
+      quantity:
+        travelFactors[obj.mode].factor * model[travelFactors[obj.mode].mode]
+    }));
+    return newList;
+  }
+
+  calculateTotals(datalistParameter) {
+    const datalist =
+      this.props.type === "meeting"
+        ? this.convertMeetingDatalist(datalistParameter)
+        : datalistParameter;
     const plotObjects = this.getBaseObject();
     const plotLabels = this.mapPlotLabels();
     for (const dataObj of datalist) {
@@ -58,69 +73,14 @@ class Plot extends Component {
       const [plotObject, total] = this.calculateTotals(this.props.data);
       return (
         <div>
-          <center>{total} tons CO2e emitted.</center>
+          <center>{total.toFixed(2)} tons CO2e emitted.</center>
           <small>Kg CO2e</small> {this.getTest(plotObject)}
         </div>
       );
     } else return "no data";
   }
 
-  getDataSeries() {
-    const inputdata = {
-      "Car - electric": 5,
-      Train: 3,
-      Bus: 7,
-      "Car - other": 0,
-      "Plane - med./long": 0,
-      "Plane - short dist.": 8,
-      "Express boat": 0
-    };
-    const model = {
-      "Car - electric": 1.5,
-      Train: 3.1,
-      Bus: 3.9,
-      "Car - other": 5.6,
-      "Plane - med./long": 110.5,
-      "Plane - short dist.": 195.3,
-      "Express boat": 32.1
-    };
-    const keys = Object.keys(inputdata);
-    var returnString = "";
-    for (const key of keys) {
-      returnString += this.getDataLine(key, inputdata);
-    }
-    return <React.Component> {returnString}</React.Component>;
-  }
-
-  getColor(key) {
-    const colors = ["green", "blue", "red", "green", "blue", "brown", "black"];
-    return colors[key];
-  }
-  getDataLine(key, value) {
-    const outputdata = [
-      { x: "Car - electric", y: 0 },
-      { x: "Train", y: 0 },
-      { x: "Bus", y: 0 },
-      { x: "Car - other", y: 0 },
-      { x: "Plane - med./long", y: 0 },
-      { x: "Plane - short dist.", y: 0 },
-      { x: "Express boat", y: 0 }
-    ];
-    const obj = outputdata[key];
-    outputdata[key] = { x: obj.x, y: value };
-    return outputdata;
-  }
-
   illustrationPlot() {
-    const colors = {
-      "Car - electric": 1.5,
-      Train: 3.1,
-      Bus: 3.9,
-      "Car - other": 5.6,
-      "Plane - med./long": 110.5,
-      "Plane - short dist.": 195.3,
-      "Express boat": 32.1
-    };
     const data = [
       { x: "Car - electric", y: 0.026 },
       { x: "Train", y: 0.044 },
@@ -190,51 +150,7 @@ class Plot extends Component {
     );
   }
 
-  createPlottableArray(obj) {
-    const keys = Object.keys(obj);
-    const plotArray = [];
-    for (const mode of keys) {
-      plotArray.push({ x: mode, y: obj[mode] });
-    }
-    return plotArray;
-  }
-
-  plot(data) {
-    if (!data) {
-      return "No data";
-    }
-    return (
-      <FlexibleWidthXYPlot
-        height={300}
-        width={400}
-        xType="ordinal"
-        margin={{ bottom: 50 }}
-      >
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <XAxis />
-        <YAxis />
-        <VerticalBarSeries data={data} animation />
-      </FlexibleWidthXYPlot>
-    );
-  }
-
-  getPlot(plot) {
-    switch (plot) {
-      default:
-        return this.getTest();
-    }
-  }
-
   getTest(data) {
-    /*const data = [
-      { x: "EV", y: Math.random() },
-      { x: "Train", y: Math.random() },
-      { x: "Bus", y: Math.random() },
-      { x: "Car", y: Math.random() },
-      { x: "Plane", y: Math.random() },
-      { x: "Boat", y: Math.random() }
-    ];*/
     return (
       <FlexibleWidthXYPlot
         labelsStyle={{

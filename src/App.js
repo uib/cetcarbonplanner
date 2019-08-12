@@ -9,7 +9,6 @@ import View from "./components/View";
 import { getStorage, updateStorage } from "./Storage";
 import emissiontargets from "./emissiontargets.jpg";
 import chartpic from "./chart.jpg";
-import Chart from "./components/Chart";
 
 class App extends Component {
   constructor() {
@@ -76,24 +75,16 @@ class App extends Component {
       return <img src={emissiontargets} alt="" />;
     } else if (this.state.page === "register") {
       return <img src={chartpic} alt="" />;
-    } else {
+    } else if (this.state.plot && this.state.plot.length > 0) {
       return (
-        <Plot data={this.state.plot} model={this.state.surveydata.model} />
+        <Plot
+          data={this.state.plot}
+          model={this.state.surveydata.model}
+          type={this.state.plotType}
+        />
       );
     }
-
-    /*return (
-      <div style={{ width: 400, height: 300 }}>
-        <Chart />
-      </div>
-    );
-    if (this.state.page === "home") {
-      return <img src={emissiontargets} alt="" />;
-    } else {
-      return <img src={chartpic} alt="" />;
-    }*/
   }
-  //<div style={{ width: 400, height: 300 }}><Chart /></div>
 
   setPage(navigateToPage, datasetID) {
     const paramObj = {
@@ -141,9 +132,12 @@ class App extends Component {
     const plotList = this.state.datasets.filter(
       (dataset, index) => enabledList[index] && dataset.surveyID === type
     );
-    this.setState({
-      plot: plotList.flatMap(o => o.answers.slice(-1)).flatMap(l => l)
-    });
+    if (plotList.length > 0) {
+      this.setState({
+        plot: plotList.flatMap(o => o.answers.slice(-1)).flatMap(l => l),
+        plotType: type
+      });
+    }
   }
 
   getDataPage() {

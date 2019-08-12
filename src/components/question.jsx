@@ -16,9 +16,9 @@ class Question extends Component {
 
   componentDidMount() {
     if (this.props.previousAnswer !== undefined) {
-      if (this.props.q.list) {
+      if (this.props.q.type === "quantityselect") {
         this.setState({ answerlist: this.props.previousAnswer });
-      } else if (this.props.q.quantifier) {
+      } else if (this.props.q.type === "quantity") {
         this.setState({ quantity: this.props.previousAnswer });
       } else {
         this.setState({ answer: this.props.previousAnswer });
@@ -187,6 +187,7 @@ class Question extends Component {
   quantityButtons() {
     const style = "btn btn-outline-secondary ";
     const quantity = this.state.quantity;
+    console.log(quantity);
     return (
       <div>
         {this.props.q.quantifier}:
