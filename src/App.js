@@ -7,6 +7,7 @@ import SurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
 import View from "./components/View";
 import { getStorage, updateStorage } from "./Storage";
+import emissiontargets from "./emissiontargets.jpg";
 
 class App extends Component {
   constructor() {
@@ -62,7 +63,7 @@ class App extends Component {
               {this.getPage()}
             </Col>
             <Col className="border border-secondary">
-              <Plot plot={this.state.plot} />
+              <img src={emissiontargets} alt="" />
             </Col>
           </Row>
         </Container>
@@ -150,8 +151,13 @@ class App extends Component {
   getHomePage() {
     return (
       <React.Fragment>
-        <h4>this is the home screen</h4>
-        Register a new trip, or view the stored data.
+        <h4>CET Carbon Planner</h4>
+        The CET Carbon Planner is a CO2 calculator for calculating climate gas
+        emissions from own long-distance travels and from plane travels by
+        participants to meetings organized. It is designed to give an overview
+        of total emissions from own travels and meetings, assuming that this
+        will contribute to raising awareness of own emissions, which is a
+        central element in the CET Low-carbon Travel Policy.
       </React.Fragment>
     );
   }

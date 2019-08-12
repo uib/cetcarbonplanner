@@ -21,12 +21,12 @@ const NavBar = props => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link eventKey="trip" title="Item">
-          Add trip
+          Plan trip
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link eventKey="meeting" title="Item">
-          Plan meeting
+          Organize meeting
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>

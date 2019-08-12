@@ -59,17 +59,17 @@ class SurveyData {
       quantitySelectQuestion(
         "Purpose(s) of trip",
         [
-          "Field work / Data collection",
+          "Field work",
           "Project meeting",
           "Meeting with funders",
-          "Conference/meeting/course - presenting",
-          "Conference/meeting/course - not presenting",
+          "Conference, presenting",
+          "Conference, not presenting",
           "Other"
         ],
         "Duration of activity (hours)"
       )
     );
-    list.push(selectQuestion("Video offered?"));
+    list.push(selectQuestion("Was streaming or video attendance offered?"));
     /*list.push(quantityQuestion("Duration of meeting", "Hours"));*/
     list.push(
       selectQuestion("Importance", [
