@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
-import { prototype } from "events";
+//import { prototype } from "events";
 
 const NavBar = props => {
   const bgcolor = { backgroundColor: "#4EBBDF" };
@@ -31,7 +31,7 @@ const NavBar = props => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link eventKey="view" disabled={!props.datasetLength}>
-          View trips ({props.datasetLength})
+          View plots
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>

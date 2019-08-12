@@ -9,7 +9,7 @@ import "./chart.css";
 class Chart extends React.Component {
   render() {
     return (
-      <div class="chart">
+      <div className="chart">
         <ResponsiveBar
           data={data}
           keys={config.keys}

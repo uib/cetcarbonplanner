@@ -4,18 +4,23 @@ class SurveyData {
   constructor(parameter) {
     this.model = new CarbonModel();
     this.id = parameter;
-    this.questions = this.buildTripQuestions(this.model);
+    this.questions =
+      parameter === "trip"
+        ? this.buildTripQuestions(this.model)
+        : this.buildMeetingQuestions(this.model);
   }
 
   buildMeetingQuestions(model) {
     const list = [];
     list.push(nameQuestion("Name of meeting"));
-    list.push(selectQuestion("Type of meeting"), [
-      "Project meeting / workshop",
-      "Conference / symposium (national)",
-      "Conference / symposium (international)",
-      "Other"
-    ]);
+    list.push(
+      selectQuestion("Type of meeting", [
+        "Project meeting / workshop",
+        "Conference / symposium (national)",
+        "Conference / symposium (international)",
+        "Other"
+      ])
+    );
     list.push(quantityQuestion("Number of participants", "Participants"));
     list.push(quantityQuestion("Duration of meeting", "Hours"));
     list.push(selectQuestion("Video offered?"));

@@ -15,6 +15,8 @@ class App extends Component {
     this.state = {
       activeDataSet: undefined,
       datasets: getStorage(),
+      trips: [],
+      meetings: [],
       surveydata: new SurveyData("trip"),
       plot: { type: "text", data: "Hello" },
       page: "home",
@@ -80,6 +82,10 @@ class App extends Component {
     };
     if (navigateToPage === "trip") {
       const survey = new SurveyData("trip");
+      paramObj.surveydata = survey;
+      paramObj.activeDataSet = new Dataset("trip");
+    } else if (navigateToPage === "meeting") {
+      const survey = new SurveyData("meeting");
       paramObj.surveydata = survey;
       paramObj.activeDataSet = new Dataset("trip");
     } else if (navigateToPage === "edit") {

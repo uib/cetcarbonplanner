@@ -77,7 +77,7 @@ class Question extends Component {
             <Col xs={7}>
               <p>{q.text}</p>
               {q.type === "name" && this.getInputForm(q.type)}
-              {(q.type === "select" || q.type == "quantityselect") &&
+              {(q.type === "select" || q.type === "quantityselect") &&
                 this.getRadioSelectList()}
               {(q.type === "quantity" || q.type === "quantityselect") &&
                 this.quantityButtons()}
