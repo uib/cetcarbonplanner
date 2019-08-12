@@ -18,7 +18,7 @@ class App extends Component {
       activeDataSet: undefined,
       datasets: getStorage(),
       surveydata: new SurveyData("trip"),
-      plot: { type: "text", data: "Hello" },
+      plot: undefined,
       page: "home",
       height: window.innerHeight * 0.6,
       CETcolor: "4EBBDF"
@@ -77,7 +77,9 @@ class App extends Component {
     } else if (this.state.page === "register") {
       return <img src={chartpic} alt="" />;
     } else {
-      return <Plot />;
+      return (
+        <Plot data={this.state.plot} model={this.state.surveydata.model} />
+      );
     }
 
     /*return (
@@ -135,8 +137,13 @@ class App extends Component {
     }
   }
 
-  plotDataset(ID) {
-    this.setState({ plot: ID });
+  plotDataset(type, enabledList) {
+    const plotList = this.state.datasets.filter(
+      (dataset, index) => enabledList[index] && dataset.surveyID === type
+    );
+    this.setState({
+      plot: plotList.flatMap(o => o.answers.slice(-1)).flatMap(l => l)
+    });
   }
 
   getDataPage() {

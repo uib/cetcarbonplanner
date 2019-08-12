@@ -17,9 +17,14 @@ class View extends Component {
     this.includeNone = this.includeNone.bind(this);
   }
 
+  componentDidMount() {
+    this.props.plotDataset(this.state.type, this.state.enabled);
+  }
+
   changeView() {
     const newtype = this.state.type === "trip" ? "meeting" : "trip";
     this.setState({ type: newtype });
+    this.props.plotDataset(newtype, this.state.enabled);
   }
 
   render() {
@@ -108,18 +113,29 @@ class View extends Component {
   }
 
   includeAll() {
-    this.setState({ enabled: Array(this.props.datasets.length).fill(true) });
+    this.updatePlot(
+      this.state.type,
+      Array(this.props.datasets.length).fill(true)
+    );
   }
 
   includeNone() {
-    this.setState({ enabled: Array(this.props.datasets.length).fill(false) });
+    this.updatePlot(
+      this.state.type,
+      Array(this.props.datasets.length).fill(false)
+    );
+  }
+
+  updatePlot(type, list) {
+    this.props.plotDataset(type, list);
+    this.setState({ enabled: list });
   }
 
   plotClick(event) {
     const newEnabledList = [...this.state.enabled];
     newEnabledList[event.target.id] = !this.state.enabled[event.target.id];
     //this.props.plotDataset(event.target.id);
-    this.setState({ enabled: newEnabledList });
+    this.updatePlot(this.state.type, newEnabledList);
   }
 }
 

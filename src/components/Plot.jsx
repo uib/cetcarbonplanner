@@ -13,8 +13,56 @@ class Plot extends Component {
     super();
     this.modelcolors = this.illustrationPlot();
   }
+
+  mapPlotLabels() {
+    return {
+      "Electric car": "EV",
+      Train: "Train",
+      Bus: "Bus",
+      Car: "Car",
+      "Plane, regional": "Plane",
+      Plane: "Plane",
+      "Express boat": "Boat"
+    };
+  }
+
+  getBaseObject() {
+    return [
+      { x: "EV", y: 0 },
+      { x: "Train", y: 0 },
+      { x: "Bus", y: 0 },
+      { x: "Car", y: 0 },
+      { x: "Plane", y: 0 },
+      { x: "Boat", y: 0 }
+    ];
+  }
+
+  calculateTotals(datalist) {
+    const plotObjects = this.getBaseObject();
+    const plotLabels = this.mapPlotLabels();
+    for (const dataObj of datalist) {
+      const label = plotLabels[dataObj.mode];
+      const plotObj = plotObjects.find(o => o.x === label);
+      plotObj.y += dataObj.quantity * this.props.model.model[dataObj.mode];
+    }
+    var sum = 0;
+    for (const obj of plotObjects) {
+      sum += obj.y;
+    }
+    sum = sum / 1000; //change from kg to tons
+    return [plotObjects, sum];
+  }
+
   render() {
-    return this.getTest();
+    if (this.props.data) {
+      const [plotObject, total] = this.calculateTotals(this.props.data);
+      return (
+        <div>
+          <center>{total} tons CO2e emitted.</center>
+          <small>Kg CO2e</small> {this.getTest(plotObject)}
+        </div>
+      );
+    } else return "no data";
   }
 
   getDataSeries() {
@@ -178,15 +226,15 @@ class Plot extends Component {
     }
   }
 
-  getTest() {
-    const data = [
+  getTest(data) {
+    /*const data = [
       { x: "EV", y: Math.random() },
       { x: "Train", y: Math.random() },
       { x: "Bus", y: Math.random() },
       { x: "Car", y: Math.random() },
       { x: "Plane", y: Math.random() },
       { x: "Boat", y: Math.random() }
-    ];
+    ];*/
     return (
       <FlexibleWidthXYPlot
         labelsStyle={{
