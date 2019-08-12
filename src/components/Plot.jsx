@@ -8,7 +8,7 @@ import {
   VerticalBarSeries
 } from "react-vis";
 
-class Old_Plot extends Component {
+class Plot extends Component {
   constructor() {
     super();
     this.modelcolors = this.illustrationPlot();
@@ -180,13 +180,18 @@ class Old_Plot extends Component {
 
   getTest() {
     const data = [
-      { x: "Aircraft", y: Math.random() },
-      { x: "A long data label", y: Math.random() },
-      { x: "Electric Car", y: Math.random() },
-      { x: "train", y: Math.random() }
+      { x: "EV", y: Math.random() },
+      { x: "Train", y: Math.random() },
+      { x: "Bus", y: Math.random() },
+      { x: "Car", y: Math.random() },
+      { x: "Plane", y: Math.random() },
+      { x: "Boat", y: Math.random() }
     ];
     return (
       <FlexibleWidthXYPlot
+        labelsStyle={{
+          fontSize: 9
+        }}
         height={300}
         width={400}
         xType="ordinal"
@@ -202,4 +207,4 @@ class Old_Plot extends Component {
   }
 }
 
-export default Old_Plot;
+export default Plot;

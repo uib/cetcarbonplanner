@@ -11,7 +11,9 @@ class Chart extends React.Component {
     const testdata = [{ mode: "Plane", co2: 45 }, { mode: "Car", co2: 5 }];
     return (
       <div className="chart">
-        <ResponsiveBar
+        <Bar
+          height={200}
+          width={200}
           data={testdata}
           keys={config.keys}
           indexBy="mode"

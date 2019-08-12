@@ -1,25 +1,41 @@
 import React, { Component } from "react";
-import { Table, Tab } from "react-bootstrap";
+import { Table, Tab, Button } from "react-bootstrap";
 import EditButton from "./EditButton";
 
 class View extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      type: "trip"
+    };
     this.editClick = this.editClick.bind(this);
     this.deleteClick = this.deleteClick.bind(this);
     this.plotClick = this.plotClick.bind(this);
+    this.changeView = this.changeView.bind(this);
+  }
+
+  changeView() {
+    const newtype = this.state.type === "trip" ? "meeting" : "trip";
+    this.setState({ type: newtype });
   }
 
   render() {
+    const datasets = this.props.datasets.filter(
+      dataset => dataset.surveyID === this.state.type
+    );
+    console.log(datasets);
     return (
       <React.Fragment>
+        <br />
+        <Button variant="outline-primary" onClick={this.changeView}>
+          Switch to {this.state.type === "trip" ? "meetings" : "trips"}
+        </Button>
+        <Button variant="outline-primary">Include all</Button>
+        <Button variant="outline-secondary">Include none</Button>
+
+        <br />
         <Table striped bordered hover>
-          {this.buildTable(this.props.datasets, [
-            "Name",
-            "Edit",
-            "Delete",
-            "Plot"
-          ])}
+          {this.buildTable(datasets, ["Name", "Edit", "Delete", "Include"])}
         </Table>
       </React.Fragment>
     );

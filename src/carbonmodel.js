@@ -30,7 +30,7 @@ const carbonvalues = () => {
     Train: 3.1,
     Bus: 3.9,
     Car: 5.6,
-    "Plane, regional": 110.5,
+    //"Plane, regional": 110.5,
     Plane: 195.3,
     "Express boat": 32.1
   };

@@ -1,13 +1,17 @@
 import React from "react";
-import { Badge } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 const EditButton = props => {
-  const styles = { edit: "info", delete: "dark", plot: "info" };
+  const styles = {
+    edit: "outline-info",
+    delete: "outline-dark",
+    plot: "outline-primary"
+  };
   return (
     <label onClick={props.onclick}>
-      <Badge pill variant={styles[props.type]} id={props.id}>
+      <Button variant={styles[props.type]} id={props.id}>
         {props.type}
-      </Badge>
+      </Button>
     </label>
   );
 };

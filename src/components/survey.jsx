@@ -67,7 +67,6 @@ class Survey extends Component {
   }
 
   surveyComplete() {
-    console.log(this.props.dataset.type, this.state.answers.slice(-1));
     const style = "btn btn-outline-primary ";
     return (
       <React.Fragment>
