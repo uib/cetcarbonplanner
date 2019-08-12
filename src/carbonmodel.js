@@ -26,12 +26,12 @@ class CarbonModel {
 /*This is a static representation of carbon emission modes and their associated values in grams per passenger-hour of travel*/
 const carbonvalues = () => {
   return {
-    "Car - electric": 1.5,
+    EV: 1.5,
     Train: 3.1,
     Bus: 3.9,
-    "Car - other": 5.6,
-    "Plane - med./long": 110.5,
-    "Plane - short dist.": 195.3,
+    Car: 5.6,
+    "Plane, regional": 110.5,
+    Plane: 195.3,
     "Express boat": 32.1
   };
 };

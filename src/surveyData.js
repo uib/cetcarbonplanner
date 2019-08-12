@@ -23,7 +23,7 @@ class SurveyData {
     );
     list.push(quantityQuestion("Number of participants", "Participants"));
     list.push(quantityQuestion("Duration of meeting", "Hours"));
-    list.push(selectQuestion("Video offered?"));
+    list.push(selectQuestion("Is streaming or video attendance offered?"));
     list.push(
       selectQuestion("Importance", [
         "Essential",
@@ -74,7 +74,7 @@ class SurveyData {
         "Duration of activity (hours)"
       )
     );
-    list.push(selectQuestion("Was streaming or video attendance offered?"));
+    list.push(selectQuestion("Is streaming or video attendance offered?"));
     /*list.push(quantityQuestion("Duration of meeting", "Hours"));*/
     list.push(
       selectQuestion("Importance", [

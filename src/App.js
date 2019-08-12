@@ -8,6 +8,8 @@ import { Dataset } from "./Dataset";
 import View from "./components/View";
 import { getStorage, updateStorage } from "./Storage";
 import emissiontargets from "./emissiontargets.jpg";
+import chartpic from "./chart.jpg";
+import Chart from "./components/Chart";
 
 class App extends Component {
   constructor() {
@@ -64,14 +66,21 @@ class App extends Component {
             <Col sm={12} md={7} className="border border-secondary">
               {this.getPage()}
             </Col>
-            <Col className="border border-secondary">
-              <img src={emissiontargets} alt="" />
-            </Col>
+            <Col className="border border-secondary">{this.getPlot()}</Col>
           </Row>
         </Container>
       </React.Fragment>
     );
   }
+
+  getPlot() {
+    if (this.state.page === "home") {
+      return <img src={emissiontargets} alt="" />;
+    } else {
+      return <img src={chartpic} alt="" />;
+    }
+  }
+  //<div style={{ width: 400, height: 300 }}><Chart /></div>
 
   setPage(navigateToPage, datasetID) {
     const paramObj = {
@@ -171,7 +180,7 @@ class App extends Component {
   receiveAnswersFromSurvey(dataset, name, answers) {
     if (!dataset) {
       //used by the cancel button to return to main menu with no changes
-      this.setState({ page: "main" });
+      this.setState({ page: "home" });
     } else {
       //If the dataset has been edited and updated, the old one will be removed from datasets here:
       const updatedData = this.state.datasets.filter(
@@ -184,7 +193,7 @@ class App extends Component {
         answers
       );
       updatedData.push(newDataSet);
-      this.updateDataSets({ datasets: updatedData, page: "main" });
+      this.updateDataSets({ datasets: updatedData, page: "home" });
     }
   }
 }
