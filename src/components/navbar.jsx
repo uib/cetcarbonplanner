@@ -31,12 +31,12 @@ const NavBar = props => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link eventKey="view" disabled={!props.datasetLength}>
-          View plots
+          Summary
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="data" disabled={true}>
-          Data
+        <Nav.Link eventKey="settings" disabled={false}>
+          Settings
         </Nav.Link>
       </Nav.Item>
       {/*

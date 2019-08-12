@@ -187,7 +187,6 @@ class Question extends Component {
   quantityButtons() {
     const style = "btn btn-outline-secondary ";
     const quantity = this.state.quantity;
-    console.log(quantity);
     return (
       <div>
         {this.props.q.quantifier}:

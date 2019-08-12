@@ -6,14 +6,16 @@ import NavBar from "./components/navbar";
 import SurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
 import View from "./components/View";
-import { getStorage, updateStorage } from "./Storage";
+import { getStorage, updateStorage, getLimit, setLimit } from "./Storage";
 import emissiontargets from "./emissiontargets.jpg";
 import chartpic from "./chart.jpg";
+import Settings from "./components/Settings";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      carbonlimit: 20,
       activeDataSet: undefined,
       datasets: getStorage(),
       surveydata: new SurveyData("trip"),
@@ -27,8 +29,12 @@ class App extends Component {
     this.setPage = this.setPage.bind(this);
     this.editDataset = this.editDataset.bind(this);
     this.deleteDataset = this.deleteDataset.bind(this);
+    this.setcarbonlimit = this.setcarbonlimit.bind(this);
   }
 
+  setcarbonlimit(limit) {
+    this.setState({ carbonlimit: limit });
+  }
   /*To make sure datasets are saved to local storage, use this function
   to update datasets, instead of calling this.setState directly. Include any other
   required updates in the updateObject */
@@ -121,8 +127,8 @@ class App extends Component {
         return this.getRegisterPage();
       case "view":
         return this.getViewPage();
-      case "data":
-        return this.getDataPage();
+      case "settings":
+        return this.getSettingsPage();
       default:
         return this.getHomePage();
     }
@@ -140,8 +146,13 @@ class App extends Component {
     }
   }
 
-  getDataPage() {
-    //data analyis, advanced plots and import/export
+  getSettingsPage() {
+    return (
+      <Settings
+        carbonlimit={this.state.carbonlimit}
+        limitfunction={this.setcarbonlimit}
+      />
+    );
   }
 
   getViewPage() {
