@@ -2,13 +2,28 @@ import React, { Component } from "react";
 import Question from "./question";
 
 class Survey extends Component {
-  state = { answers: [], nextQ: 0, name: "" };
+  state = { answers: [], nextQ: 0, name: "", key: "" };
   constructor() {
     super();
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
     this.previousQuestion = this.previousQuestion.bind(this);
     this.returnToMain = this.returnToMain.bind(this);
     this.cancel = this.cancel.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({ key: this.props.dataset.UUID });
+  }
+
+  componentDidUpdate() {
+    if (this.props.dataset.UUID !== this.state.key) {
+      this.setState({
+        answers: [],
+        nextQ: 0,
+        name: "",
+        key: this.props.dataset.UUID
+      });
+    }
   }
 
   render() {

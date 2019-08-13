@@ -157,9 +157,9 @@ class Plot extends Component {
           fontSize: 9
         }}
         height={400}
-        width={400}
+        width={300}
         xType="ordinal"
-        margin={{ left: 50, bottom: 50 }}
+        margin={{ left: 40, bottom: 50 }}
       >
         <VerticalGridLines />
         <HorizontalGridLines />
