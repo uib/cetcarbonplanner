@@ -4,7 +4,7 @@ class SurveyData {
   constructor(parameter) {
     this.model = new CarbonModel();
     this.id = parameter;
-    this.questions =
+    [this.questions, this.plots] =
       parameter === "trip"
         ? this.buildTripQuestions(this.model)
         : this.buildMeetingQuestions(this.model);
@@ -12,7 +12,9 @@ class SurveyData {
 
   buildMeetingQuestions(model) {
     const list = [];
+    const plotlist = [];
     list.push(nameQuestion("Name of meeting"));
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
       selectQuestion("Type of meeting", [
         "Project meeting / workshop",
@@ -21,9 +23,13 @@ class SurveyData {
         "Other"
       ])
     );
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(quantityQuestion("Number of participants", "Participants"));
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(quantityQuestion("Duration of meeting", "Hours"));
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(selectQuestion("Is streaming or video attendance offered?"));
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
       selectQuestion("Importance", [
         "Essential",
@@ -32,6 +38,7 @@ class SurveyData {
         "Less important"
       ])
     );
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
       quantitySelectQuestion(
         "Please enter number and travel distance for flying participants.",
@@ -44,22 +51,15 @@ class SurveyData {
         "Participants"
       )
     );
-    return list;
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
+    return [list, plotlist];
   }
 
   buildTripQuestions(model) {
     const list = [];
+    const plotlist = [];
     list.push(nameQuestion("Enter name of trip"));
-    /*list.push(
-      selectQuestion("Purpose of trip", [
-        "Field work / Data collection",
-        "Project meeting",
-        "Meeting with funders",
-        "Conference/meeting/course - presenting",
-        "Conference/meeting/course - not presenting",
-        "Other"
-      ])
-    );*/
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
       quantitySelectQuestion(
         "Purpose(s) of trip",
@@ -74,8 +74,9 @@ class SurveyData {
         "Duration of activity (hours)"
       )
     );
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(selectQuestion("Is streaming or video attendance offered?"));
-    /*list.push(quantityQuestion("Duration of meeting", "Hours"));*/
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
       selectQuestion("Importance", [
         "Essential",
@@ -84,6 +85,7 @@ class SurveyData {
         "Less important"
       ])
     );
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
       quantitySelectQuestion(
         "Please enter type and duration of each part of the trip.",
@@ -91,8 +93,13 @@ class SurveyData {
         model.quantifier
       )
     );
-    return list;
+    plotlist.push(textPlot("question " + (plotlist.length + 1)));
+    return [list, plotlist];
   }
+}
+
+function textPlot(text) {
+  return { type: "text", data: text };
 }
 
 function questionObject(type, text, alternatives, quantifier) {

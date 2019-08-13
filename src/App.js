@@ -83,11 +83,7 @@ class App extends Component {
       return <img src={chartpic} alt="" />;
     } else if (this.state.plot && this.state.plot.length > 0) {
       return (
-        <Plot
-          data={this.state.plot}
-          model={this.state.surveydata.model}
-          type={this.state.plotType}
-        />
+        <Plot data={this.state.plot} model={this.state.surveydata.model} />
       );
     }
   }

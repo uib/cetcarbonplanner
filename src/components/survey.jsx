@@ -27,6 +27,7 @@ class Survey extends Component {
   }
 
   render() {
+    console.log(this.props.surveydata.plots[this.state.nextQ]);
     return this.state.nextQ >= this.props.surveydata.questions.length
       ? this.surveyComplete()
       : this.getQuestion();
