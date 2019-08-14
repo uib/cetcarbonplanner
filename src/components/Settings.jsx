@@ -1,27 +1,39 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
+import emissionsguide from "./emissionsguide.jpg";
 
 class Settings extends Component {
   constructor() {
     super();
-    this.state = { limit: 20 };
-    this.handleLimitInput = this.handleLimitInput.bind(this);
-    this.handleLimitSet = this.handleLimitSet.bind(this);
+    this.state = { triplimit: 0, meetinglimit: 0 };
+    this.handleTripLimitChange = this.handleTripLimitChange.bind(this);
+    this.handleTripLimitSet = this.handleTripLimitSet.bind(this);
+    this.handleMeetingLimitChange = this.handleMeetingLimitChange.bind(this);
+    this.handleMeetingLimitSet = this.handleMeetingLimitSet.bind(this);
     this.clearStorage = this.clearStorage.bind(this);
   }
 
-  handleLimitInput(event) {
-    this.setState({ limit: event.target.value });
+  handleTripLimitChange(event) {
+    this.setState({ triplimit: event.target.value });
   }
 
-  handleLimitSet() {
-    this.props.limitfunction(this.state.limit);
+  handleMeetingLimitChange(event) {
+    this.setState({ meetinglimit: event.target.value });
   }
 
-  componentDidMount() {
-    this.setState({
-      limit: this.props.carbonlimit
-    });
+  handleTripLimitSet(event) {
+    event.preventDefault();
+    const number = Number(this.state.triplimit);
+    if (typeof number === "number" && number > 0) {
+      this.props.limitfunction("trip", number);
+    }
+  }
+  handleMeetingLimitSet(event) {
+    event.preventDefault();
+    const number = Number(this.state.meetinglimit);
+    if (typeof number === "number" && number > 0) {
+      this.props.limitfunction("meeting", number);
+    }
   }
 
   clearStorage() {
@@ -32,28 +44,58 @@ class Settings extends Component {
   }
 
   render() {
-    const button = "outline-primary";
-    const disabled = "outline-secondary";
+    const button = "outline-primary w-50";
     return (
       <div id="settings">
-        {" "}
-        Your carbon limit is{" "}
-        {this.props.carbonlimit
-          ? this.props.carbonlimit + " tons CO2e per year"
-          : "currently unset."}
+        <img src={emissionsguide} alt="" />
         <br />
-        <form onSubmit={this.handleLimitSet}>
-          <label>
-            <input
+        <br />
+        Your CO2 emissions target for travel is{" "}
+        {this.props.triplimit === 0
+          ? "not yet set."
+          : this.props.triplimit + " tons CO2e per year"}
+        <Form
+          onSubmit={this.handleTripLimitSet}
+          onChange={this.handleTripLimitChange}
+        >
+          <InputGroup className="md-4">
+            <FormControl
               type="number"
-              value={this.state.limit}
-              onChange={this.handleLimitInput}
+              placeholder="Target for CO2 emissions (tons) from travel."
+              aria-label="Target for CO2 emissions (tons) from travel."
+              aria-describedby="basic-addon2"
             />
-          </label>
-        </form>
-        <Button className={button} onClick={this.handleLimitSet}>
-          Set CO2 limit
-        </Button>
+            <InputGroup.Append>
+              <Button variant="primary" type="submit">
+                Set target
+              </Button>
+            </InputGroup.Append>
+          </InputGroup>
+        </Form>
+        <br />
+        Your CO2 emissions target for meetings is{" "}
+        {this.props.meetinglimit === 0
+          ? "not yet set."
+          : this.props.meetinglimit + " tons CO2e per year"}
+        <Form
+          onSubmit={this.handleMeetingLimitSet}
+          onChange={this.handleMeetingLimitChange}
+        >
+          <InputGroup className="md-4">
+            <FormControl
+              type="number"
+              placeholder="Target for CO2 emissions (tons) from meetings."
+              aria-label="Target for CO2 emissions (tons) from meetings."
+              aria-describedby="basic-addon2"
+            />
+            <InputGroup.Append>
+              <Button variant="primary" type="submit">
+                Set target
+              </Button>
+            </InputGroup.Append>
+          </InputGroup>
+        </Form>
+        <br />
         <br />
         <p>
           In this current beta version, data is only stored in this browser. No
@@ -62,7 +104,7 @@ class Settings extends Component {
         </p>
         <p>
           <Button
-            className={disabled}
+            className={button}
             disabled={window.localStorage.length === 0}
             onClick={this.clearStorage}
           >
@@ -70,7 +112,7 @@ class Settings extends Component {
           </Button>
         </p>
         <p>
-          <Button className={disabled} disabled={true}>
+          <Button className={button} disabled={true}>
             Save data to disk
           </Button>
         </p>

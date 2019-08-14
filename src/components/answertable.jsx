@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Badge } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import EditButton from "./EditButton";
 
 class AnswerTable extends Component {
@@ -13,14 +13,7 @@ class AnswerTable extends Component {
   }
   buildTable(keys, data) {
     return (
-      <Table striped bordered hover size="sm">
-        {/*<thead>
-          <tr key="headers">
-            {keys.map((key, index) => (
-              <th key={"h-" + key}>{key}</th>
-            ))}
-          </tr>
-        </thead>*/}
+      <Table striped bordered hover size="sm" style={{ fontSize: 13 }}>
         <tbody>
           {data.map((row, index) => this.buildRow(keys, row, index))}
         </tbody>
@@ -29,10 +22,13 @@ class AnswerTable extends Component {
   }
 
   buildRow(keys, obj, rowindex) {
+    const style = "text-center align-middle";
     return (
       <tr key={"row" + rowindex}>
         {keys.map((key, index) => (
-          <td key={index + "-" + key}>{obj[key]}</td>
+          <td key={index + "-" + key} className={style}>
+            {obj[key]}
+          </td>
         ))}
         <td key={"del" + rowindex}>
           <EditButton type="delete" id={rowindex} onclick={this.handleDelete} />

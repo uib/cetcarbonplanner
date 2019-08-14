@@ -1,12 +1,15 @@
 const storagekey = "datasets";
-const limitkey = "limit";
 
-export function setLimit(limit) {
-  window.localStorage.setItem(limitkey, JSON.stringify(limit));
+export function updateLimits(limits) {
+  window.localStorage.setItem("limits", JSON.stringify(limits));
 }
 
-export function getLimit() {
-  JSON.parse(window.localStorage.getItem(limitkey));
+export function getLimits() {
+  if (!window.localStorage.hasOwnProperty("limits")) {
+    return { tripCarbonLimit: 0, meetingCarbonLimit: 0 };
+  } else {
+    return JSON.parse(window.localStorage.getItem("limits"));
+  }
 }
 
 export function updateStorage(datasets) {

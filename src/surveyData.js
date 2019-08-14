@@ -4,7 +4,7 @@ class SurveyData {
   constructor(parameter) {
     this.model = new CarbonModel();
     this.id = parameter;
-    [this.questions, this.plots] =
+    this.questions =
       parameter === "trip"
         ? this.buildTripQuestions(this.model)
         : this.buildMeetingQuestions(this.model);
@@ -12,36 +12,51 @@ class SurveyData {
 
   buildMeetingQuestions(model) {
     const list = [];
-    const plotlist = [];
-    list.push(nameQuestion("Name of meeting"));
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
-      selectQuestion("Type of meeting", [
+      nameQuestion(
+        "Name of meeting",
+        "Please register meetings that you organize that involves participants travelling by plane"
+      )
+    );
+    list.push(
+      selectQuestion("Type of meeting", "", [
         "Project meeting / workshop",
         "Conference / symposium (national)",
         "Conference / symposium (international)",
         "Other"
       ])
     );
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    list.push(quantityQuestion("Number of participants", "Participants"));
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    list.push(quantityQuestion("Duration of meeting", "Hours"));
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    list.push(selectQuestion("Is streaming or video attendance offered?"));
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
     list.push(
-      selectQuestion("Importance", [
-        "Essential",
-        "Very important",
-        "Somewhat important",
-        "Less important"
-      ])
+      quantityQuestion(
+        "Number of participants",
+        "Please enter total number of participants at the meeting, i.e. not only those travelling by plane",
+        "Participants"
+      )
     );
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
+    list.push(
+      quantityQuestion(
+        "Duration of meeting",
+        "Please enter the duration of the meeting (hours)",
+        "Hours"
+      )
+    );
+    list.push(
+      selectQuestion(
+        "Is streaming or video attendance offered?",
+        "Video attendance / streaming should be offered when possible"
+      )
+    );
+    list.push(
+      selectQuestion(
+        "Importance",
+        "Please give your own assessment of the importance of organizing a physical meeting involving air travels",
+        ["Essential", "Very important", "Somewhat important", "Less important"]
+      )
+    );
     list.push(
       quantitySelectQuestion(
-        "Please enter number and travel distance for flying participants.",
+        "Flying participants.",
+        "Please enter number of participants travelling by plane for each category below. (In the calculations, these are assumed to be roundtrip travels)",
         [
           "Short distance <45 min",
           "Scandinavia 45 min - 2 hrs",
@@ -51,18 +66,16 @@ class SurveyData {
         "Participants"
       )
     );
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    return [list, plotlist];
+    return list;
   }
 
   buildTripQuestions(model) {
-    const list = [];
-    const plotlist = [];
-    list.push(nameQuestion("Enter name of trip"));
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    list.push(
+    const questionlist = [];
+    questionlist.push(nameQuestion("Enter name of trip", ""));
+    questionlist.push(
       quantitySelectQuestion(
         "Purpose(s) of trip",
+        "Please select the purpose(s) and duration (in hrs) of the activities covered by the trip.  One trip may include several activities.",
         [
           "Field work",
           "Project meeting",
@@ -74,36 +87,33 @@ class SurveyData {
         "Duration of activity (hours)"
       )
     );
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    list.push(selectQuestion("Is streaming or video attendance offered?"));
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    list.push(
-      selectQuestion("Importance", [
-        "Essential",
-        "Very important",
-        "Somewhat important",
-        "Less important"
-      ])
+    questionlist.push(
+      selectQuestion(
+        "Is streaming or video attendance offered?",
+        "Video attendance / streaming should be requested when possible"
+      )
     );
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    list.push(
+    questionlist.push(
+      selectQuestion(
+        "Importance",
+        "Please give your own assessment of the importance of travelling to this/these activity/activities",
+        ["Essential", "Very important", "Somewhat important", "Less important"]
+      )
+    );
+    questionlist.push(
       quantitySelectQuestion(
-        "Please enter type and duration of each part of the trip.",
+        "Mode(s) of transport",
+        "Please enter overall duration for each mode of transport used during the trip",
         model.alternatives,
         model.quantifier
       )
     );
-    plotlist.push(textPlot("question " + (plotlist.length + 1)));
-    return [list, plotlist];
+    return questionlist;
   }
 }
 
-function textPlot(text) {
-  return { type: "text", data: text };
-}
-
-function questionObject(type, text, alternatives, quantifier) {
-  const obj = { type: type, text: text };
+function questionObject(type, heading, text, alternatives, quantifier) {
+  const obj = { type: type, heading: heading, text: text };
   if (alternatives) {
     obj.alternatives = alternatives;
   }
@@ -113,29 +123,47 @@ function questionObject(type, text, alternatives, quantifier) {
   return obj;
 }
 
-function entryQuestion(questionText) {
-  return questionObject("input", questionText, false, false);
+function nameQuestion(questionHeading, infoText) {
+  return questionObject("name", questionHeading, infoText, false, false);
 }
 
-function nameQuestion(questionText) {
-  return questionObject("name", questionText, false, false);
-}
-
-function quantitySelectQuestion(questionText, alternatives, quantifier) {
+function quantitySelectQuestion(
+  questionHeading,
+  infoText,
+  alternatives,
+  quantifier
+) {
   return questionObject(
     "quantityselect",
-    questionText,
+    questionHeading,
+    infoText,
     alternatives,
     quantifier
   );
 }
 
-function quantityQuestion(questionText, quantifier) {
-  return questionObject("quantity", questionText, false, quantifier);
+function quantityQuestion(questionHeading, infoText, quantifier) {
+  return questionObject(
+    "quantity",
+    questionHeading,
+    infoText,
+    false,
+    quantifier
+  );
 }
 
-function selectQuestion(questionText, alternatives = ["Yes", "No"]) {
-  return questionObject("select", questionText, alternatives, false);
+function selectQuestion(
+  questionHeading,
+  infoText,
+  alternatives = ["Yes", "No"]
+) {
+  return questionObject(
+    "select",
+    questionHeading,
+    infoText,
+    alternatives,
+    false
+  );
 }
 
 export default SurveyData;

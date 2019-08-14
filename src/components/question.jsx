@@ -37,7 +37,7 @@ class Question extends Component {
       <React.Fragment>
         <input
           type="text"
-          value={this.state.value}
+          value={this.state.answer}
           onChange={this.handleTextInput}
           placeholder={type === "name" ? this.props.defaultName : ""}
         />
@@ -69,18 +69,20 @@ class Question extends Component {
   }
 
   render() {
+    console.log(this.state.answer);
     const { q } = this.props;
     return (
       <React.Fragment>
         <Container>
           <Row>
             <Col xs={7}>
+              <h3>{q.heading}</h3>
               <p>{q.text}</p>
               {q.type === "name" && this.getInputForm(q.type)}
               {(q.type === "select" || q.type === "quantityselect") &&
                 this.getRadioSelectList()}
               {(q.type === "quantity" || q.type === "quantityselect") &&
-                this.quantityButtons()}
+                this.quantityButtons(q.type)}
               {this.buttonRow(q.type)}
             </Col>
             <Col>
@@ -119,6 +121,10 @@ class Question extends Component {
         return this.state.answerlist;
       case "quantity":
         return this.state.quantity;
+      case "name":
+        return this.state.answer !== ""
+          ? this.state.answer
+          : this.props.defaultName;
       default:
         return this.state.answer;
     }
@@ -136,19 +142,10 @@ class Question extends Component {
         >
           Previous
         </button>
-        {/*Add Button*/}
-        {questionType === "quantityselect" && (
-          <button
-            className={style}
-            onClick={this.saveListDataPoint}
-            disabled={!this.state.answer}
-          >
-            Add
-          </button>
-        )}
+
         {/*Submit Button*/}
         <button
-          className={style}
+          className={"btn btn-primary"}
           onClick={this.submitAnswer}
           disabled={
             /*Submit button should be disabled on a list question if no
@@ -169,6 +166,7 @@ class Question extends Component {
         >
           Next
         </button>
+
         <button className={style} onClick={this.props.cancel}>
           Cancel
         </button>
@@ -177,14 +175,14 @@ class Question extends Component {
   }
 
   submitAnswer() {
-    this.setState({ answer: null, answerlist: [] });
+    //this.setState({ answer: null, answerlist: [] });
     this.props.reportAnswerToSurvey(
       this.getAnswer(this.props.q.type),
       this.props.q.type
     );
   }
 
-  quantityButtons() {
+  quantityButtons(questionType) {
     const style = "btn btn-outline-secondary ";
     const quantity = this.state.quantity;
     return (
@@ -198,6 +196,16 @@ class Question extends Component {
         <button className={style} onClick={this.increase}>
           +
         </button>
+        {/*Add Button*/}
+        {questionType === "quantityselect" && (
+          <button
+            className={style}
+            onClick={this.saveListDataPoint}
+            disabled={!this.state.answer}
+          >
+            Add
+          </button>
+        )}
       </div>
     );
   }

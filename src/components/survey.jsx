@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Question from "./question";
 
 class Survey extends Component {
-  state = { answers: [], nextQ: 0, name: "", key: "" };
+  state = { answers: [], nextQ: 0, name: "", key: "", plot: undefined };
   constructor() {
     super();
     this.receiveAnswerFromQuestion = this.receiveAnswerFromQuestion.bind(this);
@@ -16,6 +16,8 @@ class Survey extends Component {
   }
 
   componentDidUpdate() {
+    //console.log(this.props.surveydata.plots[this.state.nextQ]);
+
     if (this.props.dataset.UUID !== this.state.key) {
       this.setState({
         answers: [],
@@ -27,7 +29,6 @@ class Survey extends Component {
   }
 
   render() {
-    console.log(this.props.surveydata.plots[this.state.nextQ]);
     return this.state.nextQ >= this.props.surveydata.questions.length
       ? this.surveyComplete()
       : this.getQuestion();
@@ -83,14 +84,13 @@ class Survey extends Component {
   }
 
   surveyComplete() {
-    const style = "btn btn-outline-primary ";
     return (
       <React.Fragment>
         <p>Click to save data. View CO2 charts on Summary page.</p>
-        <button className={style} onClick={this.returnToMain}>
+        <button className={"btn btn-primary "} onClick={this.returnToMain}>
           Save data
         </button>
-        <button className={style} onClick={this.cancel}>
+        <button className={"btn btn-outline-primary "} onClick={this.cancel}>
           Cancel
         </button>
       </React.Fragment>

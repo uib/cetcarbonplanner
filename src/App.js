@@ -6,16 +6,15 @@ import NavBar from "./components/navbar";
 import SurveyData from "./surveyData";
 import { Dataset } from "./Dataset";
 import View from "./components/View";
-import { getStorage, updateStorage, getLimit, setLimit } from "./Storage";
-import emissiontargets from "./emissiontargets.jpg";
-import chartpic from "./chart.jpg";
+import { getStorage, updateStorage, updateLimits, getLimits } from "./Storage";
 import Settings from "./components/Settings";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      carbonlimit: 20,
+      tripCarbonLimit: getLimits().tripCarbonLimit,
+      meetingCarbonLimit: getLimits().meetingCarbonLimit,
       activeDataSet: undefined,
       datasets: getStorage(),
       surveydata: new SurveyData("trip"),
@@ -32,14 +31,30 @@ class App extends Component {
     this.setcarbonlimit = this.setcarbonlimit.bind(this);
   }
 
-  setcarbonlimit(limit) {
-    this.setState({ carbonlimit: limit });
+  setcarbonlimit(type, limit) {
+    const updateObject =
+      type === "trip"
+        ? {
+            tripCarbonLimit: limit,
+            meetingCarbonLimit: this.state.meetingCarbonLimit
+          }
+        : {
+            tripCarbonLimit: this.state.tripCarbonLimit,
+            meetingCarbonLimit: limit
+          };
+    this.updateDataSets(updateObject, true);
   }
+
   /*To make sure datasets are saved to local storage, use this function
   to update datasets, instead of calling this.setState directly. Include any other
   required updates in the updateObject */
-  updateDataSets(updateObject) {
-    updateStorage(updateObject.datasets);
+  updateDataSets(updateObject, isLimit) {
+    if (isLimit) {
+      updateLimits(updateObject);
+    } else {
+      updateStorage(updateObject.datasets);
+    }
+
     this.setState(updateObject);
   }
 
@@ -53,6 +68,7 @@ class App extends Component {
     const update = { datasets: newDataSet };
     if (newDataSet.length === 0) {
       update.page = "home";
+      update.plot = undefined;
     }
     this.updateDataSets(update);
   }
@@ -66,10 +82,14 @@ class App extends Component {
             datasetLength={this.state.datasets.length}
           />
           <Row style={{ minHeight: this.state.height }}>
-            <Col sm={12} md={7} className="border border-secondary">
+            <Col sm={12} md={7} /*className="border border-secondary"*/>
               {this.getPage()}
             </Col>
-            <Col className="border border-secondary">{this.getPlot()}</Col>
+            {this.state.plot && (
+              <Col /*className="border border-secondary"*/>
+                {this.getPlot()}
+              </Col>
+            )}
           </Row>
         </Container>
       </React.Fragment>
@@ -77,19 +97,25 @@ class App extends Component {
   }
 
   getPlot() {
-    if (this.state.page === "home") {
-      return <img src={emissiontargets} alt="" />;
-    } else if (this.state.page === "register") {
-      return <img src={chartpic} alt="" />;
-    } else if (this.state.plot && this.state.plot.length > 0) {
+    if (this.state.plot) {
       return (
-        <Plot data={this.state.plot} model={this.state.surveydata.model} />
+        <Plot
+          data={this.state.plot}
+          model={this.state.surveydata.model}
+          type={this.state.plotType}
+          limit={
+            this.state.plotType === "trip"
+              ? this.state.tripCarbonLimit
+              : this.state.meetingCarbonLimit
+          }
+        />
       );
-    }
+    } else return "";
   }
 
   setPage(navigateToPage, datasetID) {
     const paramObj = {
+      plot: undefined,
       page:
         navigateToPage === "trip" || navigateToPage === "meeting"
           ? "register"
@@ -139,13 +165,16 @@ class App extends Component {
         plot: plotList.flatMap(o => o.answers.slice(-1)).flatMap(l => l),
         plotType: type
       });
+    } else {
+      this.setState({ plot: undefined, plotType: undefined });
     }
   }
 
   getSettingsPage() {
     return (
       <Settings
-        carbonlimit={this.state.carbonlimit}
+        triplimit={this.state.tripCarbonLimit}
+        meetinglimit={this.state.meetingCarbonLimit}
         limitfunction={this.setcarbonlimit}
       />
     );
@@ -159,10 +188,10 @@ class App extends Component {
         editDataset={this.editDataset}
         deleteDataset={this.deleteDataset}
         plotDataset={this.plotDataset}
+        triplimit={this.state.tripCarbonLimit}
+        meetinglimit={this.state.meetingCarbonLimit}
       />
     );
-    //return the current datasets in list form
-    //table should include plot and edit buttons
   }
 
   getRegisterPage() {
@@ -170,14 +199,15 @@ class App extends Component {
       <Survey
         surveydata={this.state.surveydata}
         defaultName={
-          this.state.page === "edit"
-            ? this.state.activeDataSet.name
-            : "Trip " + (this.state.datasets.length + 1)
+          this.state.activeDataSet.surveyID.charAt(0).toUpperCase() +
+          this.state.activeDataSet.surveyID.slice(1) +
+          " " +
+          (this.state.datasets.length + 1)
         }
         dataset={this.state.activeDataSet}
         reportAnswers={this.receiveAnswersFromSurvey}
         navigate={this.setPage}
-        plotFunction={this.plotDataset}
+        plotFunction={this.plotObject}
       />
     );
   }

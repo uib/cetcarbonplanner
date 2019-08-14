@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Tab, Button } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import EditButton from "./EditButton";
 
 class View extends Component {

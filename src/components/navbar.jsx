@@ -1,9 +1,9 @@
 import React from "react";
-import { Nav, NavDropdown } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 //import { prototype } from "events";
 
 const NavBar = props => {
-  const bgcolor = { backgroundColor: "#4EBBDF" };
+  //const bgcolor = { backgroundColor: "#4EBBDF" };
   return (
     <Nav
       variant="pills"

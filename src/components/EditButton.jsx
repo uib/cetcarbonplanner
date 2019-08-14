@@ -5,11 +5,12 @@ const EditButton = props => {
   const styles = {
     edit: "outline-info",
     delete: "outline-dark",
-    include: "outline-primary"
+    include: "primary" //"outline-primary"
   };
   return (
     <label onClick={props.onclick}>
       <Button
+        size="sm"
         variant={props.checked ? styles[props.type] : "outline-secondary"}
         id={props.id}
       >
