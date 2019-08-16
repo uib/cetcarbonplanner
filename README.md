@@ -1,6 +1,10 @@
 ## CET Carbon Planner
 
-This is a React web app commissioned by CET, with the purpose of providing a means of planning trips or meetings and making priority changes based on carbon emission calculations and plots. Here follows a summary of some core concepts.
+This is a React web app commissioned by CET, with the purpose of providing a means of planning trips or meetings and making priority choices based on carbon emission calculations and plots.
+
+In summary, the App contains a set of questions, called a survey, which is presented to the user. The answers provided by the user are called a dataset. The datasets can be edited, deleted or plotted in a column diagram. The two sets of survey questions implemented so far are called "trip" and "meeting".
+
+Here follows a summary of each component.
 
 ### `App`
 
@@ -8,7 +12,7 @@ The main React component, keeps track of data, calls on subcomponents etc.
 
 ### `carbonmodel`
 
-A JS function which contains the CO2 emissions data. Note that there are some terms defined twice here and and in Plot which have yet to be refactored to a "single source of truth" pattern.
+A JS function which contains the CO2 emissions data. Note that there are some terms defined twice here and and in Plot which have yet to be refactored to a "single source of truth" pattern. These are mappings where the term defined in the carbon model maps to a different term in the column diagram for brevity and clarity.
 
 ### `Survey`
 
@@ -20,7 +24,7 @@ A JS object that defines the contents of a Survey, data such as question texts a
 
 #### "name"
 
-This asks the user for the name of the trip. There is logic in the App which handles this question in
+This asks the user for the name of the trip/meeting. There is logic in the App which handles this question in
 particular ways, for instance by letting it remain empty and filling in a default name.
 
 #### "select"
@@ -29,13 +33,13 @@ A list of alternatives, from which the user selects one.
 
 #### "quantity"
 
-Asks the user to enter some number. The quantifier is what amount the number pertains to, for instance "hours" of travel time.
+Asks the user to enter some number. The parameter "quantifier" is what amount the number pertains to, for instance "hours" of travel time.
 
 #### "quantityselect"
 
 This combines the two above, so the user can create a list of answers, where each answer is
-a combination of a quantity of an item selected from a list. An example is the travel question, where the user can for instance
-enter 4 hours of flying, 10 hours of driving and 2 hours of bus to one journey.
+a combination of a quantity and an item selected from a list. An example is the travel question, where the user can
+enter 4 hours of flying, 10 hours of driving and 2 hours of bus travel.
 
 ### `Question`
 
@@ -51,7 +55,7 @@ This React component generates a list based on the stored datasets and triggers 
 
 ### `Plot`
 
-This React component uses the React-Vis library to draw column diagrams.
+This React component uses the React-Vis library to draw column diagrams. The emissions calculations are also done here.
 
 ### `Answertable`
 
