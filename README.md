@@ -4,15 +4,19 @@ This is a React web app commissioned by CET, with the purpose of providing a mea
 
 ### `App`
 
-The main component, keeps track of data, calls on subcomponents etc.
+The main React component, keeps track of data, calls on subcomponents etc.
+
+### `carbonmodel`
+
+A JS function which contains the CO2 emissions data. Note that there are some terms defined twice here and and in Plot which have yet to be refactored to a "single source of truth" pattern.
 
 ### `Survey`
 
-The component which contains the process of registering some dataset, such as a trip or a meeting. A survey is basically a list of questions.
+A React component which contains the process of registering some dataset, such as a trip or a meeting. A survey is basically a list of questions. Once the Survey is complete, it sends the answers back to App.
 
 ### `surveyData`
 
-The object which contains the data such as question texts and types. There are four question types.
+A JS object that defines the contents of a Survey, data such as question texts and types. There are four question types (string parameters):
 
 #### "name"
 
@@ -35,7 +39,39 @@ enter 4 hours of flying, 10 hours of driving and 2 hours of bus to one journey.
 
 ### `Question`
 
-A component which takes a question from a s
+A React component which takes a question from a Survey, and renders the appropriate text and user input elements. It sends each answer back to Survey.
+
+### `Dataset`
+
+A JS object which contains the answers from a survey. A new Survey is started with an empty Dataset containing a generated ID. If datasets are edited, new datasets are created using the same ID which overwrites the old, in order to provide immutable object behaviour which makes data handling safer and easier.
+
+### `View`
+
+This React component generates a list based on the stored datasets and triggers the drawing of a column diagram based on which datasets are selected by the user.
+
+### `Plot`
+
+This React component uses the React-Vis library to draw column diagrams.
+
+### `Answertable`
+
+A React component which draws a small table based on what the user has entered in a quantityselect question.
+
+### `Settings`
+
+A React component which generates a settings page for setting CO2 targets and file import/export.
+
+### `Navbar`
+
+The React component which serves the navigation bar on top of the page.
+
+### `storage`
+
+A set of JS functions pertaining to data storage, either by file reading/writing or browser localstorage. Future cloud integration should go here as well.
+
+### `uuid`
+
+A JS function which generates a universally unique ID for dataset identification. Note that there is no collision checking in place as of yet.
 
 ## The following is from the default React documentation
 
