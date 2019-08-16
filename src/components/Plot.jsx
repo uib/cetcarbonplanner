@@ -27,23 +27,33 @@ class Plot extends Component {
       const percent = ((total / this.props.limit) * 100).toFixed();
       return (
         <div>
-          <b>
-            Total emissions: {total.toFixed(2)} tons CO2e emitted.
-            <br />
-            {this.props.limit !== 0 &&
-              percent +
-                "% of target for " +
-                this.props.type +
-                "s (" +
-                this.props.limit +
-                " tons CO2e)."}
-          </b>
+          <b>Total emissions: {total.toFixed(2)} tons CO2e emitted.</b>
+          <br />
+          {this.props.limit === 0
+            ? this.noEmissionTarget()
+            : this.emissionTarget(percent)}
           <br />
           <small>Kg CO2e</small>
           {this.getPlot(plotObject)}
         </div>
       );
     } else return ""; //no valid data to plot
+  }
+  emissionTarget(percent) {
+    return (
+      <b>
+        {percent +
+          "% of target for " +
+          this.props.type +
+          "s (" +
+          this.props.limit +
+          " tons CO2e)."}
+      </b>
+    );
+  }
+
+  noEmissionTarget() {
+    return <small>Set emission targets in Settings</small>;
   }
 
   calculateTotals(datalist) {
