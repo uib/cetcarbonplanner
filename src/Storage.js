@@ -1,5 +1,7 @@
 const storagekey = "datasets";
-
+/** These function handle writing data to localstorage. You can expand this to cloud storage without changing code elsewhere,
+ * given that the basic functionality remains the same.
+ */
 export function updateLimits(limits) {
   window.localStorage.setItem("limits", JSON.stringify(limits));
 }

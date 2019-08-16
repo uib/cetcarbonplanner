@@ -1,6 +1,26 @@
 import CarbonModel from "./carbonmodel";
 
 class SurveyData {
+  /** This class is how the survey, i.e. the list of questions, is passed around the app. The functions within the class are
+   *  the static text used to query the user, and the type of question so the interface knows which elements to draw. The
+   * functions outside it are more generic definitions that take certain parameters and build coherent question objects.
+   * The reason I split these was that I was considering some different way of storing the questions, so you can export the
+   * functions outside the class and use them to generate survey data in other classes.
+   *
+   * There are four question types:
+   *
+   * "name" - This asks the user for the name of the trip. There is logic in the App which handles this question in
+   * particular ways, for instance by letting it remain empty and filling in a default name.
+   *
+   * "select" - A list of alternatives, from which the user selects one.
+   *
+   * "quantity" - Asks the user to enter some number. The quantifier is what
+   * amount the number pertains to, for instance "hours" of travel time.
+   *
+   * "quantityselect" - This combines the two above, so the user can create a list of answers, where each answer is
+   * a combination of a quantity of an item selected from a list. An example is the travel question, where the user can for instance
+   * enter 4 hours of flying, 10 hours of driving and 2 hours of bus to one journey.
+   */
   constructor(parameter) {
     this.model = new CarbonModel();
     this.id = parameter;
@@ -112,6 +132,14 @@ class SurveyData {
   }
 }
 
+/**
+ *
+ * @param {The type of question, see above for details} type
+ * @param {The heading on the question page} heading
+ * @param {Text which explains the question in some detail to the user} text
+ * @param {The list of alternatives to choose from. If null, it becomes a Yes/No question} alternatives
+ * @param {When asking about the quantity of something, the quantifer says what it is, for instance "hours"} quantifier
+ */
 function questionObject(type, heading, text, alternatives, quantifier) {
   const obj = { type: type, heading: heading, text: text };
   if (alternatives) {
@@ -122,6 +150,11 @@ function questionObject(type, heading, text, alternatives, quantifier) {
   }
   return obj;
 }
+
+/**
+ *below are the various question types, called the questionObject constructor with various parameters.
+ Note that the code in the App use the question type to build the page, so you will need to change 
+ logic elsewhere as well if you add new question types.  */
 
 function nameQuestion(questionHeading, infoText) {
   return questionObject("name", questionHeading, infoText, false, false);
@@ -155,7 +188,7 @@ function quantityQuestion(questionHeading, infoText, quantifier) {
 function selectQuestion(
   questionHeading,
   infoText,
-  alternatives = ["Yes", "No"]
+  alternatives = ["Yes", "No"] //default alternatives. If called without alternatives, it is interpreted as a Yes/No question.
 ) {
   return questionObject(
     "select",

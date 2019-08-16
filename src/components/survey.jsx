@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Question from "./Question";
 
 class Survey extends Component {
+  /** This component is how a user enters data. A survey consists of a series of questions.
+   * Most of the input forms etc that take user data are defined in the component Question.
+   */
   state = { answers: [], nextQ: 0, name: "", key: "", plot: undefined };
   constructor() {
     super();
@@ -9,6 +12,34 @@ class Survey extends Component {
     this.previousQuestion = this.previousQuestion.bind(this);
     this.returnToMain = this.returnToMain.bind(this);
     this.cancel = this.cancel.bind(this);
+  }
+
+  render() {
+    return this.state.nextQ >= this.props.surveydata.questions.length
+      ? this.surveyComplete()
+      : this.getQuestion();
+  }
+
+  getQuestion() {
+    return (
+      <Question
+        cancel={this.cancel}
+        key={"Q" + this.state.nextQ + ":" + this.props.dataset.UUID}
+        q={this.props.surveydata.questions[this.state.nextQ]}
+        reportAnswerToSurvey={this.receiveAnswerFromQuestion}
+        previousQuestion={this.previousQuestion}
+        previousAnswer={
+          this.state.answers[this.state.nextQ] ||
+          this.props.dataset.answers[this.state.nextQ]
+        }
+        isLastQ={
+          this.state.nextQ === this.props.surveydata.questions.length - 1
+        }
+        isFirstQ={this.state.nextQ === 0}
+        plotFunction={this.props.plotFunction}
+        defaultName={this.props.defaultName}
+      />
+    );
   }
 
   /*The lifecycle functions on mount and update are to make sure state is reset properly if the user
@@ -28,37 +59,8 @@ class Survey extends Component {
     }
   }
 
-  render() {
-    return this.state.nextQ >= this.props.surveydata.questions.length
-      ? this.surveyComplete()
-      : this.getQuestion();
-  }
-
   previousQuestion() {
     this.setState({ nextQ: this.state.nextQ - 1 });
-  }
-
-  getQuestion() {
-    return (
-      <Question
-        //During edited survey, previous answers should be passed here
-        cancel={this.cancel}
-        key={"Q" + this.state.nextQ + ":" + this.props.dataset.UUID}
-        q={this.props.surveydata.questions[this.state.nextQ]}
-        reportAnswerToSurvey={this.receiveAnswerFromQuestion}
-        previousQuestion={this.previousQuestion}
-        previousAnswer={
-          this.state.answers[this.state.nextQ] ||
-          this.props.dataset.answers[this.state.nextQ]
-        }
-        isLastQ={
-          this.state.nextQ === this.props.surveydata.questions.length - 1
-        }
-        isFirstQ={this.state.nextQ === 0}
-        plotFunction={this.props.plotFunction}
-        defaultName={this.props.defaultName}
-      />
-    );
   }
 
   receiveAnswerFromQuestion(answer, type) {

@@ -1,9 +1,11 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
-//import { prototype } from "events";
 
 const NavBar = props => {
-  //const bgcolor = { backgroundColor: "#4EBBDF" };
+  /**
+   * The navigation bar on top of the page.
+   */
+  //const bgcolor = { backgroundColor: "#4EBBDF" }; //The official CET color.
   return (
     <Nav
       variant="pills"

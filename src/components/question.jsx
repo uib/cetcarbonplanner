@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import AnswerTable from "./Answertable";
 
 class Question extends Component {
+  /** This component takes in a question from the survey data and renders the appropriate output text and input elements.*/
   state = { quantity: 1, answer: "", answerlist: [] };
   constructor() {
     super();
@@ -14,7 +15,39 @@ class Question extends Component {
     this.handleTextInput = this.handleTextInput.bind(this);
   }
 
+  render() {
+    const { q } = this.props;
+    return (
+      <React.Fragment>
+        <Container>
+          <Row>
+            <Col xs={7}>
+              <h3>{q.heading}</h3>
+              <p>{q.text}</p>
+              {q.type === "name" && this.getInputForm(q.type)}
+              {(q.type === "select" || q.type === "quantityselect") &&
+                this.getRadioSelectList()}
+              {(q.type === "quantity" || q.type === "quantityselect") &&
+                this.quantityButtons(q.type)}
+              {this.buttonRow(q.type)}
+            </Col>
+            <Col>
+              {q.type === "quantityselect" &&
+                this.state.answerlist.length > 0 && (
+                  <AnswerTable
+                    answerlist={this.state.answerlist}
+                    deleteFunction={this.deleteFromAnswerList}
+                  />
+                )}
+            </Col>
+          </Row>
+        </Container>
+      </React.Fragment>
+    );
+  }
+
   componentDidMount() {
+    /** This makes sure the state is properly reset depending on if previous answers are being edited or not. */
     if (this.props.previousAnswer !== undefined) {
       if (this.props.q.type === "quantityselect") {
         this.setState({ answerlist: this.props.previousAnswer });
@@ -65,37 +98,6 @@ class Question extends Component {
           ))}
         </div>
       </form>
-    );
-  }
-
-  render() {
-    const { q } = this.props;
-    return (
-      <React.Fragment>
-        <Container>
-          <Row>
-            <Col xs={7}>
-              <h3>{q.heading}</h3>
-              <p>{q.text}</p>
-              {q.type === "name" && this.getInputForm(q.type)}
-              {(q.type === "select" || q.type === "quantityselect") &&
-                this.getRadioSelectList()}
-              {(q.type === "quantity" || q.type === "quantityselect") &&
-                this.quantityButtons(q.type)}
-              {this.buttonRow(q.type)}
-            </Col>
-            <Col>
-              {q.type === "quantityselect" &&
-                this.state.answerlist.length > 0 && (
-                  <AnswerTable
-                    answerlist={this.state.answerlist}
-                    deleteFunction={this.deleteFromAnswerList}
-                  />
-                )}
-            </Col>
-          </Row>
-        </Container>
-      </React.Fragment>
     );
   }
 

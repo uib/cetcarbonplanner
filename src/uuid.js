@@ -1,4 +1,8 @@
-//https://gist.github.com/jed/982883
+/**
+ * Generates a universally unique ID to identify datasets.
+ * I've naively trusted the universe and haven't added collision checks since there is usually just a handful of datasets.
+ * Source:  https://gist.github.com/jed/982883
+ */
 
 export function getUUID() {
   var hex = [];

@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 
 const EditButton = props => {
+  /** This generates the buttons in the View component, which is the list of previously entered trips etc. */
   const styles = {
     edit: "outline-info",
     delete: "outline-dark",

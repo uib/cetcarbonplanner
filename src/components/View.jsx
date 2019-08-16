@@ -3,6 +3,7 @@ import { Table, Button } from "react-bootstrap";
 import EditButton from "./EditButton";
 
 class View extends Component {
+  /** This component is used to show the entered datasets and generate column diagrams for the user. */
   constructor(props) {
     super(props);
     this.state = {
@@ -15,16 +16,6 @@ class View extends Component {
     this.changeView = this.changeView.bind(this);
     this.includeAll = this.includeAll.bind(this);
     this.includeNone = this.includeNone.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.plotDataset(this.state.type, this.state.enabled);
-  }
-
-  changeView() {
-    const newtype = this.state.type === "trip" ? "meeting" : "trip";
-    this.setState({ type: newtype });
-    this.props.plotDataset(newtype, this.state.enabled);
   }
 
   render() {
@@ -54,14 +45,19 @@ class View extends Component {
     );
   }
 
+  componentDidMount() {
+    this.props.plotDataset(this.state.type, this.state.enabled);
+  }
+
+  changeView() {
+    const newtype = this.state.type === "trip" ? "meeting" : "trip";
+    this.setState({ type: newtype });
+    this.props.plotDataset(newtype, this.state.enabled);
+  }
+
   buildTable(datasets, keys) {
     return (
       <tbody>
-        {/*<tr key="headers">
-          {keys.map((key, index) => (
-            <th key={"h-" + key}>{key}</th>
-          ))}
-          </tr>*/}
         {datasets.map((obj, index) => this.buildRow(keys, obj, index))}
       </tbody>
     );

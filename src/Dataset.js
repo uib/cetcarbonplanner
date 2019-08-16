@@ -1,6 +1,9 @@
 import { getUUID } from "./uuid";
 
 export class Dataset {
+  /** This object contains the data entered by the user. It is identified by the UUID. SurveyID in this context is the
+   * identifier used throughout the app such as "trip" and "meeting".
+   */
   constructor(surveyID, UUID, name, answers) {
     this.surveyID = surveyID;
     /*

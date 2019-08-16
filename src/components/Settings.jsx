@@ -3,6 +3,7 @@ import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import emissionsguide from "./emissionsguide.jpg";
 
 class Settings extends Component {
+  /** This component creates the Settings page, where you define your emissions limits and can wipe stored data. */
   constructor() {
     super();
     this.state = { triplimit: 0, meetinglimit: 0 };
@@ -11,36 +12,6 @@ class Settings extends Component {
     this.handleMeetingLimitChange = this.handleMeetingLimitChange.bind(this);
     this.handleMeetingLimitSet = this.handleMeetingLimitSet.bind(this);
     this.clearStorage = this.clearStorage.bind(this);
-  }
-
-  handleTripLimitChange(event) {
-    this.setState({ triplimit: event.target.value });
-  }
-
-  handleMeetingLimitChange(event) {
-    this.setState({ meetinglimit: event.target.value });
-  }
-
-  handleTripLimitSet(event) {
-    event.preventDefault();
-    const number = Number(this.state.triplimit);
-    if (typeof number === "number" && number > 0) {
-      this.props.limitfunction("trip", number);
-    }
-  }
-  handleMeetingLimitSet(event) {
-    event.preventDefault();
-    const number = Number(this.state.meetinglimit);
-    if (typeof number === "number" && number > 0) {
-      this.props.limitfunction("meeting", number);
-    }
-  }
-
-  clearStorage() {
-    if (window.confirm("Clear data?")) {
-      window.localStorage.clear();
-    }
-    this.setState({ state: this.state });
   }
 
   render() {
@@ -123,6 +94,36 @@ class Settings extends Component {
         </p>
       </div>
     );
+  }
+
+  handleTripLimitChange(event) {
+    this.setState({ triplimit: event.target.value });
+  }
+
+  handleMeetingLimitChange(event) {
+    this.setState({ meetinglimit: event.target.value });
+  }
+
+  handleTripLimitSet(event) {
+    event.preventDefault();
+    const number = Number(this.state.triplimit);
+    if (typeof number === "number" && number > 0) {
+      this.props.limitfunction("trip", number);
+    }
+  }
+  handleMeetingLimitSet(event) {
+    event.preventDefault();
+    const number = Number(this.state.meetinglimit);
+    if (typeof number === "number" && number > 0) {
+      this.props.limitfunction("meeting", number);
+    }
+  }
+
+  clearStorage() {
+    if (window.confirm("Clear data?")) {
+      window.localStorage.clear();
+    }
+    this.setState({ state: this.state });
   }
 }
 
