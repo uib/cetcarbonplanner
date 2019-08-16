@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Survey from "./components/survey";
+import Survey from "./components/Survey";
 import Plot from "./components/Plot";
 import { Container, Row, Col } from "react-bootstrap";
-import NavBar from "./components/navbar";
+import NavBar from "./components/Navbar";
 import SurveyData from "./surveyData";
-import { Dataset } from "./Dataset";
+import { Dataset as dataset } from "./dataset";
 import View from "./components/View";
-import { getStorage, updateStorage, updateLimits, getLimits } from "./Storage";
+import { getStorage, updateStorage, updateLimits, getLimits } from "./storage";
 import Settings from "./components/Settings";
 
 class App extends Component {
@@ -124,11 +124,11 @@ class App extends Component {
     if (navigateToPage === "trip") {
       const survey = new SurveyData("trip");
       paramObj.surveydata = survey;
-      paramObj.activeDataSet = new Dataset("trip");
+      paramObj.activeDataSet = new dataset("trip");
     } else if (navigateToPage === "meeting") {
       const survey = new SurveyData("meeting");
       paramObj.surveydata = survey;
-      paramObj.activeDataSet = new Dataset("meeting");
+      paramObj.activeDataSet = new dataset("meeting");
     } else if (navigateToPage === "edit") {
       const dataset = this.state.datasets[datasetID];
       paramObj.activeDataSet = dataset;
@@ -235,7 +235,7 @@ class App extends Component {
       const updatedData = this.state.datasets.filter(
         d => d.UUID !== dataset.UUID
       );
-      const newDataSet = new Dataset(
+      const newDataSet = new dataset(
         dataset.surveyID,
         dataset.UUID,
         name,

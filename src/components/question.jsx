@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import AnswerTable from "./answertable";
+import AnswerTable from "./Answertable";
 
 class Question extends Component {
   state = { quantity: 1, answer: "", answerlist: [] };
@@ -69,7 +69,6 @@ class Question extends Component {
   }
 
   render() {
-    console.log(this.state.answer);
     const { q } = this.props;
     return (
       <React.Fragment>
@@ -152,8 +151,8 @@ class Question extends Component {
             answerlist have been added yet. On a regular question it should be disabled if
             nothing is selected, but on a simple quantity question it is enabled all the time, as the default answer is valid.
             */
-            !/*negate sign used here to make parameters more sensible and to return on the first true, 
-            since the value true leads to a disabled button.*/
+            !/*negate sign used here to make parameters more sensible, as the expression below returning true means
+            the button is enabled (disabled=false)*/
             (
               questionType === "name" ||
               questionType === "quantity" ||

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Question from "./question";
+import Question from "./Question";
 
 class Survey extends Component {
   state = { answers: [], nextQ: 0, name: "", key: "", plot: undefined };
@@ -11,13 +11,13 @@ class Survey extends Component {
     this.cancel = this.cancel.bind(this);
   }
 
+  /*The lifecycle functions on mount and update are to make sure state is reset properly if the user
+  cancels a registration process by clicking on the top menu, for instance jumping to Organize Meeting mid-Plan Trip */
   componentDidMount() {
     this.setState({ key: this.props.dataset.UUID });
   }
 
   componentDidUpdate() {
-    //console.log(this.props.surveydata.plots[this.state.nextQ]);
-
     if (this.props.dataset.UUID !== this.state.key) {
       this.setState({
         answers: [],
@@ -41,7 +41,7 @@ class Survey extends Component {
   getQuestion() {
     return (
       <Question
-        //during edited survey, previous answers should be passed here
+        //During edited survey, previous answers should be passed here
         cancel={this.cancel}
         key={"Q" + this.state.nextQ + ":" + this.props.dataset.UUID}
         q={this.props.surveydata.questions[this.state.nextQ]}
@@ -80,7 +80,8 @@ class Survey extends Component {
   }
 
   cancel() {
-    this.props.reportAnswers(); //called with no parameters will cause nothing to be saved
+    //this works by calling the report function with no parameters, which will cause nothing to be saved.
+    this.props.reportAnswers();
   }
 
   surveyComplete() {
