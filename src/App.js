@@ -6,7 +6,13 @@ import NavBar from "./components/Navbar";
 import SurveyData from "./surveyData";
 import { Dataset } from "./dataset";
 import View from "./components/View";
-import { getStorage, updateStorage, updateLimits, getLimits } from "./storage";
+import {
+  getStorage,
+  updateStorage,
+  updateLimits,
+  getLimits,
+  clearStorage
+} from "./storage";
 import Settings from "./components/Settings";
 
 /**This is the main component which draws the page layout, calls on the subcomponents and keeps track of the main states.  */
@@ -30,6 +36,7 @@ class App extends Component {
     this.editDataset = this.editDataset.bind(this);
     this.deleteDataset = this.deleteDataset.bind(this);
     this.setcarbonlimit = this.setcarbonlimit.bind(this);
+    this.clearData = this.clearData.bind(this);
   }
 
   setcarbonlimit(type, limit) {
@@ -72,6 +79,17 @@ class App extends Component {
       update.plot = undefined;
     }
     this.updateDataSets(update);
+  }
+
+  clearData() {
+    if (window.confirm("Clear all data?")) {
+      clearStorage();
+      this.setState({
+        datasets: [],
+        tripCarbonLimit: 0,
+        meetingCarbonLimit: 0
+      });
+    }
   }
 
   render() {
@@ -177,6 +195,7 @@ class App extends Component {
         triplimit={this.state.tripCarbonLimit}
         meetinglimit={this.state.meetingCarbonLimit}
         limitfunction={this.setcarbonlimit}
+        clearData={this.clearData}
       />
     );
   }

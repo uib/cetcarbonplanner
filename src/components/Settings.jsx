@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import emissionsguide from "./emissionsguide.jpg";
+import { areThereAnyDatasets, saveDatasetsToDisk } from "../storage";
 
 class Settings extends Component {
   /** This component creates the Settings page, where you define your emissions limits and can wipe stored data. */
@@ -11,10 +12,10 @@ class Settings extends Component {
     this.handleTripLimitSet = this.handleTripLimitSet.bind(this);
     this.handleMeetingLimitChange = this.handleMeetingLimitChange.bind(this);
     this.handleMeetingLimitSet = this.handleMeetingLimitSet.bind(this);
-    this.clearStorage = this.clearStorage.bind(this);
   }
 
   render() {
+    const zeroDatasets = !areThereAnyDatasets();
     const button = "outline-primary w-50";
     return (
       <div id="settings">
@@ -76,8 +77,8 @@ class Settings extends Component {
         <p>
           <Button
             className={button}
-            disabled={window.localStorage.length === 0}
-            onClick={this.clearStorage}
+            disabled={zeroDatasets}
+            onClick={this.props.clearData}
           >
             Clear data from browser
           </Button>
@@ -88,7 +89,11 @@ class Settings extends Component {
           </Button>
         </p>
         <p>
-          <Button className={button} disabled={true}>
+          <Button
+            className={button}
+            disabled={zeroDatasets}
+            onClick={saveDatasetsToDisk}
+          >
             Save data to file
           </Button>
         </p>
@@ -122,13 +127,6 @@ class Settings extends Component {
     if (typeof number === "number" && number > 0) {
       this.props.limitfunction("meeting", number);
     }
-  }
-
-  clearStorage() {
-    if (window.confirm("Clear data?")) {
-      window.localStorage.clear();
-    }
-    this.setState({ state: this.state });
   }
 }
 
