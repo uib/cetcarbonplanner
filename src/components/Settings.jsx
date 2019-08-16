@@ -84,7 +84,12 @@ class Settings extends Component {
         </p>
         <p>
           <Button className={button} disabled={true}>
-            Save data to disk
+            Import data from file
+          </Button>
+        </p>
+        <p>
+          <Button className={button} disabled={true}>
+            Save data to file
           </Button>
         </p>
         <p>
