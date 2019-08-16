@@ -1,16 +1,23 @@
+//PRIVATE
 const storagekey = "datasets";
+const limitkey = "limits";
 /** These function handle writing data to localstorage. You can expand this to cloud storage without changing code elsewhere,
  * given that the basic functionality remains the same.
  */
+function readStorage() {
+  return window.localStorage.getItem(storagekey);
+}
+
+//EXPORTS
 export function updateLimits(limits) {
-  window.localStorage.setItem("limits", JSON.stringify(limits));
+  window.localStorage.setItem(limitkey, JSON.stringify(limits));
 }
 
 export function getLimits() {
-  if (!window.localStorage.hasOwnProperty("limits")) {
+  if (!window.localStorage.hasOwnProperty(limitkey)) {
     return { tripCarbonLimit: 0, meetingCarbonLimit: 0 };
   } else {
-    return JSON.parse(window.localStorage.getItem("limits"));
+    return JSON.parse(window.localStorage.getItem(limitkey));
   }
 }
 
@@ -23,16 +30,12 @@ export function getStorage() {
   return JSON.parse(readStorage()) || [];
 }
 
-function readStorage() {
-  return window.localStorage.getItem(storagekey);
-}
-
 export function clearStorage() {
   window.localStorage.clear();
 }
 
 export function areThereAnyDatasets() {
-  return true;
+  return getStorage().length > 0;
 }
 
 export function saveDatasetsToDisk() {
