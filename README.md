@@ -1,8 +1,43 @@
-#### Test4
+## CET Carbon Planner
 
-### Test3
+This is a React web app commissioned by CET, with the purpose of providing a means of planning trips or meetings and making priority changes based on carbon emission calculations and plots. Here follows a summary of some core concepts.
 
-## Test2
+### `App`
+
+The main component, keeps track of data, calls on subcomponents etc.
+
+### `Survey`
+
+The component which contains the process of registering some dataset, such as a trip or a meeting. A survey is basically a list of questions.
+
+### `surveyData`
+
+The object which contains the data such as question texts and types. There are four question types.
+
+#### "name"
+
+This asks the user for the name of the trip. There is logic in the App which handles this question in
+particular ways, for instance by letting it remain empty and filling in a default name.
+
+#### "select"
+
+A list of alternatives, from which the user selects one.
+
+#### "quantity"
+
+Asks the user to enter some number. The quantifier is what amount the number pertains to, for instance "hours" of travel time.
+
+#### "quantityselect"
+
+This combines the two above, so the user can create a list of answers, where each answer is
+a combination of a quantity of an item selected from a list. An example is the travel question, where the user can for instance
+enter 4 hours of flying, 10 hours of driving and 2 hours of bus to one journey.
+
+### `Question`
+
+A component which takes a question from a s
+
+## The following is from the default React documentation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
