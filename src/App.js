@@ -4,11 +4,12 @@ import Plot from "./components/Plot";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "./components/Navbar";
 import SurveyData from "./surveyData";
-import { Dataset as dataset } from "./dataset";
+import { Dataset } from "./dataset";
 import View from "./components/View";
 import { getStorage, updateStorage, updateLimits, getLimits } from "./storage";
 import Settings from "./components/Settings";
 
+/**This is the main component which draws the page layout, calls on the subcomponents and keeps track of the main states.  */
 class App extends Component {
   constructor() {
     super();
@@ -124,11 +125,11 @@ class App extends Component {
     if (navigateToPage === "trip") {
       const survey = new SurveyData("trip");
       paramObj.surveydata = survey;
-      paramObj.activeDataSet = new dataset("trip");
+      paramObj.activeDataSet = new Dataset("trip");
     } else if (navigateToPage === "meeting") {
       const survey = new SurveyData("meeting");
       paramObj.surveydata = survey;
-      paramObj.activeDataSet = new dataset("meeting");
+      paramObj.activeDataSet = new Dataset("meeting");
     } else if (navigateToPage === "edit") {
       const dataset = this.state.datasets[datasetID];
       paramObj.activeDataSet = dataset;
@@ -235,7 +236,7 @@ class App extends Component {
       const updatedData = this.state.datasets.filter(
         d => d.UUID !== dataset.UUID
       );
-      const newDataSet = new dataset(
+      const newDataSet = new Dataset(
         dataset.surveyID,
         dataset.UUID,
         name,

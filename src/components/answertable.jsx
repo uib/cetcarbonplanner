@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Table } from "react-bootstrap";
 import EditButton from "./EditButton";
 
+/**This component creates the small table next to user inputs when the user
+ * enters combined mode and quantity data, such as travel type and travel time. */
 class AnswerTable extends Component {
   constructor() {
     super();
