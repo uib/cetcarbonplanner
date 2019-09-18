@@ -1,5 +1,11 @@
-This web app is written with React. If you are not familiar with it, but you already know Javascript, you can start here:
+This web app is written with React. If you are not familiar with it,
+but you already know Javascript, you can start here:
 
 https://www.youtube.com/watch?v=Ke90Tje7VS0
 
-That tutorial will teach you the basics of React, in addition to setting up your environment with Visual Studio Code and NPM. While editing code, run the command 'npm start' to open a local copy of the site in a browser. It will update every time you save. To generate the files for the web server, run the command 'npm run build'. This will output html and minified javascript files to the build folder.
+That tutorial will teach you the basics of React, in addition to setting up
+your environment with Visual Studio Code and NPM. While editing code,
+run the command 'npm start' (in the project root folder, using terminal or Command Prompt)
+to open a local copy of the site in a browser. It will update every time you save.
+To generate the files for the web server, run the command 'npm run build'.
+This will output html and minified javascript files to the build folder.
