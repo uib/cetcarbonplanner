@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "./static/css/main.34de6062.chunk.css",
+    "main.js": "./static/js/main.d9eb9067.chunk.js",
+    "main.js.map": "./static/js/main.d9eb9067.chunk.js.map",
+    "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
+    "runtime~main.js.map": "./static/js/runtime~main.d653cc00.js.map",
+    "static/css/2.57797527.chunk.css": "./static/css/2.57797527.chunk.css",
+    "static/js/2.7b82af7f.chunk.js": "./static/js/2.7b82af7f.chunk.js",
+    "static/js/2.7b82af7f.chunk.js.map": "./static/js/2.7b82af7f.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.f575de5bce8c75ce14ccac6f748f2caf.js": "./precache-manifest.f575de5bce8c75ce14ccac6f748f2caf.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/2.57797527.chunk.css.map": "./static/css/2.57797527.chunk.css.map",
+    "static/css/main.34de6062.chunk.css.map": "./static/css/main.34de6062.chunk.css.map",
+    "static/media/emissionsguide.jpg": "./static/media/emissionsguide.69c49c1a.jpg"
+  }
+}
