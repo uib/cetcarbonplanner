@@ -12,7 +12,7 @@ The main React component, keeps track of data, calls on subcomponents etc.
 
 ### `carbonmodel`
 
-A JS function which contains the CO2 emissions data. Note that there are some terms defined twice here and and in Plot which have yet to be refactored to a "single source of truth" pattern. These are mappings where the term defined in the carbon model maps to a different term in the column diagram for brevity and clarity.
+A JS function which contains the CO₂ emissions data. Note that there are some terms defined twice here and and in Plot which have yet to be refactored to a "single source of truth" pattern. These are mappings where the term defined in the carbon model maps to a different term in the column diagram for brevity and clarity.
 
 ### `Survey`
 
@@ -63,7 +63,7 @@ A React component which draws a small table based on what the user has entered i
 
 ### `Settings`
 
-A React component which generates a settings page for setting CO2 targets and file import/export.
+A React component which generates a settings page for setting CO₂ targets and file import/export.
 
 ### `Navbar`
 
