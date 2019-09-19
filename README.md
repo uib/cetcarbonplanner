@@ -1,6 +1,6 @@
 ## CET Carbon Planner
 
-This is a React web app commissioned by CET, with the purpose of providing a means of planning trips or meetings and making priority choices based on carbon emission calculations and plots.
+This is a React web app commissioned by [CET](https://www.uib.no/cet), with the purpose of providing a means of planning trips or meetings and making priority choices based on carbon emission calculations and plots.
 
 In summary, the App contains a set of questions, called a survey, which is presented to the user. The answers provided by the user are called a dataset. The datasets can be edited, deleted or plotted in a column diagram. The two sets of survey questions implemented so far are called "trip" and "meeting".
 
